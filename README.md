@@ -60,4 +60,4 @@ $ ./GPU_main
 
 * **T Akshay** - *Initial work* - [AkshayThiru](https://github.com/AkshayThiru)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/AkshayThiru/Mapping/graphs/contributors) who participated in this project.
