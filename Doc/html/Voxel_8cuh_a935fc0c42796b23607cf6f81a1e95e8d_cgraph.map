@@ -1,0 +1,8 @@
+<map id="Update_root" name="Update_root">
+<area shape="rect" id="node2" href="$classquaternion.html#a01adb7930c2003b777cb91a7182c482e" title="Constructor taking x, y, z, w in order. " alt="" coords="323,23,473,49"/>
+<area shape="rect" id="node3" href="$classquaternion.html#a5f2dff4e0f446d05e826a63d5a45d230" title="Inverse of the quaternion. " alt="" coords="157,35,264,61"/>
+<area shape="rect" id="node4" href="$Voxel_8cuh.html#afeed91d5a5a0b48801aca2d5edeaf3e1" title="Calculates index used as key to index into device vector. " alt="" coords="184,85,237,112"/>
+<area shape="rect" id="node5" href="$Voxel_8cuh.html#abbd51b1d8c2bc9b7d5ef5413e1e4ca49" title="Calculates co&#45;ordinate of point modulo edge length. " alt="" coords="367,99,429,125"/>
+<area shape="rect" id="node6" href="$Voxel_8cuh.html#a8af940c50e32ce0514198b2bf835b80c" title="Binary search for key in sorted array. " alt="" coords="159,187,262,213"/>
+<area shape="rect" id="node7" href="$classvoxel.html#a1748472909af5ef1f28d0a0c6648dbbd" title="Update method for self. " alt="" coords="147,237,275,264"/>
+</map>

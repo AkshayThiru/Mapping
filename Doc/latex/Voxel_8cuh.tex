@@ -1,0 +1,454 @@
+\hypertarget{Voxel_8cuh}{}\subsection{include/\+Voxel.cuh File Reference}
+\label{Voxel_8cuh}\index{include/\+Voxel.\+cuh@{include/\+Voxel.\+cuh}}
+{\ttfamily \#include $<$cuda.\+h$>$}\\*
+{\ttfamily \#include $<$cuda\+\_\+runtime.\+h$>$}\\*
+{\ttfamily \#include $<$cuda\+\_\+profiler\+\_\+api.\+h$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$typeinfo$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/tuple.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/host\+\_\+vector.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/device\+\_\+vector.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/execution\+\_\+policy.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/sort.\+h$>$}\\*
+{\ttfamily \#include $<$thrust/binary\+\_\+search.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Helper.\+hpp\char`\"{}}\\*
+Include dependency graph for Voxel.\+cuh\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8cuh__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{Voxel_8cuh__dep__incl}
+\end{center}
+\end{figure}
+\subsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classquaternion}{quaternion}
+\begin{DoxyCompactList}\small\item\em A basic Quaternion class. \end{DoxyCompactList}\item 
+struct \hyperlink{structPose}{Pose}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structPose}{Pose} of T265 camera. \end{DoxyCompactList}\item 
+struct \hyperlink{structCam}{Cam}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classCamera}{Camera} Intrinsics and Extrinsics. \end{DoxyCompactList}\item 
+struct \hyperlink{structTuple}{Tuple}
+\begin{DoxyCompactList}\small\item\em Point co-\/ordinates and variance \end{DoxyCompactList}\item 
+struct \hyperlink{structPoint}{Point}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structPoint}{Point} co-\/ordinates. \end{DoxyCompactList}\item 
+class \hyperlink{classleaf}{leaf}
+\begin{DoxyCompactList}\small\item\em Leaf nodes of the Octree structure. \end{DoxyCompactList}\item 
+class \hyperlink{classvoxel}{voxel}
+\begin{DoxyCompactList}\small\item\em Voxel/\+Intermediate nodes of the Octree structure. \end{DoxyCompactList}\item 
+class \hyperlink{classGPU__FE}{G\+P\+U\+\_\+\+FE}
+\begin{DoxyCompactList}\small\item\em Wrapper class for \hyperlink{classocc__grid}{occ\+\_\+grid}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{Voxel_8cuh_aca76098e63473a0423c740cd04ec72b8}{V\+O\+X\+E\+L\+\_\+\+CH}
+\item 
+\#define \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{M\+I\+N\+\_\+L}~0.\+04
+\begin{DoxyCompactList}\small\item\em Minimum dimension of leaf node. \end{DoxyCompactList}\item 
+\#define \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{V\+O\+X\+\_\+L}~2.\+56
+\begin{DoxyCompactList}\small\item\em Size of root voxels. \end{DoxyCompactList}\item 
+\#define \hyperlink{Voxel_8cuh_ae1cd6283839fc3aebf9bccbd1044a365}{V\+A\+R\+\_\+P}~0.\+005
+\begin{DoxyCompactList}\small\item\em Variance of measurement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf Kernel Launch Parameters}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{Voxel_8cuh_a9f984157d0b56c37dfb4bd1a16f1e8ab}{N\+U\+M\+\_\+B}~480
+\begin{DoxyCompactList}\small\item\em Number of blocks launched in the grid. \end{DoxyCompactList}\item 
+\#define \hyperlink{Voxel_8cuh_ad8ba90b2d681fcfbc6cde44271ad6519}{N\+U\+M\+\_\+T}~640
+\begin{DoxyCompactList}\small\item\em Number of threads launched in each block. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{Voxel_8cuh_af3f284d9dc439df44497e0e24b6d1fed}{gpu\+Assert} (cuda\+Error\+\_\+t code, const char $\ast$file, int line, bool abort=false)
+\begin{DoxyCompactList}\small\item\em Prints out errors in C\+U\+DA kernel execution. \end{DoxyCompactList}\item 
+void \hyperlink{Voxel_8cuh_aa881629585a7719857d28b2cbf1e1257}{gpu\+Check\+Kernel\+Execution\+Error} (const char $\ast$file, int line)
+\begin{DoxyCompactList}\small\item\em Method to print out errors in C\+U\+DA kernel execution. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ \hyperlink{Voxel_8cuh_a8af940c50e32ce0514198b2bf835b80c}{binary\+\_\+search} (\hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $\ast$v, long b, long e, long key)
+\begin{DoxyCompactList}\small\item\em Binary search for key in sorted array. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{structPoint}{Point} \hyperlink{Voxel_8cuh_abbd51b1d8c2bc9b7d5ef5413e1e4ca49}{mod\+\_\+p} (\hyperlink{structPoint}{Point} p)
+\begin{DoxyCompactList}\small\item\em Calculates co-\/ordinate of point modulo edge length. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ long \hyperlink{Voxel_8cuh_afeed91d5a5a0b48801aca2d5edeaf3e1}{index} (\hyperlink{structPoint}{Point} p)
+\begin{DoxyCompactList}\small\item\em Calculates index used as key to index into device vector. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}{Update\+\_\+root} (unsigned short d\mbox{[}\hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w} $\ast$\hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}\mbox{]}, \hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $\ast$v, long $\ast$s, \hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $\ast$temp, \hyperlink{structCam}{Cam} $\ast$c, \hyperlink{structPose}{Pose} $\ast$p)
+\begin{DoxyCompactList}\small\item\em Updates point in the global map. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \hyperlink{Voxel_8cuh_afc844d313aa2b2353c757fb063b74b96}{Print} (\hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $\ast$v, long $\ast$s, \hyperlink{structTuple}{Tuple} $\ast$set)
+\begin{DoxyCompactList}\small\item\em Appends points to the vector of points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Variables}
+\begin{Indent}{\bf T265 to D435 extrinsics}\par
+\begin{DoxyCompactItemize}
+\item 
+static const \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8cuh_ae638036c15a578080c34013047df2c4f}{Q\+\_\+\+T265\+\_\+\+D435} (-\/0.\+0089999, 0.\+0024999, 0.\+0000225, 0.\+9999564)
+\begin{DoxyCompactList}\small\item\em Quaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$. \end{DoxyCompactList}\item 
+static const \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8cuh_a084c6bfb66f9daa4728fe8355861f1a4}{T\+\_\+\+T265\+\_\+\+D435} (0.\+021, 0.\+027, 0.\+009, 0)
+\begin{DoxyCompactList}\small\item\em Translation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Macro Definition Documentation}
+\index{Voxel.\+cuh@{Voxel.\+cuh}!M\+I\+N\+\_\+L@{M\+I\+N\+\_\+L}}
+\index{M\+I\+N\+\_\+L@{M\+I\+N\+\_\+L}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{M\+I\+N\+\_\+L}{MIN_L}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+I\+N\+\_\+L~0.\+04}\hypertarget{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{}\label{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}
+
+
+Minimum dimension of leaf node. 
+
+The Voxels will keep dividing until their the size of voxel is $\leq$ M\+I\+N\+\_\+L, at which point a leaf is alloted in place of a voxel. Set the value as a floating value. eg\+: 1.\+00 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00030}{30} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!N\+U\+M\+\_\+B@{N\+U\+M\+\_\+B}}
+\index{N\+U\+M\+\_\+B@{N\+U\+M\+\_\+B}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{N\+U\+M\+\_\+B}{NUM_B}}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+U\+M\+\_\+B~480}\hypertarget{Voxel_8cuh_a9f984157d0b56c37dfb4bd1a16f1e8ab}{}\label{Voxel_8cuh_a9f984157d0b56c37dfb4bd1a16f1e8ab}
+
+
+Number of blocks launched in the grid. 
+
+Note\+: Launch parameters should satisfy all constraints. Run device\+Query in C\+U\+DA samples to check device characteristics.
+
+Should be less than maximum Grid size in all dimensions 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00049}{49} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!N\+U\+M\+\_\+T@{N\+U\+M\+\_\+T}}
+\index{N\+U\+M\+\_\+T@{N\+U\+M\+\_\+T}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{N\+U\+M\+\_\+T}{NUM_T}}]{\setlength{\rightskip}{0pt plus 5cm}\#define N\+U\+M\+\_\+T~640}\hypertarget{Voxel_8cuh_ad8ba90b2d681fcfbc6cde44271ad6519}{}\label{Voxel_8cuh_ad8ba90b2d681fcfbc6cde44271ad6519}
+
+
+Number of threads launched in each block. 
+
+Should be less than maximum Block size in all dimensions 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00053}{53} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!V\+A\+R\+\_\+P@{V\+A\+R\+\_\+P}}
+\index{V\+A\+R\+\_\+P@{V\+A\+R\+\_\+P}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{V\+A\+R\+\_\+P}{VAR_P}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+A\+R\+\_\+P~0.\+005}\hypertarget{Voxel_8cuh_ae1cd6283839fc3aebf9bccbd1044a365}{}\label{Voxel_8cuh_ae1cd6283839fc3aebf9bccbd1044a365}
+
+
+Variance of measurement. 
+
+This is the 3-\/D variance of each point measured. Assumed constant and isotropic. The co-\/variance matrix in this case is $ VAR\_P . \mathbb{1}_{3{\times}3} $ 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00040}{40} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!V\+O\+X\+\_\+L@{V\+O\+X\+\_\+L}}
+\index{V\+O\+X\+\_\+L@{V\+O\+X\+\_\+L}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{V\+O\+X\+\_\+L}{VOX_L}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+O\+X\+\_\+L~2.\+56}\hypertarget{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{}\label{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}
+
+
+Size of root voxels. 
+
+The starting size of root voxels. This should not be $\leq$ M\+I\+N\+\_\+L. Set the value as a floating value. eg\+: 3.\+00 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00035}{35} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!V\+O\+X\+E\+L\+\_\+\+CH@{V\+O\+X\+E\+L\+\_\+\+CH}}
+\index{V\+O\+X\+E\+L\+\_\+\+CH@{V\+O\+X\+E\+L\+\_\+\+CH}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{V\+O\+X\+E\+L\+\_\+\+CH}{VOXEL_CH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+O\+X\+E\+L\+\_\+\+CH}\hypertarget{Voxel_8cuh_aca76098e63473a0423c740cd04ec72b8}{}\label{Voxel_8cuh_aca76098e63473a0423c740cd04ec72b8}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00002}{2} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Function Documentation}
+\index{Voxel.\+cuh@{Voxel.\+cuh}!binary\+\_\+search@{binary\+\_\+search}}
+\index{binary\+\_\+search@{binary\+\_\+search}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{binary\+\_\+search(\+Pair$<$ long, Pair$<$ voxel $\ast$, Point $>$ $>$ $\ast$v, long b, long e, long key)}{binary_search(Pair< long, Pair< voxel *, Point > > *v, long b, long e, long key)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ {\bf Pair}$<$ long, {\bf Pair}$<${\bf voxel} $\ast$, {\bf Point}$>$ $>$ binary\+\_\+search (
+\begin{DoxyParamCaption}
+\item[{{\bf Pair}$<$ long, {\bf Pair}$<$ {\bf voxel} $\ast$, {\bf Point} $>$ $>$ $\ast$}]{v, }
+\item[{long}]{b, }
+\item[{long}]{e, }
+\item[{long}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{Voxel_8cuh_a8af940c50e32ce0514198b2bf835b80c}{}\label{Voxel_8cuh_a8af940c50e32ce0514198b2bf835b80c}
+
+
+Binary search for key in sorted array. 
+
+Pointer to a sorted vector (stored in device) is passed along with the size and the starting index, and the binary search algorithm is used to index via key. It is a recursive method. 
+\begin{DoxyParams}{Parameters}
+{\em Pointer} & to sorted vector v, beginning index b, ending index e \\
+\hline
+{\em key} & ot index into vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classPair}{Pair} of index and voxel with the given index 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}{Update\+\_\+root()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00475}{475} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{Voxel_8cuh_a8af940c50e32ce0514198b2bf835b80c_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!gpu\+Assert@{gpu\+Assert}}
+\index{gpu\+Assert@{gpu\+Assert}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{gpu\+Assert(cuda\+Error\+\_\+t code, const char $\ast$file, int line, bool abort=false)}{gpuAssert(cudaError_t code, const char *file, int line, bool abort=false)}}]{\setlength{\rightskip}{0pt plus 5cm}void gpu\+Assert (
+\begin{DoxyParamCaption}
+\item[{cuda\+Error\+\_\+t}]{code, }
+\item[{const char $\ast$}]{file, }
+\item[{int}]{line, }
+\item[{bool}]{abort = {\ttfamily false}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{Voxel_8cuh_af3f284d9dc439df44497e0e24b6d1fed}{}\label{Voxel_8cuh_af3f284d9dc439df44497e0e24b6d1fed}
+
+
+Prints out errors in C\+U\+DA kernel execution. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00196}{196} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8cuh_af3f284d9dc439df44497e0e24b6d1fed_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!gpu\+Check\+Kernel\+Execution\+Error@{gpu\+Check\+Kernel\+Execution\+Error}}
+\index{gpu\+Check\+Kernel\+Execution\+Error@{gpu\+Check\+Kernel\+Execution\+Error}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{gpu\+Check\+Kernel\+Execution\+Error(const char $\ast$file, int line)}{gpuCheckKernelExecutionError(const char *file, int line)}}]{\setlength{\rightskip}{0pt plus 5cm}void gpu\+Check\+Kernel\+Execution\+Error (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file, }
+\item[{int}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{Voxel_8cuh_aa881629585a7719857d28b2cbf1e1257}{}\label{Voxel_8cuh_aa881629585a7719857d28b2cbf1e1257}
+
+
+Method to print out errors in C\+U\+DA kernel execution. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00207}{207} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{Voxel_8cuh_aa881629585a7719857d28b2cbf1e1257_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8cuh_aa881629585a7719857d28b2cbf1e1257_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!index@{index}}
+\index{index@{index}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{index(\+Point p)}{index(Point p)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ long index (
+\begin{DoxyParamCaption}
+\item[{{\bf Point}}]{p}
+\end{DoxyParamCaption}
+)}\hypertarget{Voxel_8cuh_afeed91d5a5a0b48801aca2d5edeaf3e1}{}\label{Voxel_8cuh_afeed91d5a5a0b48801aca2d5edeaf3e1}
+
+
+Calculates index used as key to index into device vector. 
+
+This is used to calculate a unique whole number from a set of three integers\+: indices of origin of the voxel. Instead of using three nested maps each trying to index one co-\/ordinate at each level ( $ O(\ln(N_x)+\ln(N_y)+\ln(N_z))$), a bijective mapping from $ \mathbb{Z}^{3} \to \mathbb{N}$ is defined. Although the order of the complexity remains the same, the look-\/up is guaranteed to occur in less time than the previous case. 
+\begin{DoxyParams}{Parameters}
+{\em co-\/ordinates} & of the origin of voxel \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+index of point 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{occ\+\_\+grid\+::index()}, \hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00507}{507} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{Voxel_8cuh_afeed91d5a5a0b48801aca2d5edeaf3e1_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8cuh_afeed91d5a5a0b48801aca2d5edeaf3e1_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!mod\+\_\+p@{mod\+\_\+p}}
+\index{mod\+\_\+p@{mod\+\_\+p}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{mod\+\_\+p(\+Point p)}{mod_p(Point p)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ {\bf Point} mod\+\_\+p (
+\begin{DoxyParamCaption}
+\item[{{\bf Point}}]{p}
+\end{DoxyParamCaption}
+)}\hypertarget{Voxel_8cuh_abbd51b1d8c2bc9b7d5ef5413e1e4ca49}{}\label{Voxel_8cuh_abbd51b1d8c2bc9b7d5ef5413e1e4ca49}
+
+
+Calculates co-\/ordinate of point modulo edge length. 
+
+Returns $p mod VOX\_L[0, 1)^3$ 
+\begin{DoxyParams}{Parameters}
+{\em co-\/ordinate} & of point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+modulo of co-\/ordinate of point 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_abf7ece8bcafa68e1292b0be52a5d9996}{occ\+\_\+grid\+::mod\+\_\+p()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00495}{495} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8cuh_abbd51b1d8c2bc9b7d5ef5413e1e4ca49_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!Print@{Print}}
+\index{Print@{Print}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{Print(\+Pair$<$ long, Pair$<$ voxel $\ast$, Point $>$ $>$ $\ast$v, long $\ast$s, Tuple $\ast$set)}{Print(Pair< long, Pair< voxel *, Point > > *v, long *s, Tuple *set)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Print (
+\begin{DoxyParamCaption}
+\item[{{\bf Pair}$<$ long, {\bf Pair}$<$ {\bf voxel} $\ast$, {\bf Point} $>$ $>$ $\ast$}]{v, }
+\item[{long $\ast$}]{s, }
+\item[{{\bf Tuple} $\ast$}]{set}
+\end{DoxyParamCaption}
+)}\hypertarget{Voxel_8cuh_afc844d313aa2b2353c757fb063b74b96}{}\label{Voxel_8cuh_afc844d313aa2b2353c757fb063b74b96}
+
+
+Appends points to the vector of points. 
+
+This method recursively calls \hyperlink{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}{voxel\+::all\+\_\+points()}, to append all the points in the leaf nodes to the vector. This method is called from \hyperlink{classGPU__FE_aea86626bdab826bc91b955ad6e5f6653}{G\+P\+U\+\_\+\+F\+E\+::\+Points()} Run by a single C\+U\+DA thread, since it is called only once and doesn\textquotesingle{}t affect the performance. 
+\begin{DoxyParams}{Parameters}
+{\em vector} & of root voxels \\
+\hline
+{\em size} & of the voxel \\
+\hline
+{\em \hyperlink{structTuple}{Tuple}} & to store points \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}{voxel\+::all\+\_\+points()}, \hyperlink{classGPU__FE_aea86626bdab826bc91b955ad6e5f6653}{G\+P\+U\+\_\+\+F\+E\+::\+Points()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00589}{589} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Voxel.\+cuh@{Voxel.\+cuh}!Update\+\_\+root@{Update\+\_\+root}}
+\index{Update\+\_\+root@{Update\+\_\+root}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{Update\+\_\+root(unsigned short d[w $\ast$h], Pair$<$ long, Pair$<$ voxel $\ast$, Point $>$ $>$ $\ast$v, long $\ast$s, Pair$<$ long, Pair$<$ voxel $\ast$, Point $>$ $>$ $\ast$temp, Cam $\ast$c, Pose $\ast$p)}{Update_root(unsigned short d[w *h], Pair< long, Pair< voxel *, Point > > *v, long *s, Pair< long, Pair< voxel *, Point > > *temp, Cam *c, Pose *p)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+global\+\_\+\+\_\+ void Update\+\_\+root (
+\begin{DoxyParamCaption}
+\item[{unsigned short}]{d\mbox{[}w $\ast$h\mbox{]}, }
+\item[{{\bf Pair}$<$ long, {\bf Pair}$<$ {\bf voxel} $\ast$, {\bf Point} $>$ $>$ $\ast$}]{v, }
+\item[{long $\ast$}]{s, }
+\item[{{\bf Pair}$<$ long, {\bf Pair}$<$ {\bf voxel} $\ast$, {\bf Point} $>$ $>$ $\ast$}]{temp, }
+\item[{{\bf Cam} $\ast$}]{c, }
+\item[{{\bf Pose} $\ast$}]{p}
+\end{DoxyParamCaption}
+)}\hypertarget{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}{}\label{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}
+
+
+Updates point in the global map. 
+
+This method recursively calls \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()} on multiple threads concurrently, to update the point in the respective voxel. This G\+PU kernel itself is called upon by \hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+F\+E\+::\+Update()}. The information on the origin of the voxel is used to identify the voxel, and the index is used as a key to search in the sorted device vector. This method is the same as \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()}, other than the fact that the point doesn\textquotesingle{}t directly map to any \char`\"{}child\char`\"{} voxel. The co-\/ordinates are transformed from the D435 frame to T265 global frame and then passed on to \hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{occ\+\_\+grid\+::update\+\_\+point()}. Equivalent to \hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{occ\+\_\+grid\+::update\+\_\+point()}, and \hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{C\+P\+U\+\_\+\+F\+E\+::\+Update()}. Since inserts and searches into the device vector would have to be done atomically, a temporary array of voxel pointers is used. The size of the array is fixed, and is calculated using D435 intrinsics, D435\+\_\+\+M\+AX, and V\+O\+X\+\_\+L, such that a mapping from each point to the array index can be made. Therefore, every point belonging to the same voxel is mapped to the same index in the array, which can be known. This not only solves the problem of consistency, but also results in almost maximum possible parallel efficiency. This temporary array is appended to the device vector containing root voxels, and is sorted (\hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+F\+E\+::\+Update()}). Although sorting a vector, which is a linear array, takes $O(n)$ as opposed to the $O(\ln(n))$ for insertion in a map, which is a red-\/black tree, since new voxels are sparsely created, it is not expected to reduce performance noticeably. This difference in insertion times can be attributed ot the fact that indexing in a linear array is $O(1)$. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classCamera}{Camera}} & object \\
+\hline
+{\em pose} & of T265 \\
+\hline
+{\em 16-\/bit} & D435 depth image \\
+\hline
+{\em device} & vector containing root voxel pointers \\
+\hline
+{\em size} & of device vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()}, \hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00536}{536} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Variable Documentation}
+\index{Voxel.\+cuh@{Voxel.\+cuh}!Q\+\_\+\+T265\+\_\+\+D435@{Q\+\_\+\+T265\+\_\+\+D435}}
+\index{Q\+\_\+\+T265\+\_\+\+D435@{Q\+\_\+\+T265\+\_\+\+D435}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{Q\+\_\+\+T265\+\_\+\+D435}{Q_T265_D435}}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf quaternion} Q\+\_\+\+T265\+\_\+\+D435(-\/0.\+0089999, 0.\+0024999, 0.\+0000225, 0.\+9999564)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Voxel_8cuh_ae638036c15a578080c34013047df2c4f}{}\label{Voxel_8cuh_ae638036c15a578080c34013047df2c4f}
+
+
+Quaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$. 
+
+To be obtained from extrinsic calibration data of the mount. \index{Voxel.\+cuh@{Voxel.\+cuh}!T\+\_\+\+T265\+\_\+\+D435@{T\+\_\+\+T265\+\_\+\+D435}}
+\index{T\+\_\+\+T265\+\_\+\+D435@{T\+\_\+\+T265\+\_\+\+D435}!Voxel.\+cuh@{Voxel.\+cuh}}
+\paragraph[{\texorpdfstring{T\+\_\+\+T265\+\_\+\+D435}{T_T265_D435}}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf quaternion} T\+\_\+\+T265\+\_\+\+D435(0.\+021, 0.\+027, 0.\+009, 0)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Voxel_8cuh_a084c6bfb66f9daa4728fe8355861f1a4}{}\label{Voxel_8cuh_a084c6bfb66f9daa4728fe8355861f1a4}
+
+
+Translation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$. 
+

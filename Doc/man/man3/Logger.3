@@ -1,0 +1,256 @@
+.TH "Logger" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Logger \- Logging class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Logging\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLogger\fP ()"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "void \fBInit\fP ()"
+.br
+.RI "\fIInitializes \fBLogger\fP\&. \fP"
+.ti -1c
+.RI "void \fBLog\fP (\fBCamera\fP const *C, rs2_pose const *pose, cv::Mat const *depth)"
+.br
+.RI "\fIReal-time logging method\&. \fP"
+.ti -1c
+.RI "void \fBClose\fP (\fBCamera\fP const *C, \fBMap_FE\fP *F)"
+.br
+.RI "\fICloses the lgging operation\&. \fP"
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBobj_grid\fP (\fBMap_FE\fP *F)"
+.br
+.RI "\fIConstructs a grid representation of the map\&. \fP"
+.ti -1c
+.RI "void \fBpoint_grid\fP (float x, float y, float z, float m_x, float m_y, float m_z, float size)"
+.br
+.RI "\fIRecursively constructs a voxel wireframe\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBstart\fP"
+.br
+.RI "\fIBoolean value to keep track of Logging execution\&. \fP"
+.ti -1c
+.RI "std::chrono::high_resolution_clock::time_point \fBti\fP"
+.br
+.RI "\fIHigh-resolution clock to record timestamps of relevant data\&. \fP"
+.ti -1c
+.RI "time_t \fBtoday\fP"
+.br
+.RI "\fITime at logging initiation\&. \fP"
+.ti -1c
+.RI "char \fBbuf\fP [80]"
+.br
+.RI "\fICharacter array to store today\&. \fP"
+.ti -1c
+.RI "Gnuplot \fBgp\fP"
+.br
+.RI "\fIGnuplot instance\&. \fP"
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "std::ofstream \fBpose_file\fP"
+.br
+.RI "\fI\fBPose\fP log file\&. \fP"
+.ti -1c
+.RI "std::ofstream \fBd_in_file\fP"
+.br
+.RI "\fIDepth intrinsics file\&. \fP"
+.ti -1c
+.RI "cv::VideoWriter \fBdepth_file\fP"
+.br
+.RI "\fIDepth feed video file\&. \fP"
+.ti -1c
+.RI "std::ofstream \fBmap_file\fP"
+.br
+.RI "\fIGlobal map file\&. \fP"
+.ti -1c
+.RI "std::ofstream \fBgrid_file\fP"
+.br
+.RI "\fIGrid file\&. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Logging class\&. 
+
+Instance of this class can be used to log information from the cameras and the global map\&. Logging can happen either in real-time or after program termination\&. Real-time logging can cause performance issues, and should be used only for debugging purposes\&. Correct termination of the program should be ensured in order to avoid inconsistent logged data\&. 
+.PP
+Definition at line 52 of file Logging\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Logger::Logger ()\fC [inline]\fP"
+
+.PP
+Default Constructor\&. Current day and time are stored into the buf char array\&. 
+.PP
+Definition at line 91 of file Logging\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Logger::Close (\fBCamera\fP const * C, \fBMap_FE\fP * F)\fC [inline]\fP"
+
+.PP
+Closes the lgging operation\&. All non real-time logging is done in this method\&. It also closes the files in memory so that they can accessed later\&. Since a pointer to \fBMap_FE\fP object is taken as input, any valid map implementation, inherited from \fBMap_FE\fP will be consistent with the method\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fICamea\fP object 
+.br
+\fI\fBMap_FE\fP\fP pointer 
+.RE
+.PP
+
+.PP
+Definition at line 192 of file Logging\&.hpp\&.
+.SS "void Logger::Init ()\fC [inline]\fP"
+
+.PP
+Initializes \fBLogger\fP\&. The output files are memory mapped and opened with the corresponding file names\&. 
+.PP
+Definition at line 100 of file Logging\&.hpp\&.
+.SS "void Logger::Log (\fBCamera\fP const * C, rs2_pose const * pose, cv::Mat const * depth)\fC [inline]\fP"
+
+.PP
+Real-time logging method\&. All real-time logging and display are done in this method\&. Operations like display video feed or 3-D display can limit performance\&. But, it is recommended that pose logging is always set\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBCamera\fP\fP object 
+.br
+\fI\fBPose\fP\fP from T265 
+.br
+\fI16-bit\fP depth image from D435 
+.RE
+.PP
+
+.PP
+Definition at line 121 of file Logging\&.hpp\&.
+.SS "void Logger::obj_grid (\fBMap_FE\fP * F)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Constructs a grid representation of the map\&. This method creates a gnuplot file, which can run using cmd 'gnuplot <file-name>'\&. \fBLogger::point_grid()\fP is called on each of the leaf node points, which are aquired by \fBMap_FE::Points()\fP\&. Called by \fBLogger::Close()\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBMap_FE\fP\fP pointer 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBLogger::Close()\fP, \fBLogger::point_grid()\fP, \fBMap_FE::Points()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 229 of file Logging\&.hpp\&.
+.SS "void Logger::point_grid (float x, float y, float z, float m_x, float m_y, float m_z, float size)\fC [inline]\fP, \fC [private]\fP"
+
+.PP
+Recursively constructs a voxel wireframe\&. This method constructs a wireframe around a voxel at each level of the octree\&. This is recursive method\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fICo-ordinate\fP of the origin of this voxel 
+.br
+\fICo-ordinate\fP of the point with respect to the voxel 
+.br
+\fISize\fP of the voxel at the current level 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBLogger::obj_grid()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 260 of file Logging\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "char Logger::buf[80]\fC [private]\fP"
+
+.PP
+Character array to store today\&. 
+.PP
+Definition at line 65 of file Logging\&.hpp\&.
+.SS "std::ofstream Logger::d_in_file\fC [private]\fP"
+
+.PP
+Depth intrinsics file\&. 
+.PP
+Definition at line 74 of file Logging\&.hpp\&.
+.SS "cv::VideoWriter Logger::depth_file\fC [private]\fP"
+
+.PP
+Depth feed video file\&. 
+.PP
+Definition at line 76 of file Logging\&.hpp\&.
+.SS "Gnuplot Logger::gp\fC [private]\fP"
+
+.PP
+Gnuplot instance\&. 
+.PP
+Definition at line 84 of file Logging\&.hpp\&.
+.SS "std::ofstream Logger::grid_file\fC [private]\fP"
+
+.PP
+Grid file\&. 
+.PP
+Definition at line 80 of file Logging\&.hpp\&.
+.SS "std::ofstream Logger::map_file\fC [private]\fP"
+
+.PP
+Global map file\&. 
+.PP
+Definition at line 78 of file Logging\&.hpp\&.
+.SS "std::ofstream Logger::pose_file\fC [private]\fP"
+
+.PP
+\fBPose\fP log file\&. Output log files 
+.PP
+Definition at line 72 of file Logging\&.hpp\&.
+.SS "bool Logger::start\fC [private]\fP"
+
+.PP
+Boolean value to keep track of Logging execution\&. 
+.PP
+Definition at line 57 of file Logging\&.hpp\&.
+.SS "std::chrono::high_resolution_clock::time_point Logger::ti\fC [private]\fP"
+
+.PP
+High-resolution clock to record timestamps of relevant data\&. 
+.PP
+Definition at line 60 of file Logging\&.hpp\&.
+.SS "time_t Logger::today\fC [private]\fP"
+
+.PP
+Time at logging initiation\&. 
+.PP
+Definition at line 63 of file Logging\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

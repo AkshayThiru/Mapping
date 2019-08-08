@@ -1,0 +1,113 @@
+\hypertarget{Voxel_8hpp}{}\subsection{include/\+Voxel.hpp File Reference}
+\label{Voxel_8hpp}\index{include/\+Voxel.\+hpp@{include/\+Voxel.\+hpp}}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$typeinfo$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$array$>$}\\*
+{\ttfamily \#include $<$tuple$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$utility$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}Helper.\+hpp\char`\"{}}\\*
+Include dependency graph for Voxel.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Voxel_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{Voxel_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classquaternion}{quaternion}
+\begin{DoxyCompactList}\small\item\em A basic Quaternion class. \end{DoxyCompactList}\item 
+class \hyperlink{classleaf}{leaf}
+\begin{DoxyCompactList}\small\item\em Leaf nodes of the Octree structure. \end{DoxyCompactList}\item 
+class \hyperlink{classvoxel}{voxel}
+\begin{DoxyCompactList}\small\item\em Voxel/\+Intermediate nodes of the Octree structure. \end{DoxyCompactList}\item 
+class \hyperlink{classocc__grid}{occ\+\_\+grid}
+\begin{DoxyCompactList}\small\item\em The top-\/most class managing the global map. \end{DoxyCompactList}\item 
+class \hyperlink{classCPU__FE}{C\+P\+U\+\_\+\+FE}
+\begin{DoxyCompactList}\small\item\em Wrapper class for \hyperlink{classocc__grid}{occ\+\_\+grid}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{M\+I\+N\+\_\+L}~0.\+04
+\begin{DoxyCompactList}\small\item\em Minimum dimension of leaf node. \end{DoxyCompactList}\item 
+\#define \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{V\+O\+X\+\_\+L}~2.\+56
+\begin{DoxyCompactList}\small\item\em Size of root voxels. \end{DoxyCompactList}\item 
+\#define \hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{V\+A\+R\+\_\+P}~0.\+005
+\begin{DoxyCompactList}\small\item\em Variance of measurement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Variables}
+\begin{Indent}{\bf T265 to D435 extrinsics}\par
+\begin{DoxyCompactItemize}
+\item 
+static const \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}{Q\+\_\+\+T265\+\_\+\+D435} (-\/0.\+0089999, 0.\+0024999, 0.\+0000225, 0.\+9999564)
+\begin{DoxyCompactList}\small\item\em Quaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$. \end{DoxyCompactList}\item 
+static const \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}{T\+\_\+\+T265\+\_\+\+D435} (0.\+021, 0.\+027, 0.\+009, 0)
+\begin{DoxyCompactList}\small\item\em Translation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Macro Definition Documentation}
+\index{Voxel.\+hpp@{Voxel.\+hpp}!M\+I\+N\+\_\+L@{M\+I\+N\+\_\+L}}
+\index{M\+I\+N\+\_\+L@{M\+I\+N\+\_\+L}!Voxel.\+hpp@{Voxel.\+hpp}}
+\paragraph[{\texorpdfstring{M\+I\+N\+\_\+L}{MIN_L}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+I\+N\+\_\+L~0.\+04}\hypertarget{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{}\label{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}
+
+
+Minimum dimension of leaf node. 
+
+The Voxels will keep dividing until their the size of voxel is $\leq$ M\+I\+N\+\_\+L, at which point a leaf is alloted in place of a voxel. Set the value as a floating value. eg\+: 1.\+00 
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00026}{26} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{Voxel.\+hpp@{Voxel.\+hpp}!V\+A\+R\+\_\+P@{V\+A\+R\+\_\+P}}
+\index{V\+A\+R\+\_\+P@{V\+A\+R\+\_\+P}!Voxel.\+hpp@{Voxel.\+hpp}}
+\paragraph[{\texorpdfstring{V\+A\+R\+\_\+P}{VAR_P}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+A\+R\+\_\+P~0.\+005}\hypertarget{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{}\label{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}
+
+
+Variance of measurement. 
+
+This is the 3-\/D variance of each point measured. Assumed constant and isotropic. The co-\/variance matrix in this case is $ VAR\_P . \mathbb{1}_{3{\times}3} $ 
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00036}{36} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{Voxel.\+hpp@{Voxel.\+hpp}!V\+O\+X\+\_\+L@{V\+O\+X\+\_\+L}}
+\index{V\+O\+X\+\_\+L@{V\+O\+X\+\_\+L}!Voxel.\+hpp@{Voxel.\+hpp}}
+\paragraph[{\texorpdfstring{V\+O\+X\+\_\+L}{VOX_L}}]{\setlength{\rightskip}{0pt plus 5cm}\#define V\+O\+X\+\_\+L~2.\+56}\hypertarget{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{}\label{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}
+
+
+Size of root voxels. 
+
+The starting size of root voxels. This should not be $\leq$ M\+I\+N\+\_\+L. Set the value as a floating value. eg\+: 3.\+00 
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00031}{31} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Variable Documentation}
+\index{Voxel.\+hpp@{Voxel.\+hpp}!Q\+\_\+\+T265\+\_\+\+D435@{Q\+\_\+\+T265\+\_\+\+D435}}
+\index{Q\+\_\+\+T265\+\_\+\+D435@{Q\+\_\+\+T265\+\_\+\+D435}!Voxel.\+hpp@{Voxel.\+hpp}}
+\paragraph[{\texorpdfstring{Q\+\_\+\+T265\+\_\+\+D435}{Q_T265_D435}}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf quaternion} Q\+\_\+\+T265\+\_\+\+D435(-\/0.\+0089999, 0.\+0024999, 0.\+0000225, 0.\+9999564)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}{}\label{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}
+
+
+Quaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$. 
+
+To be obtained from extrinsic calibration data of the mount. \index{Voxel.\+hpp@{Voxel.\+hpp}!T\+\_\+\+T265\+\_\+\+D435@{T\+\_\+\+T265\+\_\+\+D435}}
+\index{T\+\_\+\+T265\+\_\+\+D435@{T\+\_\+\+T265\+\_\+\+D435}!Voxel.\+hpp@{Voxel.\+hpp}}
+\paragraph[{\texorpdfstring{T\+\_\+\+T265\+\_\+\+D435}{T_T265_D435}}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf quaternion} T\+\_\+\+T265\+\_\+\+D435(0.\+021, 0.\+027, 0.\+009, 0)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}{}\label{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}
+
+
+Translation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$. 
+

@@ -1,0 +1,173 @@
+.TH "leaf" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+leaf \- Leaf nodes of the Octree structure\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Voxel\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "__device__ \fBleaf\fP (float x, float y, float z)"
+.br
+.RI "\fIConstructor for leaf node\&. \fP"
+.ti -1c
+.RI "__device__ void \fBupdate_leaf\fP (float x, float y, float z)"
+.br
+.RI "\fIUpdate method for this node object\&. \fP"
+.ti -1c
+.RI "\fBleaf\fP (float x, float y, float z)"
+.br
+.RI "\fIConstructor for leaf node\&. \fP"
+.ti -1c
+.RI "void \fBupdate_leaf\fP (float x, float y, float z)"
+.br
+.RI "\fIUpdate method for this node object\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "float \fB_v\fP"
+.br
+.RI "\fIInverse of variance\&. \fP"
+.in -1c
+.PP
+.RI "\fBCo-ordinates\fP"
+.br
+Co-ordinates of point inside leaf node divided by the variance\&.
+.PP
+The co-ordinates are measured relative to leaf node edge length, ie\&. $x, y, z \in [0,1)$\&. Note that although x_v, y_v, and z_v can are unbounded, the values of x, y, and z are bounded since the update is a convex combination of two points inside the node\&. The co-ordinates are divided by the variance so that the update can be performed in a single atomic operation while running in GPU\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBVoxel\&.cuh\fP 
+.RE
+.PP
+
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBx_v\fP"
+.br
+.ti -1c
+.RI "float \fBy_v\fP"
+.br
+.ti -1c
+.RI "float \fBz_v\fP"
+.br
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Leaf nodes of the Octree structure\&. 
+
+GPU: 
+.br
+ This is not implemented as a voxel object because there can be millions of nodes and so the size should be as small as possible\&. Stores the x, y, z co-ordinates of a single point inside it relative to edge length ie\&. $x, y, z \in [0,1)$\&. This is to maintain uniform accuracy across all points\&. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-ordinates minimum\&. ie\&. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \fBleaf::_v\fP $> 0$, the leaf node is occupied\&. If \fBleaf::_v\fP $= 0$, the leaf node is empty (this is not the same as unobserved\&. This means that this node has been observed, but there is no point inside it)\&. This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation\&. Although this is not particularly important for the CPU operation, it is extremely essential for the GPU operation to maintain consistency\&. An object of this class can only be declared inside the CUDA kernel\&.
+.PP
+CPU: 
+.br
+ This is not implemented as a voxel object because there can be millions of nodes and so the size should be as small as possible\&. Stores the x, y, z co-ordinates of a single point inside it relative to edge length ie\&. $x, y, z \in [0,1)$\&. This is to maintain uniform accuracy across all points\&. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-ordinates minimum\&. ie\&. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \fBleaf::_v\fP $> 0$, the leaf node is occupied\&. If \fBleaf::_v\fP $= 0$, the leaf node is empty (this is not the same as unobserved\&. This means that this node has been observed, but there is no point inside it)\&. This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation\&. Although this is not particularly important for the CPU operation, it is extremely essential for the GPU operation to maintain consistency\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBVoxel\&.cuh\fP 
+.RE
+.PP
+
+.PP
+Definition at line 228 of file Voxel\&.cuh\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "__device__ leaf::leaf (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Constructor for leaf node\&. Note that this is the only constructor provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to leaf node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+
+.PP
+Definition at line 257 of file Voxel\&.cuh\&.
+.SS "leaf::leaf (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Constructor for leaf node\&. Note that this is the only constructor provided\&. If the parameters provided are $(-1, -1, -,1)$, the node is set to be empty\&. Note that x_v, y_v, and z_v are set $= 0$\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to leaf node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+
+.PP
+Definition at line 155 of file Voxel\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void leaf::update_leaf (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Update method for this node object\&. Since every node contains only a single point, this update rule is used to combine the points into a single point\&. This is the same as the Measurement Update Step in EKF and SLAM\&. In this particular case the rule is a simple weighted average\&. So, if the point already existing in the node has a very low variance, the updated point will be very close to the previous point\&. Even if an anisotropic gaussian probability distribution function is used, the updated point will always be a convex combination of two points\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to leaf node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+
+.PP
+Definition at line 169 of file Voxel\&.hpp\&.
+.SS "__device__ void leaf::update_leaf (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Update method for this node object\&. Since every node contains only a single point, this update rule is used to combine the points into a single point\&. This is the same as the Measurement Update Step in EKF and SLAM\&. In this particular case the rule is a simple weighted average\&. So, if the point already existing in the node has a very low variance, the updated point will be very close to the previous point\&. Even if an anisotropic gaussian probability distribution function is used, the updated point will always be a convex combination of two points\&. atommicAdd() function and the transformed variables ensure consistency while multi-threading\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to leaf node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+
+.PP
+Definition at line 270 of file Voxel\&.cuh\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "float leaf::_v"
+
+.PP
+Inverse of variance\&. The points are assumed to be distributed as a 3-D uniform gaussian distribution when measured\&. As more points are updated in the node, this variance decreases, ie\&. the certainity of a point existing in the node increases\&. The update rule is the typical update rule of gaussian distribution, same as the one in Measurement Update Step in EKF and SLAM\&. Inverse of variance is stored so that the update can be performed in a single atomic step while running in GPU\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBVoxel\&.cuh\fP 
+.RE
+.PP
+
+.PP
+Definition at line 239 of file Voxel\&.cuh\&.
+.SS "float leaf::x_v"
+
+.PP
+Definition at line 250 of file Voxel\&.cuh\&.
+.SS "float leaf::y_v"
+
+.PP
+Definition at line 250 of file Voxel\&.cuh\&.
+.SS "float leaf::z_v"
+
+.PP
+Definition at line 250 of file Voxel\&.cuh\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

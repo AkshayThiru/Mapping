@@ -1,0 +1,184 @@
+.TH "quaternion" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+quaternion \- A basic Quaternion class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Voxel\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "__host__ __device__ \fBquaternion\fP (float \fBx\fP, float \fBy\fP, float \fBz\fP, float \fBw\fP)"
+.br
+.RI "\fIConstructor taking x, y, z, w in order\&. \fP"
+.ti -1c
+.RI "__host__ __device__ \fBquaternion\fP \fBinv\fP ()"
+.br
+.RI "\fIInverse of the quaternion\&. \fP"
+.ti -1c
+.RI "__host__ __device__ \fBquaternion\fP \fBoperator*\fP (\fBquaternion\fP const &q)"
+.br
+.RI "\fI$\times$ operator \fP"
+.ti -1c
+.RI "__host__ __device__ \fBquaternion\fP \fBoperator+\fP (\fBquaternion\fP const &q)"
+.br
+.RI "\fI$+$ operator \fP"
+.ti -1c
+.RI "\fBquaternion\fP (float \fBx\fP, float \fBy\fP, float \fBz\fP, float \fBw\fP)"
+.br
+.RI "\fIConstructor taking x, y, z, w in order\&. \fP"
+.ti -1c
+.RI "\fBquaternion\fP \fBinv\fP ()"
+.br
+.RI "\fIInverse of the quaternion\&. \fP"
+.ti -1c
+.RI "\fBquaternion\fP \fBoperator*\fP (\fBquaternion\fP const &q)"
+.br
+.RI "\fI$\times$ operator \fP"
+.ti -1c
+.RI "\fBquaternion\fP \fBoperator+\fP (\fBquaternion\fP const &q)"
+.br
+.RI "\fI$+$ operator \fP"
+.in -1c
+.SS "Public Attributes"
+
+.PP
+.RI "\fBComponents of quaternion\&.\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBx\fP"
+.br
+.ti -1c
+.RI "float \fBy\fP"
+.br
+.ti -1c
+.RI "float \fBz\fP"
+.br
+.ti -1c
+.RI "float \fBw\fP"
+.br
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+A basic Quaternion class\&. 
+
+GPU: 
+.br
+ Quaternion class with components $ x, y, z, w $ such that $ q = x\textit{i} + y\textit{j} + z\textit{k} + w$\&. Basic operators provided are $\times$: multiplication and $+$: addition\&. $^{-1}$: inverse is provided through \fBquaternion::inv()\fP method\&. Can be used in both host and device code\&.
+.PP
+CPU: 
+.br
+ Quaternion class with components $ x, y, z, w $ such that $ q = x\textit{i} + y\textit{j} + z\textit{k} + w$\&. Basic operators provided are $\times$: multiplication and $+$: addition\&. $^{-1}$: inverse is provided through \fBquaternion::inv()\fP method\&. 
+.PP
+Definition at line 63 of file Voxel\&.cuh\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "__host__ __device__ quaternion::quaternion (float x, float y, float z, float w)\fC [inline]\fP"
+
+.PP
+Constructor taking x, y, z, w in order\&. Note: This is the only constructor provided\&. Can be used in both host and device\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIComponents\fP $\textit{i}$, $\textit{j}$, $\textit{k}$, and $\mathbb{R}$ 
+.RE
+.PP
+
+.PP
+Definition at line 77 of file Voxel\&.cuh\&.
+.SS "quaternion::quaternion (float x, float y, float z, float w)\fC [inline]\fP"
+
+.PP
+Constructor taking x, y, z, w in order\&. Note: This is the only constructor provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIComponents\fP $\textit{i}$, $\textit{j}$, $\textit{k}$, and $\mathbb{R}$ 
+.RE
+.PP
+
+.PP
+Definition at line 57 of file Voxel\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBquaternion\fP quaternion::inv ()\fC [inline]\fP"
+
+.PP
+Inverse of the quaternion\&. To be used as q\&.inv() $\equiv q^{-1}$ 
+.PP
+\fBReturns:\fP
+.RS 4
+quaternion 
+.RE
+.PP
+
+.PP
+Definition at line 68 of file Voxel\&.hpp\&.
+.SS "__host__ __device__ \fBquaternion\fP quaternion::inv ()\fC [inline]\fP"
+
+.PP
+Inverse of the quaternion\&. To be used as q\&.inv() $\equiv q^{-1}$ 
+.PP
+\fBReturns:\fP
+.RS 4
+quaternion 
+.RE
+.PP
+
+.PP
+Definition at line 88 of file Voxel\&.cuh\&.
+.SS "\fBquaternion\fP quaternion::operator* (\fBquaternion\fP const & q)\fC [inline]\fP"
+
+.PP
+$\times$ operator 
+.PP
+Definition at line 78 of file Voxel\&.hpp\&.
+.SS "__host__ __device__ \fBquaternion\fP quaternion::operator* (\fBquaternion\fP const & q)\fC [inline]\fP"
+
+.PP
+$\times$ operator 
+.PP
+Definition at line 98 of file Voxel\&.cuh\&.
+.SS "\fBquaternion\fP quaternion::operator+ (\fBquaternion\fP const & q)\fC [inline]\fP"
+
+.PP
+$+$ operator 
+.PP
+Definition at line 92 of file Voxel\&.hpp\&.
+.SS "__host__ __device__ \fBquaternion\fP quaternion::operator+ (\fBquaternion\fP const & q)\fC [inline]\fP"
+
+.PP
+$+$ operator 
+.PP
+Definition at line 112 of file Voxel\&.cuh\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "float quaternion::w"
+
+.PP
+Definition at line 69 of file Voxel\&.cuh\&.
+.SS "float quaternion::x"
+
+.PP
+Definition at line 69 of file Voxel\&.cuh\&.
+.SS "float quaternion::y"
+
+.PP
+Definition at line 69 of file Voxel\&.cuh\&.
+.SS "float quaternion::z"
+
+.PP
+Definition at line 69 of file Voxel\&.cuh\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

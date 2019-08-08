@@ -1,0 +1,145 @@
+.TH "Pair< A, B >" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Pair< A, B > \- Template Class for Pairs\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Helper\&.hpp>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fBConstructors\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBCUDA_CALL\fP \fBPair\fP ()=default"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "\fBCUDA_CALL\fP \fBPair\fP (const A a, const B b)"
+.br
+.RI "\fIEquivalent to \fBPair()\fP, Pair\&.A(a), Pair\&.B(b) \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBOperator Overrides\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBCUDA_CALL\fP bool \fBoperator<\fP (\fBPair\fP< A, B > const &P) const "
+.br
+.RI "\fIoverridding of '<' operator\&. \fP"
+.ti -1c
+.RI "\fBCUDA_CALL\fP bool \fBoperator==\fP (\fBPair\fP< A, B > const &P) const "
+.br
+.RI "\fIoverridding of '==' operator\&. \fP"
+.in -1c
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "A \fBfirst\fP"
+.br
+.RI "\fIFirst member of \fBPair\fP\&. Can be used as an index\&. \fP"
+.ti -1c
+.RI "B \fBsecond\fP"
+.br
+.RI "\fISecond member of \fBPair\fP\&. Can be used as mapped value\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename A, typename B>
+.br
+class Pair< A, B >"
+Template Class for Pairs\&. 
+
+This class is used as a replacement for std::pair for CUDA code\&. Note that STL classes and methods should preferably not used in CUDA as they might cause memory access errors\&. The '<' operator is defined on Pair\&.first, so '<' should be defined for template class A\&. This is used to sort a vector of this template class in CUDA as a replacement for std::map - which uses a red-black tree implementation\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBGPU_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 26 of file Helper\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename A, typename B> \fBCUDA_CALL\fP \fBPair\fP< A, B >::\fBPair\fP ()\fC [default]\fP"
+
+.PP
+Default Constructor\&. 
+.SS "template<typename A, typename B> \fBCUDA_CALL\fP \fBPair\fP< A, B >::\fBPair\fP (const A a, const B b)\fC [inline]\fP"
+
+.PP
+Equivalent to \fBPair()\fP, Pair\&.A(a), Pair\&.B(b) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobject\fP of type A 
+.br
+\fIobject\fP of type B 
+.RE
+.PP
+
+.PP
+Definition at line 46 of file Helper\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename A, typename B> \fBCUDA_CALL\fP bool \fBPair\fP< A, B >::operator< (\fBPair\fP< A, B > const & P) const\fC [inline]\fP"
+
+.PP
+overridding of '<' operator\&. Used to sort vectors of element type Pair<A,B>\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBPair\fP\fP P of types A, and B 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+boolean value comparing the first elements 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBGPU_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 59 of file Helper\&.hpp\&.
+.SS "template<typename A, typename B> \fBCUDA_CALL\fP bool \fBPair\fP< A, B >::operator== (\fBPair\fP< A, B > const & P) const\fC [inline]\fP"
+
+.PP
+overridding of '==' operator\&. 
+.PP
+Definition at line 64 of file Helper\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename A, typename B> A \fBPair\fP< A, B >::first"
+
+.PP
+First member of \fBPair\fP\&. Can be used as an index\&. 
+.PP
+Definition at line 31 of file Helper\&.hpp\&.
+.SS "template<typename A, typename B> B \fBPair\fP< A, B >::second"
+
+.PP
+Second member of \fBPair\fP\&. Can be used as mapped value\&. 
+.PP
+Definition at line 33 of file Helper\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

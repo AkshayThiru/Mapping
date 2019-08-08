@@ -1,0 +1,410 @@
+\hypertarget{classLogger}{}\subsection{Logger Class Reference}
+\label{classLogger}\index{Logger@{Logger}}
+
+
+Logging class.  
+
+
+
+
+{\ttfamily \#include $<$Logging.\+hpp$>$}
+
+
+
+Collaboration diagram for Logger\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classLogger__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classLogger_abc41bfb031d896170c7675fa96a6b30c}{Logger} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e}{Init} ()
+\begin{DoxyCompactList}\small\item\em Initializes \hyperlink{classLogger}{Logger}. \end{DoxyCompactList}\item 
+void \hyperlink{classLogger_adcc95257ff2edceded8e272dac3603ce}{Log} (\hyperlink{classCamera}{Camera} const $\ast$C, rs2\+\_\+pose const $\ast$pose, cv\+::\+Mat const $\ast$depth)
+\begin{DoxyCompactList}\small\item\em Real-\/time logging method. \end{DoxyCompactList}\item 
+void \hyperlink{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{Close} (\hyperlink{classCamera}{Camera} const $\ast$C, \hyperlink{classMap__FE}{Map\+\_\+\+FE} $\ast$F)
+\begin{DoxyCompactList}\small\item\em Closes the lgging operation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classLogger_ac58fee4bd66a5359deb29a86948d584d}{obj\+\_\+grid} (\hyperlink{classMap__FE}{Map\+\_\+\+FE} $\ast$F)
+\begin{DoxyCompactList}\small\item\em Constructs a grid representation of the map. \end{DoxyCompactList}\item 
+void \hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{point\+\_\+grid} (float x, float y, float z, float m\+\_\+x, float m\+\_\+y, float m\+\_\+z, float size)
+\begin{DoxyCompactList}\small\item\em Recursively constructs a voxel wireframe. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classLogger_a99c616f02a46e95f2e976ab7d880dbc5}{start}
+\begin{DoxyCompactList}\small\item\em Boolean value to keep track of Logging execution. \end{DoxyCompactList}\item 
+std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point \hyperlink{classLogger_a7f6f65922677036ca61ba12a19fdb719}{ti}
+\begin{DoxyCompactList}\small\item\em High-\/resolution clock to record timestamps of relevant data. \end{DoxyCompactList}\item 
+time\+\_\+t \hyperlink{classLogger_afe5c4b612d69878aa65ce940a042fd8c}{today}
+\begin{DoxyCompactList}\small\item\em Time at logging initiation. \end{DoxyCompactList}\item 
+char \hyperlink{classLogger_a0fd4efa39e08c0253f59f76e08abefee}{buf} \mbox{[}80\mbox{]}
+\begin{DoxyCompactList}\small\item\em Character array to store today. \end{DoxyCompactList}\item 
+Gnuplot \hyperlink{classLogger_a63eca256c57dee44717f3002654887c7}{gp}
+\begin{DoxyCompactList}\small\item\em Gnuplot instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+{\bf }\par
+\begin{DoxyCompactItemize}
+\item 
+std\+::ofstream \hyperlink{classLogger_a7314c685ce4579a7d8b118e5d5327d13}{pose\+\_\+file}
+\begin{DoxyCompactList}\small\item\em \hyperlink{structPose}{Pose} log file. \end{DoxyCompactList}\item 
+std\+::ofstream \hyperlink{classLogger_acf9b6a89a6f8c520d010d87cff33b9df}{d\+\_\+in\+\_\+file}
+\begin{DoxyCompactList}\small\item\em Depth intrinsics file. \end{DoxyCompactList}\item 
+cv\+::\+Video\+Writer \hyperlink{classLogger_a5e5b9ad704575bda69b184a5b136735f}{depth\+\_\+file}
+\begin{DoxyCompactList}\small\item\em Depth feed video file. \end{DoxyCompactList}\item 
+std\+::ofstream \hyperlink{classLogger_a1aedce7141d1346bc39c94e3a3eba4d6}{map\+\_\+file}
+\begin{DoxyCompactList}\small\item\em Global map file. \end{DoxyCompactList}\item 
+std\+::ofstream \hyperlink{classLogger_a715ae637741f3b00ba8ebb9858cb5577}{grid\+\_\+file}
+\begin{DoxyCompactList}\small\item\em Grid file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+
+\subsubsection{Detailed Description}
+Logging class. 
+
+Instance of this class can be used to log information from the cameras and the global map. Logging can happen either in real-\/time or after program termination. Real-\/time logging can cause performance issues, and should be used only for debugging purposes. Correct termination of the program should be ensured in order to avoid inconsistent logged data. 
+
+Definition at line \hyperlink{Logging_8hpp_source_l00052}{52} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{Logger@{Logger}!Logger@{Logger}}
+\index{Logger@{Logger}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{Logger()}{Logger()}}]{\setlength{\rightskip}{0pt plus 5cm}Logger\+::\+Logger (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classLogger_abc41bfb031d896170c7675fa96a6b30c}{}\label{classLogger_abc41bfb031d896170c7675fa96a6b30c}
+
+
+Default Constructor. 
+
+Current day and time are stored into the buf char array. 
+
+Definition at line \hyperlink{Logging_8hpp_source_l00091}{91} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{Logger@{Logger}!Close@{Close}}
+\index{Close@{Close}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{Close(\+Camera const $\ast$\+C, Map\+\_\+\+F\+E $\ast$\+F)}{Close(Camera const *C, Map_FE *F)}}]{\setlength{\rightskip}{0pt plus 5cm}void Logger\+::\+Close (
+\begin{DoxyParamCaption}
+\item[{{\bf Camera} const $\ast$}]{C, }
+\item[{{\bf Map\+\_\+\+FE} $\ast$}]{F}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{}\label{classLogger_a6b670ceb54a249eb83da08a1914d2be8}
+
+
+Closes the lgging operation. 
+
+All non real-\/time logging is done in this method. It also closes the files in memory so that they can accessed later. Since a pointer to \hyperlink{classMap__FE}{Map\+\_\+\+FE} object is taken as input, any valid map implementation, inherited from \hyperlink{classMap__FE}{Map\+\_\+\+FE} will be consistent with the method. 
+\begin{DoxyParams}{Parameters}
+{\em Camea} & object \\
+\hline
+{\em \hyperlink{classMap__FE}{Map\+\_\+\+FE}} & pointer \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00192}{192} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classLogger_a6b670ceb54a249eb83da08a1914d2be8_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{classLogger_a6b670ceb54a249eb83da08a1914d2be8_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Logger@{Logger}!Init@{Init}}
+\index{Init@{Init}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{Init()}{Init()}}]{\setlength{\rightskip}{0pt plus 5cm}void Logger\+::\+Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e}{}\label{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e}
+
+
+Initializes \hyperlink{classLogger}{Logger}. 
+
+The output files are memory mapped and opened with the corresponding file names. 
+
+Definition at line \hyperlink{Logging_8hpp_source_l00100}{100} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=219pt]{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Logger@{Logger}!Log@{Log}}
+\index{Log@{Log}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{Log(\+Camera const $\ast$\+C, rs2\+\_\+pose const $\ast$pose, cv\+::\+Mat const $\ast$depth)}{Log(Camera const *C, rs2_pose const *pose, cv::Mat const *depth)}}]{\setlength{\rightskip}{0pt plus 5cm}void Logger\+::\+Log (
+\begin{DoxyParamCaption}
+\item[{{\bf Camera} const $\ast$}]{C, }
+\item[{rs2\+\_\+pose const $\ast$}]{pose, }
+\item[{cv\+::\+Mat const $\ast$}]{depth}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classLogger_adcc95257ff2edceded8e272dac3603ce}{}\label{classLogger_adcc95257ff2edceded8e272dac3603ce}
+
+
+Real-\/time logging method. 
+
+All real-\/time logging and display are done in this method. Operations like display video feed or 3-\/D display can limit performance. But, it is recommended that pose logging is always set. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classCamera}{Camera}} & object \\
+\hline
+{\em \hyperlink{structPose}{Pose}} & from T265 \\
+\hline
+{\em 16-\/bit} & depth image from D435 \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00121}{121} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{classLogger_adcc95257ff2edceded8e272dac3603ce_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Logger@{Logger}!obj\+\_\+grid@{obj\+\_\+grid}}
+\index{obj\+\_\+grid@{obj\+\_\+grid}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{obj\+\_\+grid(\+Map\+\_\+\+F\+E $\ast$\+F)}{obj_grid(Map_FE *F)}}]{\setlength{\rightskip}{0pt plus 5cm}void Logger\+::obj\+\_\+grid (
+\begin{DoxyParamCaption}
+\item[{{\bf Map\+\_\+\+FE} $\ast$}]{F}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classLogger_ac58fee4bd66a5359deb29a86948d584d}{}\label{classLogger_ac58fee4bd66a5359deb29a86948d584d}
+
+
+Constructs a grid representation of the map. 
+
+This method creates a gnuplot file, which can run using cmd \textquotesingle{}gnuplot $<$file-\/name$>$\textquotesingle{}. \hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{Logger\+::point\+\_\+grid()} is called on each of the leaf node points, which are aquired by \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Map\+\_\+\+F\+E\+::\+Points()}. Called by \hyperlink{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{Logger\+::\+Close()} 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classMap__FE}{Map\+\_\+\+FE}} & pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{Logger\+::\+Close()}, \hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{Logger\+::point\+\_\+grid()}, \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Map\+\_\+\+F\+E\+::\+Points()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00229}{229} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{classLogger_ac58fee4bd66a5359deb29a86948d584d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classLogger_ac58fee4bd66a5359deb29a86948d584d_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Logger@{Logger}!point\+\_\+grid@{point\+\_\+grid}}
+\index{point\+\_\+grid@{point\+\_\+grid}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{point\+\_\+grid(float x, float y, float z, float m\+\_\+x, float m\+\_\+y, float m\+\_\+z, float size)}{point_grid(float x, float y, float z, float m_x, float m_y, float m_z, float size)}}]{\setlength{\rightskip}{0pt plus 5cm}void Logger\+::point\+\_\+grid (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z, }
+\item[{float}]{m\+\_\+x, }
+\item[{float}]{m\+\_\+y, }
+\item[{float}]{m\+\_\+z, }
+\item[{float}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{}\label{classLogger_a38c5de03e0de7deffd7b516b13f826ff}
+
+
+Recursively constructs a voxel wireframe. 
+
+This method constructs a wireframe around a voxel at each level of the octree. This is recursive method. 
+\begin{DoxyParams}{Parameters}
+{\em Co-\/ordinate} & of the origin of this voxel \\
+\hline
+{\em Co-\/ordinate} & of the point with respect to the voxel \\
+\hline
+{\em Size} & of the voxel at the current level \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classLogger_ac58fee4bd66a5359deb29a86948d584d}{Logger\+::obj\+\_\+grid()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00260}{260} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classLogger_a38c5de03e0de7deffd7b516b13f826ff_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{Logger@{Logger}!buf@{buf}}
+\index{buf@{buf}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{buf}{buf}}]{\setlength{\rightskip}{0pt plus 5cm}char Logger\+::buf\mbox{[}80\mbox{]}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a0fd4efa39e08c0253f59f76e08abefee}{}\label{classLogger_a0fd4efa39e08c0253f59f76e08abefee}
+
+
+Character array to store today. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00065}{65} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!d\+\_\+in\+\_\+file@{d\+\_\+in\+\_\+file}}
+\index{d\+\_\+in\+\_\+file@{d\+\_\+in\+\_\+file}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{d\+\_\+in\+\_\+file}{d_in_file}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ofstream Logger\+::d\+\_\+in\+\_\+file\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_acf9b6a89a6f8c520d010d87cff33b9df}{}\label{classLogger_acf9b6a89a6f8c520d010d87cff33b9df}
+
+
+Depth intrinsics file. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00074}{74} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!depth\+\_\+file@{depth\+\_\+file}}
+\index{depth\+\_\+file@{depth\+\_\+file}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{depth\+\_\+file}{depth_file}}]{\setlength{\rightskip}{0pt plus 5cm}cv\+::\+Video\+Writer Logger\+::depth\+\_\+file\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a5e5b9ad704575bda69b184a5b136735f}{}\label{classLogger_a5e5b9ad704575bda69b184a5b136735f}
+
+
+Depth feed video file. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00076}{76} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!gp@{gp}}
+\index{gp@{gp}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{gp}{gp}}]{\setlength{\rightskip}{0pt plus 5cm}Gnuplot Logger\+::gp\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a63eca256c57dee44717f3002654887c7}{}\label{classLogger_a63eca256c57dee44717f3002654887c7}
+
+
+Gnuplot instance. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00084}{84} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!grid\+\_\+file@{grid\+\_\+file}}
+\index{grid\+\_\+file@{grid\+\_\+file}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{grid\+\_\+file}{grid_file}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ofstream Logger\+::grid\+\_\+file\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a715ae637741f3b00ba8ebb9858cb5577}{}\label{classLogger_a715ae637741f3b00ba8ebb9858cb5577}
+
+
+Grid file. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00080}{80} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!map\+\_\+file@{map\+\_\+file}}
+\index{map\+\_\+file@{map\+\_\+file}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{map\+\_\+file}{map_file}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ofstream Logger\+::map\+\_\+file\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a1aedce7141d1346bc39c94e3a3eba4d6}{}\label{classLogger_a1aedce7141d1346bc39c94e3a3eba4d6}
+
+
+Global map file. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00078}{78} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!pose\+\_\+file@{pose\+\_\+file}}
+\index{pose\+\_\+file@{pose\+\_\+file}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{pose\+\_\+file}{pose_file}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::ofstream Logger\+::pose\+\_\+file\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a7314c685ce4579a7d8b118e5d5327d13}{}\label{classLogger_a7314c685ce4579a7d8b118e5d5327d13}
+
+
+\hyperlink{structPose}{Pose} log file. 
+
+Output log files 
+
+Definition at line \hyperlink{Logging_8hpp_source_l00072}{72} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!start@{start}}
+\index{start@{start}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{start}{start}}]{\setlength{\rightskip}{0pt plus 5cm}bool Logger\+::start\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a99c616f02a46e95f2e976ab7d880dbc5}{}\label{classLogger_a99c616f02a46e95f2e976ab7d880dbc5}
+
+
+Boolean value to keep track of Logging execution. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00057}{57} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!ti@{ti}}
+\index{ti@{ti}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{ti}{ti}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::chrono\+::high\+\_\+resolution\+\_\+clock\+::time\+\_\+point Logger\+::ti\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_a7f6f65922677036ca61ba12a19fdb719}{}\label{classLogger_a7f6f65922677036ca61ba12a19fdb719}
+
+
+High-\/resolution clock to record timestamps of relevant data. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00060}{60} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logger@{Logger}!today@{today}}
+\index{today@{today}!Logger@{Logger}}
+\paragraph[{\texorpdfstring{today}{today}}]{\setlength{\rightskip}{0pt plus 5cm}time\+\_\+t Logger\+::today\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLogger_afe5c4b612d69878aa65ce940a042fd8c}{}\label{classLogger_afe5c4b612d69878aa65ce940a042fd8c}
+
+
+Time at logging initiation. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00063}{63} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Logging_8hpp}{Logging.\+hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,46 @@
+.TH "Pose" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Pose \- \fBPose\fP of T265 camera\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBquaternion\fP \fBt\fP"
+.br
+.RI "\fITranslation of T265 expressed as a quaternion in T265 frame\&. \fP"
+.ti -1c
+.RI "\fBquaternion\fP \fBr\fP"
+.br
+.RI "\fIRotation of T265 expressed as a quaternion in T265 frame\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBPose\fP of T265 camera\&. 
+
+Used to pass to CUDA kernel 
+.PP
+Definition at line 120 of file Voxel\&.cuh\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBquaternion\fP Pose::r"
+
+.PP
+Rotation of T265 expressed as a quaternion in T265 frame\&. 
+.PP
+Definition at line 124 of file Voxel\&.cuh\&.
+.SS "\fBquaternion\fP Pose::t"
+
+.PP
+Translation of T265 expressed as a quaternion in T265 frame\&. 
+.PP
+Definition at line 122 of file Voxel\&.cuh\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

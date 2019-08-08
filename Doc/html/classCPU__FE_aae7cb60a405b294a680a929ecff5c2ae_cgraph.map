@@ -1,0 +1,7 @@
+<map id="CPU_FE::Update" name="CPU_FE::Update">
+<area shape="rect" id="node2" href="$classquaternion.html#a01adb7930c2003b777cb91a7182c482e" title="Constructor taking x, y, z, w in order. " alt="" coords="380,5,531,32"/>
+<area shape="rect" id="node3" href="$classquaternion.html#a5f2dff4e0f446d05e826a63d5a45d230" title="Inverse of the quaternion. " alt="" coords="202,56,309,83"/>
+<area shape="rect" id="node4" href="$classocc__grid.html#aaf38d339d7d1b3226d9673f8d6102b2c" title="Updates point in the global map. " alt="" coords="179,107,332,133"/>
+<area shape="rect" id="node5" href="$Voxel_8cuh.html#abbd51b1d8c2bc9b7d5ef5413e1e4ca49" title="Calculates co&#45;ordinate of point modulo edge length. " alt="" coords="579,107,640,133"/>
+<area shape="rect" id="node6" href="$Voxel_8cuh.html#afeed91d5a5a0b48801aca2d5edeaf3e1" title="Calculates index used as key to index into device vector. " alt="" coords="429,132,482,159"/>
+</map>

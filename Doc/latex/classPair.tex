@@ -1,0 +1,170 @@
+\hypertarget{classPair}{}\subsection{Pair$<$ A, B $>$ Class Template Reference}
+\label{classPair}\index{Pair$<$ A, B $>$@{Pair$<$ A, B $>$}}
+
+
+Template Class for Pairs.  
+
+
+
+
+{\ttfamily \#include $<$Helper.\+hpp$>$}
+
+
+
+Inheritance diagram for Pair$<$ A, B $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{classPair__inherit__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{Indent}{\bf Constructors}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{C\+U\+D\+A\+\_\+\+C\+A\+LL} \hyperlink{classPair_ab76fff1f93ef8974bec7430bd67b916d}{Pair} ()=default
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{C\+U\+D\+A\+\_\+\+C\+A\+LL} \hyperlink{classPair_addd8fa451e9cc9e1ab0ee13ccb130966}{Pair} (const A a, const B b)
+\begin{DoxyCompactList}\small\item\em Equivalent to \hyperlink{classPair_ab76fff1f93ef8974bec7430bd67b916d}{Pair()}, Pair.\+A(a), Pair.\+B(b) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Operator Overrides}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{C\+U\+D\+A\+\_\+\+C\+A\+LL} bool \hyperlink{classPair_ab2e5000f2ce579285f773fafca762fb7}{operator$<$} (\hyperlink{classPair}{Pair}$<$ A, B $>$ const \&P) const 
+\begin{DoxyCompactList}\small\item\em overridding of \textquotesingle{}$<$\textquotesingle{} operator. \end{DoxyCompactList}\item 
+\hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{C\+U\+D\+A\+\_\+\+C\+A\+LL} bool \hyperlink{classPair_a8e382aa87f8063084ecea74136a35ace}{operator==} (\hyperlink{classPair}{Pair}$<$ A, B $>$ const \&P) const 
+\begin{DoxyCompactList}\small\item\em overridding of \textquotesingle{}==\textquotesingle{} operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+A \hyperlink{classPair_a98924311a2986df358d3b1965f8abd06}{first}
+\begin{DoxyCompactList}\small\item\em First member of \hyperlink{classPair}{Pair}. Can be used as an index. \end{DoxyCompactList}\item 
+B \hyperlink{classPair_af49ec2d61a46cad5cd1227dba4932aff}{second}
+\begin{DoxyCompactList}\small\item\em Second member of \hyperlink{classPair}{Pair}. Can be used as mapped value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+\subsubsection*{template$<$typename A, typename B$>$\\*
+class Pair$<$ A, B $>$}
+
+Template Class for Pairs. 
+
+This class is used as a replacement for std\+::pair for C\+U\+DA code. Note that S\+TL classes and methods should preferably not used in C\+U\+DA as they might cause memory access errors. The \textquotesingle{}$<$\textquotesingle{} operator is defined on Pair.\+first, so \textquotesingle{}$<$\textquotesingle{} should be defined for template class A. This is used to sort a vector of this template class in C\+U\+DA as a replacement for std\+::map -\/ which uses a red-\/black tree implementation. \begin{DoxySeeAlso}{See also}
+\hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Helper_8hpp_source_l00026}{26} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{Pair@{Pair}!Pair@{Pair}}
+\index{Pair@{Pair}!Pair@{Pair}}
+\paragraph[{\texorpdfstring{Pair()=default}{Pair()=default}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename A, typename B$>$ {\bf C\+U\+D\+A\+\_\+\+C\+A\+LL} {\bf Pair}$<$ A, B $>$\+::{\bf Pair} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{classPair_ab76fff1f93ef8974bec7430bd67b916d}{}\label{classPair_ab76fff1f93ef8974bec7430bd67b916d}
+
+
+Default Constructor. 
+
+\index{Pair@{Pair}!Pair@{Pair}}
+\index{Pair@{Pair}!Pair@{Pair}}
+\paragraph[{\texorpdfstring{Pair(const A a, const B b)}{Pair(const A a, const B b)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename A, typename B$>$ {\bf C\+U\+D\+A\+\_\+\+C\+A\+LL} {\bf Pair}$<$ A, B $>$\+::{\bf Pair} (
+\begin{DoxyParamCaption}
+\item[{const A}]{a, }
+\item[{const B}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classPair_addd8fa451e9cc9e1ab0ee13ccb130966}{}\label{classPair_addd8fa451e9cc9e1ab0ee13ccb130966}
+
+
+Equivalent to \hyperlink{classPair_ab76fff1f93ef8974bec7430bd67b916d}{Pair()}, Pair.\+A(a), Pair.\+B(b) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em object} & of type A \\
+\hline
+{\em object} & of type B \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Helper_8hpp_source_l00046}{46} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{Pair@{Pair}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!Pair@{Pair}}
+\paragraph[{\texorpdfstring{operator$<$(\+Pair$<$ A, B $>$ const \&\+P) const }{operator<(Pair< A, B > const &P) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename A, typename B$>$ {\bf C\+U\+D\+A\+\_\+\+C\+A\+LL} bool {\bf Pair}$<$ A, B $>$\+::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{{\bf Pair}$<$ A, B $>$ const \&}]{P}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classPair_ab2e5000f2ce579285f773fafca762fb7}{}\label{classPair_ab2e5000f2ce579285f773fafca762fb7}
+
+
+overridding of \textquotesingle{}$<$\textquotesingle{} operator. 
+
+Used to sort vectors of element type Pair$<$\+A,\+B$>$. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classPair}{Pair}} & P of types A, and B \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean value comparing the first elements 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Helper_8hpp_source_l00059}{59} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+\index{Pair@{Pair}!operator==@{operator==}}
+\index{operator==@{operator==}!Pair@{Pair}}
+\paragraph[{\texorpdfstring{operator==(\+Pair$<$ A, B $>$ const \&\+P) const }{operator==(Pair< A, B > const &P) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename A, typename B$>$ {\bf C\+U\+D\+A\+\_\+\+C\+A\+LL} bool {\bf Pair}$<$ A, B $>$\+::operator== (
+\begin{DoxyParamCaption}
+\item[{{\bf Pair}$<$ A, B $>$ const \&}]{P}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classPair_a8e382aa87f8063084ecea74136a35ace}{}\label{classPair_a8e382aa87f8063084ecea74136a35ace}
+
+
+overridding of \textquotesingle{}==\textquotesingle{} operator. 
+
+
+
+Definition at line \hyperlink{Helper_8hpp_source_l00064}{64} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+
+
+\subsubsection{Member Data Documentation}
+\index{Pair@{Pair}!first@{first}}
+\index{first@{first}!Pair@{Pair}}
+\paragraph[{\texorpdfstring{first}{first}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename A, typename B$>$ A {\bf Pair}$<$ A, B $>$\+::first}\hypertarget{classPair_a98924311a2986df358d3b1965f8abd06}{}\label{classPair_a98924311a2986df358d3b1965f8abd06}
+
+
+First member of \hyperlink{classPair}{Pair}. Can be used as an index. 
+
+
+
+Definition at line \hyperlink{Helper_8hpp_source_l00031}{31} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+\index{Pair@{Pair}!second@{second}}
+\index{second@{second}!Pair@{Pair}}
+\paragraph[{\texorpdfstring{second}{second}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename A, typename B$>$ B {\bf Pair}$<$ A, B $>$\+::second}\hypertarget{classPair_af49ec2d61a46cad5cd1227dba4932aff}{}\label{classPair_af49ec2d61a46cad5cd1227dba4932aff}
+
+
+Second member of \hyperlink{classPair}{Pair}. Can be used as mapped value. 
+
+
+
+Definition at line \hyperlink{Helper_8hpp_source_l00033}{33} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Helper_8hpp}{Helper.\+hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,65 @@
+\hypertarget{Cam__Writer_8hpp_source}{}\subsection{Cam\+\_\+\+Writer.\+hpp}
+\label{Cam__Writer_8hpp_source}\index{include/\+Cam\+\_\+\+Writer.\+hpp@{include/\+Cam\+\_\+\+Writer.\+hpp}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#include <iostream>} 
+00002 \textcolor{preprocessor}{#include <sys/ipc.h>} \textcolor{comment}{// ftok()}
+00003 \textcolor{preprocessor}{#include <sys/types.h>} \textcolor{comment}{// ftok(),}
+00004 \textcolor{preprocessor}{#include <sys/mman.h>} \textcolor{comment}{// shm\_open()}
+00005 \textcolor{preprocessor}{#include <sys/stat.h>} \textcolor{comment}{// shm\_opem(), sem\_open()}
+00006 \textcolor{preprocessor}{#include <fcntl.h>} \textcolor{comment}{// shm\_open(), sem\_open()}
+00007 \textcolor{preprocessor}{#include <semaphore.h>} \textcolor{comment}{// sem\_open()}
+00008 \textcolor{preprocessor}{#include <string.h>} \textcolor{comment}{// memcpy()}
+00009 \textcolor{preprocessor}{#include <stdio.h>} 
+00010 \textcolor{preprocessor}{#include <unistd.h>} \textcolor{comment}{// close()}
+00011 
+00012 \textcolor{preprocessor}{#include <opencv2/opencv.hpp>}
+00013 
+00014 \textcolor{preprocessor}{#include <librealsense2/rs.hpp>}     \textcolor{comment}{// Include RealSense Cross Platform API}
+00015 
+00016 \textcolor{preprocessor}{#include "\hyperlink{Camera_8hpp}{Camera.hpp}"}
+00017 
+00018 
+00019 
+00020 
+\hypertarget{Cam__Writer_8hpp_source.tex_l00021}{}\hyperlink{classWriter}{00021} \textcolor{keyword}{class }\hyperlink{classWriter}{Writer} \{
+00022 
+00023 \textcolor{keyword}{public}:
+00024 
+\hypertarget{Cam__Writer_8hpp_source.tex_l00025}{}\hyperlink{classWriter_a30bbe10cfaf2e4310ac34edb3b5024cf}{00025}     rs2::frameset \hyperlink{classWriter_afbf490edaf8145084a3e6e0afe770d2d}{fs\_d435}, \hyperlink{classWriter_a30bbe10cfaf2e4310ac34edb3b5024cf}{fs\_t265};
+\hypertarget{Cam__Writer_8hpp_source.tex_l00026}{}\hyperlink{classWriter_a5bd1f2b9e0a6250fc48d2f34cd2260e8}{00026}     \hyperlink{classCamera}{Camera} \hyperlink{classWriter_a5bd1f2b9e0a6250fc48d2f34cd2260e8}{C};
+\hypertarget{Cam__Writer_8hpp_source.tex_l00027}{}\hyperlink{classWriter_ab564a66fcd4c18866c3cddc48682d198}{00027}     \hyperlink{structBool__Init}{Bool\_Init} \hyperlink{classWriter_ab564a66fcd4c18866c3cddc48682d198}{b};
+00028 
+\hypertarget{Cam__Writer_8hpp_source.tex_l00029}{}\hyperlink{classWriter_a36ab21701792358b8a1c38fb805d1330}{00029}     \textcolor{keywordtype}{int} \hyperlink{classWriter_ae1327a774b081c2b229f46415148dd2a}{fd\_d435}, \hyperlink{classWriter_a36ab21701792358b8a1c38fb805d1330}{fd\_t265}; \textcolor{comment}{// file descriptors for shared memory}
+\hypertarget{Cam__Writer_8hpp_source.tex_l00030}{}\hyperlink{classWriter_a032ba2a2ddadb84b74359b9cb073793e}{00030}     \textcolor{keywordtype}{void} * \hyperlink{classWriter_a860ca523e0f6572f5ff5b8ea1dfc9771}{ptr\_d435}, \hyperlink{classWriter_a032ba2a2ddadb84b74359b9cb073793e}{ptr\_t265}; \textcolor{comment}{// shared memory pointers}
+\hypertarget{Cam__Writer_8hpp_source.tex_l00031}{}\hyperlink{classWriter_a8858a86e7de822740c0aa52e6386cf58}{00031}     sem\_t * \hyperlink{classWriter_af8ffd0d121f0c5aed20140d69c2f0c45}{semptr\_d435}, \hyperlink{classWriter_a8858a86e7de822740c0aa52e6386cf58}{semptr\_t265}; \textcolor{comment}{// semaphores for locking}
+00032 
+00033 
+\hypertarget{Cam__Writer_8hpp_source.tex_l00034}{}\hyperlink{classWriter_a4193b0f06fb33e260e5eb26ea9356a1c}{00034}     \textcolor{keywordtype}{bool} \hyperlink{classWriter_a4193b0f06fb33e260e5eb26ea9356a1c}{Init} () \{
+00035 
+00036         b = C.\hyperlink{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{Init}();
+00037 
+00038         fd\_d435 = shm\_open (\textcolor{stringliteral}{"/D435"}, O\_RDWR | O\_CREAT, S\_IRUSR | S\_IWUSR | S\_IRGRP | S\_IROTH);
+00039         fd\_t265 = shm\_open (\textcolor{stringliteral}{"/T265"}, O\_RDWR | O\_CREAT, S\_IRUSR | S\_IWUSR | S\_IRGRP | S\_IROTH);
+00040         \textcolor{keywordflow}{if} (fd\_d435 < 0 || fd\_t265 < 0)
+00041             \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+00042 
+00043         ptr\_d435 = mmap (NULL, \textcolor{keyword}{sizeof}(rs2::frameset), PROT\_READ | PROT\_WRITE, MAP\_SHARED, fd\_d435, 0);
+00044         ptr\_t265 = mmap (NULL, \textcolor{keyword}{sizeof}(rs2::frameset), PROT\_READ | PROT\_WRITE, MAP\_SHARED, fd\_t265, 0);
+00045         \textcolor{keywordflow}{if} (ptr\_d435 == NULL || ptr\_t265 == NULL)
+00046             \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+00047         ftruncate (fd\_d435, \textcolor{keyword}{sizeof}(rs2::frameset));
+00048         ftruncate (fd\_t265, \textcolor{keyword}{sizeof}(rs2::frameset));
+00049 
+00050         sem\_t * semptr\_d435 = sem\_open (\textcolor{stringliteral}{"/D435"}, O\_CREAT, S\_IRUSR | S\_IWUSR | S\_IRGRP | S\_IWGRP | S\_IROTH |
+       S\_IWOTH, 1);
+00051         sem\_t * semptr\_t265 = sem\_open (\textcolor{stringliteral}{"/T265"}, O\_CREAT, S\_IRUSR | S\_IWUSR | S\_IRGRP | S\_IWGRP | S\_IROTH |
+       S\_IWOTH, 1);
+00052         \textcolor{keywordflow}{if} (semptr\_d435 == (\textcolor{keywordtype}{void} *) -1 || semptr\_t265 == (\textcolor{keywordtype}{void} *) -1)
+00053             \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+00054 
+00055         \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+00056     \}
+00057     
+00058 \};
+\end{DoxyCode}

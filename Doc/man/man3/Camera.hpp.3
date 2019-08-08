@@ -1,0 +1,172 @@
+.TH "include/Camera.hpp" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/Camera.hpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <librealsense2/rs\&.hpp>\fP
+.br
+\fC#include <string>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBBool_Init\fP"
+.br
+.RI "\fIStruct returned on \fBCamera::Init()\fP \fP"
+.ti -1c
+.RI "class \fBCamera\fP"
+.br
+.RI "\fI\fBCamera\fP streams abstraction class\&. \fP"
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBBUFFER_LENGTH\fP   5"
+.br
+.RI "\fILength of Queue Buffers for cameras\&. \fP"
+.ti -1c
+.RI "#define \fBINPUT_RATE\fP   50"
+.br
+.RI "\fIMaximum rate at which data receiving thread runs\&. \fP"
+.ti -1c
+.RI "#define \fBMAP_UPDATE_RATE\fP   10"
+.br
+.RI "\fIRate at which the Global Map is updated\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static const int \fBd_fps\fP = 90"
+.br
+.RI "\fIFrame rate for D435\&. \fP"
+.in -1c
+.PP
+.RI "\fBD435: Image Dimensions\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "static const int \fBw\fP = 640"
+.br
+.ti -1c
+.RI "static const int \fBh\fP = 480"
+.br
+.RI "\fIHeight\&. \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "static const double \fBD435_MIN\fP = 0\&.11"
+.br
+.RI "\fIMinimum and maximum depth for D435\&. \fP"
+.ti -1c
+.RI "static const double \fBD435_MAX\fP = 2\&.00"
+.br
+.RI "\fIMinimum and maximum depth for D435\&. \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBCamera Serial Numbers\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "static const std::string \fBDEPTH_SNO\fP = '819612073628'"
+.br
+.RI "\fISerial number of D435\&. \fP"
+.ti -1c
+.RI "static const std::string \fBTRACK_SNO\fP = '905312110622'"
+.br
+.in -1c
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define BUFFER_LENGTH   5"
+
+.PP
+Length of Queue Buffers for cameras\&. 
+.PP
+Definition at line 38 of file Camera\&.hpp\&.
+.SS "#define INPUT_RATE   50"
+
+.PP
+Maximum rate at which data receiving thread runs\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBCPU_main\&.cpp\fP, GPU_main\&.cpp 
+.RE
+.PP
+
+.PP
+Definition at line 42 of file Camera\&.hpp\&.
+.SS "#define MAP_UPDATE_RATE   10"
+
+.PP
+Rate at which the Global Map is updated\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBCPU_main\&.cpp\fP, GPU_main\&.cpp 
+.RE
+.PP
+
+.PP
+Definition at line 46 of file Camera\&.hpp\&.
+.SH "Variable Documentation"
+.PP 
+.SS "const double D435_MAX = 2\&.00\fC [static]\fP"
+
+.PP
+Minimum and maximum depth for D435\&. NOTE: don't use D435_MIN less than 0\&.11 m 
+.PP
+Definition at line 27 of file Camera\&.hpp\&.
+.SS "const double D435_MIN = 0\&.11\fC [static]\fP"
+
+.PP
+Minimum and maximum depth for D435\&. NOTE: don't use D435_MIN less than 0\&.11 m 
+.PP
+Definition at line 26 of file Camera\&.hpp\&.
+.SS "const int d_fps = 90\fC [static]\fP"
+
+.PP
+Frame rate for D435\&. 
+.PP
+Definition at line 20 of file Camera\&.hpp\&.
+.SS "const std::string DEPTH_SNO = '819612073628'\fC [static]\fP"
+
+.PP
+Serial number of D435\&. 
+.PP
+Definition at line 33 of file Camera\&.hpp\&.
+.SS "const int h = 480\fC [static]\fP"
+
+.PP
+Height\&. 
+.PP
+Definition at line 17 of file Camera\&.hpp\&.
+.SS "const std::string TRACK_SNO = '905312110622'\fC [static]\fP"
+Serial number of T265 
+.PP
+Definition at line 34 of file Camera\&.hpp\&.
+.SS "const int w = 640\fC [static]\fP"
+Width 
+.PP
+Definition at line 15 of file Camera\&.hpp\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

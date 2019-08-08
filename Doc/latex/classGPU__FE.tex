@@ -1,0 +1,276 @@
+\hypertarget{classGPU__FE}{}\subsection{G\+P\+U\+\_\+\+FE Class Reference}
+\label{classGPU__FE}\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+
+
+Wrapper class for \hyperlink{classocc__grid}{occ\+\_\+grid}.  
+
+
+
+
+Inheritance diagram for G\+P\+U\+\_\+\+FE\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{classGPU__FE__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for G\+P\+U\+\_\+\+FE\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classGPU__FE__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGPU__FE_a2c2e9757a562ef8c33ce9fb474ae0742}{G\+P\+U\+\_\+\+FE} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{Update} (\hyperlink{classCamera}{Camera} const \&\hyperlink{classGPU__FE_aada926a7b999648bcb837507bf6a75d3}{C}, rs2\+\_\+pose const \&pose, cv\+::\+Mat const \&depth)
+\begin{DoxyCompactList}\small\item\em Updates the measurement data in the global map. \end{DoxyCompactList}\item 
+void \hyperlink{classGPU__FE_aea86626bdab826bc91b955ad6e5f6653}{Points} (std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$points)
+\begin{DoxyCompactList}\small\item\em Appends all points in global map to the vector. \end{DoxyCompactList}\item 
+\hyperlink{classGPU__FE_a1da80fa2f9f13df184e545e46f9d9270}{$\sim$\+G\+P\+U\+\_\+\+FE} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+thrust\+::host\+\_\+vector$<$ \hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $>$ \hyperlink{classGPU__FE_a7418d50e4e22db3671d9c000344aaddc}{HV}
+\begin{DoxyCompactList}\small\item\em Vector in host memory containing root voxels. \end{DoxyCompactList}\item 
+long \hyperlink{classGPU__FE_a0bd3424bf1e7775fc5eef2d17714cd94}{s}
+\begin{DoxyCompactList}\small\item\em Size of HV vector. \end{DoxyCompactList}\item 
+\hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $\ast$ \hyperlink{classGPU__FE_a15cab1132ca16d50844a60cc09235567}{dtemp}
+\begin{DoxyCompactList}\small\item\em Temporary array stored in device memory. \end{DoxyCompactList}\item 
+\hyperlink{classPair}{Pair}$<$ long, \hyperlink{classPair}{Pair}$<$ \hyperlink{classvoxel}{voxel} $\ast$, \hyperlink{structPoint}{Point} $>$ $>$ $\ast$ \hyperlink{classGPU__FE_afd39eabc36a87a6cde62b57296efcc8a}{htemp}
+\begin{DoxyCompactList}\small\item\em Temporary array stored in host memory. \end{DoxyCompactList}\item 
+unsigned short $\ast$ \hyperlink{classGPU__FE_a20be80d2f552afc21f97831fcc4983e9}{D}
+\begin{DoxyCompactList}\small\item\em Pointer to depth image stored on device. \end{DoxyCompactList}\item 
+\hyperlink{structPose}{Pose} $\ast$ \hyperlink{classGPU__FE_a1a99fc5bf3cc72c1d39f779e632f5fe7}{P}
+\begin{DoxyCompactList}\small\item\em Pointer to \hyperlink{structPose}{Pose} struct stored on device. \end{DoxyCompactList}\item 
+\hyperlink{structCam}{Cam} $\ast$ \hyperlink{classGPU__FE_aada926a7b999648bcb837507bf6a75d3}{C}
+\begin{DoxyCompactList}\small\item\em Pointer ot \hyperlink{structCam}{Cam} struct stored on device. \end{DoxyCompactList}\item 
+long $\ast$ \hyperlink{classGPU__FE_a1e2b5d0d82b739ab93b43e2bb862392a}{S}
+\begin{DoxyCompactList}\small\item\em Size of HV vector; passed to device. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Wrapper class for \hyperlink{classocc__grid}{occ\+\_\+grid}. 
+
+This class acts as an abstraction for the C\+U\+DA kernel methods. Also inherits virtual class \hyperlink{classMap__FE}{Map\+\_\+\+FE}, so implements all its virtual methods. \begin{DoxySeeAlso}{See also}
+\hyperlink{classMap__FE}{Map\+\_\+\+FE} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00603}{603} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{G\+P\+U\+\_\+\+F\+E()}{GPU_FE()}}]{\setlength{\rightskip}{0pt plus 5cm}G\+P\+U\+\_\+\+F\+E\+::\+G\+P\+U\+\_\+\+FE (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classGPU__FE_a2c2e9757a562ef8c33ce9fb474ae0742}{}\label{classGPU__FE_a2c2e9757a562ef8c33ce9fb474ae0742}
+
+
+Default Constructor. 
+
+Static memory required for the device members are allocated on device memory. Space for temporary array on host is allocated in host heap memory. 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00638}{638} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!````~G\+P\+U\+\_\+\+FE@{$\sim$\+G\+P\+U\+\_\+\+FE}}
+\index{````~G\+P\+U\+\_\+\+FE@{$\sim$\+G\+P\+U\+\_\+\+FE}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{$\sim$\+G\+P\+U\+\_\+\+F\+E()}{~GPU_FE()}}]{\setlength{\rightskip}{0pt plus 5cm}G\+P\+U\+\_\+\+F\+E\+::$\sim$\+G\+P\+U\+\_\+\+FE (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classGPU__FE_a1da80fa2f9f13df184e545e46f9d9270}{}\label{classGPU__FE_a1da80fa2f9f13df184e545e46f9d9270}
+
+
+Destructor. 
+
+Deletes the global map \begin{DoxySeeAlso}{See also}
+Delete() 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00729}{729} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!Points@{Points}}
+\index{Points@{Points}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{Points(std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$points)}{Points(std::vector< std::tuple< float, float, float, float > > *points)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+P\+U\+\_\+\+F\+E\+::\+Points (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$}]{points}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classGPU__FE_aea86626bdab826bc91b955ad6e5f6653}{}\label{classGPU__FE_aea86626bdab826bc91b955ad6e5f6653}
+
+
+Appends all points in global map to the vector. 
+
+This is a single threaded kernel method call. 
+\begin{DoxyParams}{Parameters}
+{\em vector} & of points \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh_afc844d313aa2b2353c757fb063b74b96}{Print()}, \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Map\+\_\+\+F\+E\+::\+Points()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Map\+\_\+\+FE}.
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00704}{704} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!Update@{Update}}
+\index{Update@{Update}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{Update(\+Camera const \&\+C, rs2\+\_\+pose const \&pose, cv\+::\+Mat const \&depth)}{Update(Camera const &C, rs2_pose const &pose, cv::Mat const &depth)}}]{\setlength{\rightskip}{0pt plus 5cm}void G\+P\+U\+\_\+\+F\+E\+::\+Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Camera} const \&}]{C, }
+\item[{rs2\+\_\+pose const \&}]{pose, }
+\item[{cv\+::\+Mat const \&}]{depth}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{}\label{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}
+
+
+Updates the measurement data in the global map. 
+
+Calls the global kernel method \hyperlink{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}{Update\+\_\+root()}. Structs to be passed to the kernel are set up and the input parameters ae copied on to the device memory. After the call to the kernel has finished, the new root voxels are stored in HV and sorted by their indices. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classCamera}{Camera}} & object \\
+\hline
+{\em pose} & of T265 \\
+\hline
+{\em 16-\/bit} & D435 depth image \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}{Update\+\_\+root()}, \hyperlink{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{Map\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{Map\+\_\+\+FE}.
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00658}{658} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!C@{C}}
+\index{C@{C}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{C}{C}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Cam}$\ast$ G\+P\+U\+\_\+\+F\+E\+::C\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_aada926a7b999648bcb837507bf6a75d3}{}\label{classGPU__FE_aada926a7b999648bcb837507bf6a75d3}
+
+
+Pointer ot \hyperlink{structCam}{Cam} struct stored on device. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00628}{628} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!D@{D}}
+\index{D@{D}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{D}{D}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned short$\ast$ G\+P\+U\+\_\+\+F\+E\+::D\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_a20be80d2f552afc21f97831fcc4983e9}{}\label{classGPU__FE_a20be80d2f552afc21f97831fcc4983e9}
+
+
+Pointer to depth image stored on device. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00624}{624} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!dtemp@{dtemp}}
+\index{dtemp@{dtemp}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{dtemp}{dtemp}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pair}$<$ long, {\bf Pair}$<${\bf voxel} $\ast$, {\bf Point}$>$ $>$$\ast$ G\+P\+U\+\_\+\+F\+E\+::dtemp\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_a15cab1132ca16d50844a60cc09235567}{}\label{classGPU__FE_a15cab1132ca16d50844a60cc09235567}
+
+
+Temporary array stored in device memory. 
+
+This temporary array is used to store pointers to voxels created during current update on the device. \begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh_a935fc0c42796b23607cf6f81a1e95e8d}{Update\+\_\+root} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00618}{618} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!htemp@{htemp}}
+\index{htemp@{htemp}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{htemp}{htemp}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pair}$<$ long, {\bf Pair}$<${\bf voxel} $\ast$, {\bf Point}$>$ $>$$\ast$ G\+P\+U\+\_\+\+F\+E\+::htemp\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_afd39eabc36a87a6cde62b57296efcc8a}{}\label{classGPU__FE_afd39eabc36a87a6cde62b57296efcc8a}
+
+
+Temporary array stored in host memory. 
+
+This temporary array is used to copy the contents of dtemp vector and append them to HV vector. 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00622}{622} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!HV@{HV}}
+\index{HV@{HV}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{HV}{HV}}]{\setlength{\rightskip}{0pt plus 5cm}thrust\+::host\+\_\+vector$<$ {\bf Pair}$<$ long, {\bf Pair}$<${\bf voxel} $\ast$, {\bf Point}$>$ $>$ $>$ G\+P\+U\+\_\+\+F\+E\+::\+HV\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_a7418d50e4e22db3671d9c000344aaddc}{}\label{classGPU__FE_a7418d50e4e22db3671d9c000344aaddc}
+
+
+Vector in host memory containing root voxels. 
+
+The vector is sorted using the index of the root voxels and is copied on to a device-\/side vector before passing to the kernel methods. 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00611}{611} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!P@{P}}
+\index{P@{P}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{P}{P}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pose}$\ast$ G\+P\+U\+\_\+\+F\+E\+::P\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_a1a99fc5bf3cc72c1d39f779e632f5fe7}{}\label{classGPU__FE_a1a99fc5bf3cc72c1d39f779e632f5fe7}
+
+
+Pointer to \hyperlink{structPose}{Pose} struct stored on device. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00626}{626} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!s@{s}}
+\index{s@{s}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{s}{s}}]{\setlength{\rightskip}{0pt plus 5cm}long G\+P\+U\+\_\+\+F\+E\+::s\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_a0bd3424bf1e7775fc5eef2d17714cd94}{}\label{classGPU__FE_a0bd3424bf1e7775fc5eef2d17714cd94}
+
+
+Size of HV vector. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00613}{613} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}!S@{S}}
+\index{S@{S}!G\+P\+U\+\_\+\+FE@{G\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{S}{S}}]{\setlength{\rightskip}{0pt plus 5cm}long$\ast$ G\+P\+U\+\_\+\+F\+E\+::S\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classGPU__FE_a1e2b5d0d82b739ab93b43e2bb862392a}{}\label{classGPU__FE_a1e2b5d0d82b739ab93b43e2bb862392a}
+
+
+Size of HV vector; passed to device. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00630}{630} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8cuh}{Voxel.\+cuh}\end{DoxyCompactItemize}

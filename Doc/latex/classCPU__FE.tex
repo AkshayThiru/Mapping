@@ -1,0 +1,211 @@
+\hypertarget{classCPU__FE}{}\subsection{C\+P\+U\+\_\+\+FE Class Reference}
+\label{classCPU__FE}\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+
+
+Wrapper class for \hyperlink{classocc__grid}{occ\+\_\+grid}.  
+
+
+
+
+{\ttfamily \#include $<$Voxel.\+hpp$>$}
+
+
+
+Inheritance diagram for C\+P\+U\+\_\+\+FE\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{classCPU__FE__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for C\+P\+U\+\_\+\+FE\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{classCPU__FE__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCPU__FE_a17780bbe106fb8f752e06987b5eefc7f}{C\+P\+U\+\_\+\+FE} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{Update} (\hyperlink{classCamera}{Camera} const \&C, rs2\+\_\+pose const \&pose, cv\+::\+Mat const \&depth)
+\begin{DoxyCompactList}\small\item\em Updates the measurement data in the global map. \end{DoxyCompactList}\item 
+void \hyperlink{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{Points} (std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$points)
+\begin{DoxyCompactList}\small\item\em Appends all points in global map to the vector. \end{DoxyCompactList}\item 
+\hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{$\sim$\+C\+P\+U\+\_\+\+FE} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classocc__grid}{occ\+\_\+grid} $\ast$ \hyperlink{classCPU__FE_ad3779fc0a23127e425d8f0fc3c2661dc}{g\+\_\+map}
+\begin{DoxyCompactList}\small\item\em Global map object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Wrapper class for \hyperlink{classocc__grid}{occ\+\_\+grid}. 
+
+This class acts as an abstraction for the \hyperlink{classocc__grid}{occ\+\_\+grid} class. Also inherits virtual class \hyperlink{classMap__FE}{Map\+\_\+\+FE}, so implements all its virtual methods. \begin{DoxySeeAlso}{See also}
+\hyperlink{classMap__FE}{Map\+\_\+\+FE} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00460}{460} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}!C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}!C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{C\+P\+U\+\_\+\+F\+E()}{CPU_FE()}}]{\setlength{\rightskip}{0pt plus 5cm}C\+P\+U\+\_\+\+F\+E\+::\+C\+P\+U\+\_\+\+FE (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classCPU__FE_a17780bbe106fb8f752e06987b5eefc7f}{}\label{classCPU__FE_a17780bbe106fb8f752e06987b5eefc7f}
+
+
+Default Constructor. 
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00472}{472} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}!````~C\+P\+U\+\_\+\+FE@{$\sim$\+C\+P\+U\+\_\+\+FE}}
+\index{````~C\+P\+U\+\_\+\+FE@{$\sim$\+C\+P\+U\+\_\+\+FE}!C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{$\sim$\+C\+P\+U\+\_\+\+F\+E()}{~CPU_FE()}}]{\setlength{\rightskip}{0pt plus 5cm}C\+P\+U\+\_\+\+F\+E\+::$\sim$\+C\+P\+U\+\_\+\+FE (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{}\label{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}
+
+
+Destructor. 
+
+Deletes the global map \begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{occ\+\_\+grid\+::free\+\_\+mem()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00518}{518} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Function Documentation}
+\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}!Points@{Points}}
+\index{Points@{Points}!C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{Points(std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$points)}{Points(std::vector< std::tuple< float, float, float, float > > *points)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+\_\+\+F\+E\+::\+Points (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$}]{points}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{}\label{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}
+
+
+Appends all points in global map to the vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vector} & of points \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}{occ\+\_\+grid\+::all\+\_\+points()}, \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Map\+\_\+\+F\+E\+::\+Points()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Map\+\_\+\+FE}.
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00510}{510} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{classCPU__FE_a4b085e590daa33cf1e2f100a58236009_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}!Update@{Update}}
+\index{Update@{Update}!C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{Update(\+Camera const \&\+C, rs2\+\_\+pose const \&pose, cv\+::\+Mat const \&depth)}{Update(Camera const &C, rs2_pose const &pose, cv::Mat const &depth)}}]{\setlength{\rightskip}{0pt plus 5cm}void C\+P\+U\+\_\+\+F\+E\+::\+Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Camera} const \&}]{C, }
+\item[{rs2\+\_\+pose const \&}]{pose, }
+\item[{cv\+::\+Mat const \&}]{depth}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{}\label{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}
+
+
+Updates the measurement data in the global map. 
+
+Sequencially calls \hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{occ\+\_\+grid\+::update\+\_\+point()} on all points in the depth image. The co-\/ordinates are transformed from the D435 frame to T265 global frame and then passed on to \hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{occ\+\_\+grid\+::update\+\_\+point()}. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classCamera}{Camera}} & object \\
+\hline
+{\em pose} & of T265 \\
+\hline
+{\em 16-\/bit} & D435 depth image \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{occ\+\_\+grid\+::update\+\_\+point()}, \hyperlink{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{Map\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{Map\+\_\+\+FE}.
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00484}{484} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}!g\+\_\+map@{g\+\_\+map}}
+\index{g\+\_\+map@{g\+\_\+map}!C\+P\+U\+\_\+\+FE@{C\+P\+U\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{g\+\_\+map}{g_map}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf occ\+\_\+grid}$\ast$ C\+P\+U\+\_\+\+F\+E\+::g\+\_\+map\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classCPU__FE_ad3779fc0a23127e425d8f0fc3c2661dc}{}\label{classCPU__FE_ad3779fc0a23127e425d8f0fc3c2661dc}
+
+
+Global map object. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid}{occ\+\_\+grid} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00467}{467} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8hpp}{Voxel.\+hpp}\end{DoxyCompactItemize}

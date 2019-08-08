@@ -1,0 +1,262 @@
+\hypertarget{classocc__grid}{}\subsection{occ\+\_\+grid Class Reference}
+\label{classocc__grid}\index{occ\+\_\+grid@{occ\+\_\+grid}}
+
+
+The top-\/most class managing the global map.  
+
+
+
+
+{\ttfamily \#include $<$Voxel.\+hpp$>$}
+
+
+
+Collaboration diagram for occ\+\_\+grid\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{classocc__grid__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classocc__grid_a2bd8f966cb86730569eef2322e4fe263}{occ\+\_\+grid} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{update\+\_\+point} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Updates point in the global map. \end{DoxyCompactList}\item 
+void \hyperlink{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}{all\+\_\+points} (std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$set)
+\begin{DoxyCompactList}\small\item\em Appends points to the vector of points. \end{DoxyCompactList}\item 
+void \hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{free\+\_\+mem} ()
+\begin{DoxyCompactList}\small\item\em Deletes the global map. \end{DoxyCompactList}\item 
+unsigned long \hyperlink{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{index} (std\+::array$<$ float, 3 $>$ p)
+\begin{DoxyCompactList}\small\item\em Calculates index used as key to index into root. \end{DoxyCompactList}\item 
+std\+::array$<$ float, 3 $>$ \hyperlink{classocc__grid_abf7ece8bcafa68e1292b0be52a5d9996}{mod\+\_\+p} (std\+::array$<$ float, 3 $>$ p)
+\begin{DoxyCompactList}\small\item\em Calculates co-\/ordinate of point modulo edge length. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ unsigned long, std\+::pair$<$ \hyperlink{classvoxel}{voxel} $\ast$, std\+::array$<$ float, 3 $>$ $>$ $>$ \hyperlink{classocc__grid_ae5ebfc317affec175dba9d27f5fcf2fa}{root}
+\begin{DoxyCompactList}\small\item\em Array of pointers and origins of root voxels. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+The top-\/most class managing the global map. 
+
+An object of this class maintains the map. This class is specific to the C\+PU mode of operation and can be thought of as an interface between the user and the global map. A map, which is a red-\/black tree, is maintained, containing all the root voxels in the map. The equivalent of this class for G\+PU code are the {\bfseries global} methods called from the host on the device. 
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00351}{351} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{occ\+\_\+grid@{occ\+\_\+grid}!occ\+\_\+grid@{occ\+\_\+grid}}
+\index{occ\+\_\+grid@{occ\+\_\+grid}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{occ\+\_\+grid()}{occ_grid()}}]{\setlength{\rightskip}{0pt plus 5cm}occ\+\_\+grid\+::occ\+\_\+grid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classocc__grid_a2bd8f966cb86730569eef2322e4fe263}{}\label{classocc__grid_a2bd8f966cb86730569eef2322e4fe263}
+
+
+Default Constructor. 
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00365}{365} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{occ\+\_\+grid@{occ\+\_\+grid}!all\+\_\+points@{all\+\_\+points}}
+\index{all\+\_\+points@{all\+\_\+points}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{all\+\_\+points(std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$set)}{all_points(std::vector< std::tuple< float, float, float, float > > *set)}}]{\setlength{\rightskip}{0pt plus 5cm}void occ\+\_\+grid\+::all\+\_\+points (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$}]{set}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}{}\label{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}
+
+
+Appends points to the vector of points. 
+
+This method recursively calls \hyperlink{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}{voxel\+::all\+\_\+points()}, to append all the points in the leaf nodes to the vector. This method is called from \hyperlink{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{C\+P\+U\+\_\+\+F\+E\+::\+Points()} 
+\begin{DoxyParams}{Parameters}
+{\em vector} & of point co-\/ordinates \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}{voxel\+::all\+\_\+points()}, \hyperlink{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{C\+P\+U\+\_\+\+F\+E\+::\+Points()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00397}{397} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=307pt]{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{occ\+\_\+grid@{occ\+\_\+grid}!free\+\_\+mem@{free\+\_\+mem}}
+\index{free\+\_\+mem@{free\+\_\+mem}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{free\+\_\+mem()}{free_mem()}}]{\setlength{\rightskip}{0pt plus 5cm}void occ\+\_\+grid\+::free\+\_\+mem (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{}\label{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}
+
+
+Deletes the global map. 
+
+This method recursively calls \hyperlink{classvoxel_aff25abf72186eb31821d1ffacf557c67}{voxel\+::free\+\_\+mem()}, to delete all the nodes in the octree. This method is called from \hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{C\+P\+U\+\_\+\+F\+E\+::$\sim$\+C\+P\+U\+\_\+\+F\+E()} \begin{DoxySeeAlso}{See also}
+\hyperlink{classvoxel_aff25abf72186eb31821d1ffacf557c67}{voxel\+::free\+\_\+mem()}, \hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{C\+P\+U\+\_\+\+F\+E\+::$\sim$\+C\+P\+U\+\_\+\+F\+E()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00409}{409} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=327pt]{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{occ\+\_\+grid@{occ\+\_\+grid}!index@{index}}
+\index{index@{index}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{index(std\+::array$<$ float, 3 $>$ p)}{index(std::array< float, 3 > p)}}]{\setlength{\rightskip}{0pt plus 5cm}unsigned long occ\+\_\+grid\+::index (
+\begin{DoxyParamCaption}
+\item[{std\+::array$<$ float, 3 $>$}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{}\label{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}
+
+
+Calculates index used as key to index into root. 
+
+This is used to calculate a unique whole number from a set of three integers\+: indices of origin of the voxel. Instead of using three nested maps each trying to index one co-\/ordinate at each level ( $ O(\ln(N_x)+\ln(N_y)+\ln(N_z))$), a bijective mapping from $ \mathbb{Z}^{3} \to \mathbb{N}$ is defined. Although the order of the complexity remains the same, the look-\/up is guaranteed to occur in less time than the previous case. 
+\begin{DoxyParams}{Parameters}
+{\em co-\/ordinates} & of the origin of voxel \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+index of point 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{occ\+\_\+grid\+::update\+\_\+point()}, \hyperlink{classocc__grid_ae5ebfc317affec175dba9d27f5fcf2fa}{root} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00435}{435} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=245pt]{classocc__grid_a0fb045d82217675decfc9b9289ad35ea_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{occ\+\_\+grid@{occ\+\_\+grid}!mod\+\_\+p@{mod\+\_\+p}}
+\index{mod\+\_\+p@{mod\+\_\+p}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{mod\+\_\+p(std\+::array$<$ float, 3 $>$ p)}{mod_p(std::array< float, 3 > p)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::array$<$float, 3$>$ occ\+\_\+grid\+::mod\+\_\+p (
+\begin{DoxyParamCaption}
+\item[{std\+::array$<$ float, 3 $>$}]{p}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classocc__grid_abf7ece8bcafa68e1292b0be52a5d9996}{}\label{classocc__grid_abf7ece8bcafa68e1292b0be52a5d9996}
+
+
+Calculates co-\/ordinate of point modulo edge length. 
+
+Returns $p \mod VOX\_L[0, 1)^3$ 
+\begin{DoxyParams}{Parameters}
+{\em co-\/ordinate} & of point \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+modulo of co-\/ordinate of point 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00449}{449} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{occ\+\_\+grid@{occ\+\_\+grid}!update\+\_\+point@{update\+\_\+point}}
+\index{update\+\_\+point@{update\+\_\+point}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{update\+\_\+point(float x, float y, float z)}{update_point(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}void occ\+\_\+grid\+::update\+\_\+point (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{}\label{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}
+
+
+Updates point in the global map. 
+
+This method recursively calls \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()}, to update the point in the respective voxel. This method itself is called upon by \hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{C\+P\+U\+\_\+\+F\+E\+::\+Update()}. The information on the origin of the voxel is used to identify the voxel, and the index is used as a key to search in the red-\/black tree. This method is the same as \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()}, other than the fact that the point doesn\textquotesingle{}t directly map to any \char`\"{}child\char`\"{} voxel. 
+\begin{DoxyParams}{Parameters}
+{\em global} & co-\/ordinates of the point to be updated \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{index()}, \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()}, \hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{C\+P\+U\+\_\+\+F\+E\+::\+Update()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00376}{376} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=325pt]{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{occ\+\_\+grid@{occ\+\_\+grid}!root@{root}}
+\index{root@{root}!occ\+\_\+grid@{occ\+\_\+grid}}
+\paragraph[{\texorpdfstring{root}{root}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::map$<$ unsigned long, std\+::pair$<${\bf voxel} $\ast$, std\+::array$<$float, 3$>$ $>$ $>$ occ\+\_\+grid\+::root}\hypertarget{classocc__grid_ae5ebfc317affec175dba9d27f5fcf2fa}{}\label{classocc__grid_ae5ebfc317affec175dba9d27f5fcf2fa}
+
+
+Array of pointers and origins of root voxels. 
+
+This map contains an index calculated from the origin of the root voxel as the key, and a pair containing pointer to root voxel and the co-\/ordinates of the origin of the voxel. A key-\/value paradigm is used in order to implement a red-\/black tree, which brings down look-\/up time from $O(n)$ to $O(\ln(n))$. The index is a unique whole number calculated using the origin of the voxel. \begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{occ\+\_\+grid\+::index()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00362}{362} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8hpp}{Voxel.\+hpp}\end{DoxyCompactItemize}

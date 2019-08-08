@@ -1,0 +1,136 @@
+.TH "include/Logging.hpp" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/Logging.hpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <opencv2/opencv\&.hpp>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <chrono>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include 'gnuplot\-iostream\&.h'\fP
+.br
+\fC#include 'Camera\&.hpp'\fP
+.br
+\fC#include 'Helper\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBLogger\fP"
+.br
+.RI "\fILogging class\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "static const std::string \fBLOG_PATH\fP = '/home/Akshay/Desktop/Test/Mapping/Logs/'"
+.br
+.RI "\fIThe path where the log files will be stored\&. \fP"
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "static const bool \fBp_logging\fP = true"
+.br
+.RI "\fILogging constants\&. \fP"
+.ti -1c
+.RI "static const bool \fBi_logging\fP = true"
+.br
+.RI "\fIIf set to true, depth intrinsics of D435 will be logged\&. \fP"
+.ti -1c
+.RI "static const bool \fBv_logging\fP = false"
+.br
+.RI "\fI(Not recommended) If set to true, video feed from D435 will be logged\&. \fP"
+.ti -1c
+.RI "static const bool \fBm_logging\fP = true"
+.br
+.RI "\fIIf set to true, the global map is logged, which can be plotted using cmd 'gnuplot Display\&.gp'\&. \fP"
+.ti -1c
+.RI "static const bool \fBg_logging\fP = false"
+.br
+.RI "\fI(Not recommended) If set to true, a grid visulaization of map is logged\&. \fP"
+.ti -1c
+.RI "static const bool \fBdisplay\fP = false"
+.br
+.RI "\fI(Turn off for performance) If set to true, the depth feed from D$435 is displayed in real-time\&. \fP"
+.ti -1c
+.RI "static const bool \fBplot_3d\fP = true"
+.br
+.RI "\fI(Turn off for performance) If set to true, a 3-D view of the depth feed from D435 is displayed\&. \fP"
+.in -1c
+.in -1c
+.SH "Variable Documentation"
+.PP 
+.SS "const bool display = false\fC [static]\fP"
+
+.PP
+(Turn off for performance) If set to true, the depth feed from D$435 is displayed in real-time\&. 
+.PP
+Definition at line 36 of file Logging\&.hpp\&.
+.SS "const bool g_logging = false\fC [static]\fP"
+
+.PP
+(Not recommended) If set to true, a grid visulaization of map is logged\&. 
+.PP
+Definition at line 34 of file Logging\&.hpp\&.
+.SS "const bool i_logging = true\fC [static]\fP"
+
+.PP
+If set to true, depth intrinsics of D435 will be logged\&. 
+.PP
+Definition at line 28 of file Logging\&.hpp\&.
+.SS "const std::string LOG_PATH = '/home/Akshay/Desktop/Test/Mapping/Logs/'\fC [static]\fP"
+
+.PP
+The path where the log files will be stored\&. 
+.PP
+Definition at line 42 of file Logging\&.hpp\&.
+.SS "const bool m_logging = true\fC [static]\fP"
+
+.PP
+If set to true, the global map is logged, which can be plotted using cmd 'gnuplot Display\&.gp'\&. 
+.PP
+Definition at line 32 of file Logging\&.hpp\&.
+.SS "const bool p_logging = true\fC [static]\fP"
+
+.PP
+Logging constants\&. The follwing boolean values determine the entities to be logged\&.If set to true, pose information from T265 will be logged\&. 
+.PP
+Definition at line 26 of file Logging\&.hpp\&.
+.SS "const bool plot_3d = true\fC [static]\fP"
+
+.PP
+(Turn off for performance) If set to true, a 3-D view of the depth feed from D435 is displayed\&. 
+.PP
+Definition at line 38 of file Logging\&.hpp\&.
+.SS "const bool v_logging = false\fC [static]\fP"
+
+.PP
+(Not recommended) If set to true, video feed from D435 will be logged\&. 
+.PP
+Definition at line 30 of file Logging\&.hpp\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

@@ -1,0 +1,307 @@
+\hypertarget{classquaternion}{}\subsection{quaternion Class Reference}
+\label{classquaternion}\index{quaternion@{quaternion}}
+
+
+A basic Quaternion class.  
+
+
+
+
+{\ttfamily \#include $<$Voxel.\+hpp$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classquaternion_a01adb7930c2003b777cb91a7182c482e}{quaternion} (float \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, float \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, float \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, float \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w})
+\begin{DoxyCompactList}\small\item\em Constructor taking x, y, z, w in order. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}{inv} ()
+\begin{DoxyCompactList}\small\item\em Inverse of the quaternion. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a63777bf9c0c0a269852808442c2be4f5}{operator$\ast$} (\hyperlink{classquaternion}{quaternion} const \&q)
+\begin{DoxyCompactList}\small\item\em $\times$ operator \end{DoxyCompactList}\item 
+\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_ae2cf533c781610bf66bf39c30bd6b6ec}{operator+} (\hyperlink{classquaternion}{quaternion} const \&q)
+\begin{DoxyCompactList}\small\item\em $+$ operator \end{DoxyCompactList}\item 
+\hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion} (float \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, float \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, float \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, float \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w})
+\begin{DoxyCompactList}\small\item\em Constructor taking x, y, z, w in order. \end{DoxyCompactList}\item 
+\hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}{inv} ()
+\begin{DoxyCompactList}\small\item\em Inverse of the quaternion. \end{DoxyCompactList}\item 
+\hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a444a0e12b77a4388d496de9210117786}{operator$\ast$} (\hyperlink{classquaternion}{quaternion} const \&q)
+\begin{DoxyCompactList}\small\item\em $\times$ operator \end{DoxyCompactList}\item 
+\hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a5def90b88f02a02961ff51d6cd3e7dae}{operator+} (\hyperlink{classquaternion}{quaternion} const \&q)
+\begin{DoxyCompactList}\small\item\em $+$ operator \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{Indent}{\bf Components of quaternion.}\par
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}
+\item 
+float \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}
+\item 
+float \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}
+\item 
+float \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Detailed Description}
+A basic Quaternion class. 
+
+G\+PU\+: ~\newline
+ Quaternion class with components $ x, y, z, w $ such that $ q = x\textit{i} + y\textit{j} + z\textit{k} + w$. Basic operators provided are $\times$\+: multiplication and $+$\+: addition. $^{-1}$\+: inverse is provided through \hyperlink{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}{quaternion\+::inv()} method. Can be used in both host and device code.
+
+C\+PU\+: ~\newline
+ Quaternion class with components $ x, y, z, w $ such that $ q = x\textit{i} + y\textit{j} + z\textit{k} + w$. Basic operators provided are $\times$\+: multiplication and $+$\+: addition. $^{-1}$\+: inverse is provided through \hyperlink{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}{quaternion\+::inv()} method. 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00063}{63} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{quaternion@{quaternion}!quaternion@{quaternion}}
+\index{quaternion@{quaternion}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{quaternion(float x, float y, float z, float w)}{quaternion(float x, float y, float z, float w)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ quaternion\+::quaternion (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z, }
+\item[{float}]{w}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a01adb7930c2003b777cb91a7182c482e}{}\label{classquaternion_a01adb7930c2003b777cb91a7182c482e}
+
+
+Constructor taking x, y, z, w in order. 
+
+Note\+: This is the only constructor provided. Can be used in both host and device. 
+\begin{DoxyParams}{Parameters}
+{\em Components} & $\textit{i}$, $\textit{j}$, $\textit{k}$, and $\mathbb{R}$ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00077}{77} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classquaternion_a01adb7930c2003b777cb91a7182c482e_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{quaternion@{quaternion}!quaternion@{quaternion}}
+\index{quaternion@{quaternion}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{quaternion(float x, float y, float z, float w)}{quaternion(float x, float y, float z, float w)}}]{\setlength{\rightskip}{0pt plus 5cm}quaternion\+::quaternion (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z, }
+\item[{float}]{w}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{}\label{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}
+
+
+Constructor taking x, y, z, w in order. 
+
+Note\+: This is the only constructor provided. 
+\begin{DoxyParams}{Parameters}
+{\em Components} & $\textit{i}$, $\textit{j}$, $\textit{k}$, and $\mathbb{R}$ \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00057}{57} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{quaternion@{quaternion}!inv@{inv}}
+\index{inv@{inv}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{inv()}{inv()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf quaternion} quaternion\+::inv (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}{}\label{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}
+
+
+Inverse of the quaternion. 
+
+To be used as q.\+inv() $\equiv q^{-1}$ \begin{DoxyReturn}{Returns}
+quaternion 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00068}{68} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{quaternion@{quaternion}!inv@{inv}}
+\index{inv@{inv}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{inv()}{inv()}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ {\bf quaternion} quaternion\+::inv (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}{}\label{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}
+
+
+Inverse of the quaternion. 
+
+To be used as q.\+inv() $\equiv q^{-1}$ \begin{DoxyReturn}{Returns}
+quaternion 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00088}{88} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=309pt]{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=290pt]{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{quaternion@{quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{operator$\ast$(quaternion const \&q)}{operator*(quaternion const &q)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf quaternion} quaternion\+::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{{\bf quaternion} const \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a444a0e12b77a4388d496de9210117786}{}\label{classquaternion_a444a0e12b77a4388d496de9210117786}
+
+
+$\times$ operator 
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00078}{78} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{quaternion@{quaternion}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{operator$\ast$(quaternion const \&q)}{operator*(quaternion const &q)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ {\bf quaternion} quaternion\+::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{{\bf quaternion} const \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a63777bf9c0c0a269852808442c2be4f5}{}\label{classquaternion_a63777bf9c0c0a269852808442c2be4f5}
+
+
+$\times$ operator 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00098}{98} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{quaternion@{quaternion}!operator+@{operator+}}
+\index{operator+@{operator+}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{operator+(quaternion const \&q)}{operator+(quaternion const &q)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf quaternion} quaternion\+::operator+ (
+\begin{DoxyParamCaption}
+\item[{{\bf quaternion} const \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_a5def90b88f02a02961ff51d6cd3e7dae}{}\label{classquaternion_a5def90b88f02a02961ff51d6cd3e7dae}
+
+
+$+$ operator 
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00092}{92} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{classquaternion_a5def90b88f02a02961ff51d6cd3e7dae_cgraph}
+\end{center}
+\end{figure}
+
+
+\index{quaternion@{quaternion}!operator+@{operator+}}
+\index{operator+@{operator+}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{operator+(quaternion const \&q)}{operator+(quaternion const &q)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+host\+\_\+\+\_\+ \+\_\+\+\_\+device\+\_\+\+\_\+ {\bf quaternion} quaternion\+::operator+ (
+\begin{DoxyParamCaption}
+\item[{{\bf quaternion} const \&}]{q}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classquaternion_ae2cf533c781610bf66bf39c30bd6b6ec}{}\label{classquaternion_ae2cf533c781610bf66bf39c30bd6b6ec}
+
+
+$+$ operator 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00112}{112} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{classquaternion_ae2cf533c781610bf66bf39c30bd6b6ec_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{quaternion@{quaternion}!w@{w}}
+\index{w@{w}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{w}{w}}]{\setlength{\rightskip}{0pt plus 5cm}float quaternion\+::w}\hypertarget{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{}\label{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00069}{69} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{quaternion@{quaternion}!x@{x}}
+\index{x@{x}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{x}{x}}]{\setlength{\rightskip}{0pt plus 5cm}float quaternion\+::x}\hypertarget{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{}\label{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00069}{69} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{quaternion@{quaternion}!y@{y}}
+\index{y@{y}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{y}{y}}]{\setlength{\rightskip}{0pt plus 5cm}float quaternion\+::y}\hypertarget{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{}\label{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00069}{69} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{quaternion@{quaternion}!z@{z}}
+\index{z@{z}!quaternion@{quaternion}}
+\paragraph[{\texorpdfstring{z}{z}}]{\setlength{\rightskip}{0pt plus 5cm}float quaternion\+::z}\hypertarget{classquaternion_a538598007238d399f79ddcecd39ef5cf}{}\label{classquaternion_a538598007238d399f79ddcecd39ef5cf}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00069}{69} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8cuh}{Voxel.\+cuh}\item 
+include/\hyperlink{Voxel_8hpp}{Voxel.\+hpp}\end{DoxyCompactItemize}

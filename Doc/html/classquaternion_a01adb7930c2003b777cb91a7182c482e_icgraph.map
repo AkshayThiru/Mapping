@@ -1,0 +1,7 @@
+<map id="quaternion::quaternion" name="quaternion::quaternion">
+<area shape="rect" id="node2" href="$classquaternion.html#a5f2dff4e0f446d05e826a63d5a45d230" title="Inverse of the quaternion. " alt="" coords="223,93,330,120"/>
+<area shape="rect" id="node3" href="$Voxel_8cuh.html#a935fc0c42796b23607cf6f81a1e95e8d" title="Updates point in the global map. " alt="" coords="413,5,507,32"/>
+<area shape="rect" id="node4" href="$classGPU__FE.html#aa9039bd613961d4e0911b8514ed14fba" title="Updates the measurement data in the global map. " alt="" coords="397,81,523,108"/>
+<area shape="rect" id="node5" href="$classCPU__FE.html#aae7cb60a405b294a680a929ecff5c2ae" title="Updates the measurement data in the global map. " alt="" coords="397,132,523,159"/>
+<area shape="rect" id="node6" href="$classquaternion.html#ae2cf533c781610bf66bf39c30bd6b6ec" title=" operator " alt="" coords="204,195,349,221"/>
+</map>

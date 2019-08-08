@@ -1,0 +1,376 @@
+\hypertarget{Voxel_8hpp_source}{}\subsection{Voxel.\+hpp}
+\label{Voxel_8hpp_source}\index{include/\+Voxel.\+hpp@{include/\+Voxel.\+hpp}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef VOXEL\_H}
+00002 \textcolor{preprocessor}{#define VOXEL\_H}
+00003 
+00004 
+00005 \textcolor{preprocessor}{#include <iostream>}
+00006 \textcolor{preprocessor}{#include <fstream>}
+00007 
+00008 \textcolor{preprocessor}{#include <typeinfo>}
+00009 \textcolor{preprocessor}{#include <cmath>}
+00010 \textcolor{preprocessor}{#include <math.h>}
+00011 \textcolor{preprocessor}{#include <vector>}
+00012 \textcolor{preprocessor}{#include <array>}
+00013 \textcolor{preprocessor}{#include <tuple>}
+00014 \textcolor{preprocessor}{#include <algorithm>}
+00015 \textcolor{preprocessor}{#include <map>}
+00016 \textcolor{preprocessor}{#include <utility>}
+00017 \textcolor{preprocessor}{#include <unistd.h>}
+00018 
+00019 \textcolor{preprocessor}{#include "\hyperlink{Helper_8hpp}{Helper.hpp}"}
+00020 
+00021 
+00023 
+\hypertarget{Voxel_8hpp_source.tex_l00026}{}\hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{00026} \textcolor{preprocessor}{#define MIN\_L 0.04 // minimum edge length of leaf in meter}
+00027 
+\hypertarget{Voxel_8hpp_source.tex_l00031}{}\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{00031} \textcolor{preprocessor}{#define VOX\_L 2.56 // edge length of root voxel in meter. Define as float:eg: 2.00}
+00032 
+\hypertarget{Voxel_8hpp_source.tex_l00036}{}\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{00036} \textcolor{preprocessor}{#define VAR\_P 0.005 // variance of each measurement}
+00037 
+00038 
+00040 
+00044 \textcolor{keyword}{class }\hyperlink{classquaternion}{quaternion} \{
+00045 
+00046 \textcolor{keyword}{public}:
+00047 
+00050     \textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w};
+00052 
+00054 
+\hypertarget{Voxel_8hpp_source.tex_l00057}{}\hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{00057}     \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion} (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z, \textcolor{keywordtype}{float} w) \{
+00058         this->x = \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x};
+00059         this->y = \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y};
+00060         this->z = \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z};
+00061         this->w = \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w};
+00062     \}
+00063 
+00065 
+\hypertarget{Voxel_8hpp_source.tex_l00068}{}\hyperlink{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}{00068}     \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}{inv} () \{
+00069         \textcolor{keywordtype}{float} l = (this->\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x})*(this->x) + (this->\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y})*(this->y) + (this->\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z})*(this->z) + (this->
+      \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w})*(this->w);
+00070         \textcolor{keywordflow}{return} \hyperlink{classquaternion_a01adb7930c2003b777cb91a7182c482e}{quaternion} (-(this->x)/l, -(this->y)/l, -(this->z)/l, (this->w)/l);
+00071     \}
+00072 
+00074     \textcolor{comment}{/*  To be used as \(\backslash\)f$q\_1*q\_2\(\backslash\)f$ \(\backslash\)f$\(\backslash\)equiv q\_1\(\backslash\)timesq\_2\(\backslash\)f$, where &\(\backslash\)f$q\_1\(\backslash\)f$ = this}
+00075 \textcolor{comment}{    *   \(\backslash\)param \(\backslash\)f$q\_2\(\backslash\)f$}
+00076 \textcolor{comment}{    *   \(\backslash\)return quaternion}
+00077 \textcolor{comment}{    */}
+\hypertarget{Voxel_8hpp_source.tex_l00078}{}\hyperlink{classquaternion_a444a0e12b77a4388d496de9210117786}{00078}     \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a63777bf9c0c0a269852808442c2be4f5}{operator * }(\hyperlink{classquaternion}{quaternion} \textcolor{keyword}{const} &q) \{
+00079         \hyperlink{classquaternion}{quaternion} q\_t(0, 0, 0, 0);
+00080         q\_t.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} = + this->x*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} + this->y*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} - this->z*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} + this->w*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x};
+00081         q\_t.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} = - this->x*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} + this->y*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} + this->z*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} + this->w*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y};
+00082         q\_t.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} = + this->x*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} - this->y*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} + this->z*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} + this->w*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z};
+00083         q\_t.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} = - this->x*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} - this->y*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} - this->z*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} + this->w*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w};
+00084         \textcolor{keywordflow}{return} q\_t;
+00085     \}
+00086 
+00088     \textcolor{comment}{/*  To be used as \(\backslash\)f$q\_1+q\_2\(\backslash\)f$ \(\backslash\)f$\(\backslash\)equiv q\_1+q\_2\(\backslash\)f$, where &\(\backslash\)f$q\_1\(\backslash\)f$ = this}
+00089 \textcolor{comment}{    *   \(\backslash\)param \(\backslash\)f$q\_2\(\backslash\)f$}
+00090 \textcolor{comment}{    *   \(\backslash\)return quaternion}
+00091 \textcolor{comment}{    */}
+\hypertarget{Voxel_8hpp_source.tex_l00092}{}\hyperlink{classquaternion_a5def90b88f02a02961ff51d6cd3e7dae}{00092}     \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_ae2cf533c781610bf66bf39c30bd6b6ec}{operator + }(\hyperlink{classquaternion}{quaternion} \textcolor{keyword}{const} &q) \{
+00093         \textcolor{keywordflow}{return} \hyperlink{classquaternion_a01adb7930c2003b777cb91a7182c482e}{quaternion} (this->x+q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, this->y+q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, this->z+q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, this->w+q.
+      \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w});
+00094     \}
+00095 \};
+00096 
+00097 
+00099 
+00101 
+00104 \textcolor{keyword}{static} \textcolor{keyword}{const} \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}{Q\_T265\_D435} (-0.0089999, 0.0024999, 0.0000225, 0.9999564); \textcolor{comment}{//
+       | - T265 to D435 extrinsics}
+00106 \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}{T\_T265\_D435} (0.021, 0.027, 0.009, 0);                      \textcolor{comment}{//
+       |}
+00108 \textcolor{comment}{}
+00109 
+00110 
+00111 \textcolor{comment}{/* leaf class */}
+00113 
+00125 \textcolor{keyword}{class }\hyperlink{classleaf}{leaf} \{
+00126 
+00127 \textcolor{keyword}{public}:
+00128 
+00130 
+00136     \textcolor{keywordtype}{float} \_v;
+00137 
+00139 
+00145 
+00147     \textcolor{keywordtype}{float} x\_v, y\_v, z\_v;
+00149 
+00151 
+\hypertarget{Voxel_8hpp_source.tex_l00155}{}\hyperlink{classleaf_aafe906fcbc78cef65683b3015de636bd}{00155}     \hyperlink{classleaf_aafe906fcbc78cef65683b3015de636bd}{leaf} (\textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}) \{ \textcolor{comment}{// state = -1: unoccupied}
+00156         \_v = 0;
+00157         x\_v = y\_v = z\_v = 0;
+00158         \textcolor{keywordflow}{if} (x != -1 && y != -1 && z != -1)
+00159             this->update\_leaf (x, y, z);
+00160     \}
+00161 
+00163 
+\hypertarget{Voxel_8hpp_source.tex_l00169}{}\hyperlink{classleaf_adacc1e0d36163c7fd0a7c31576ecf4e8}{00169}     \textcolor{keywordtype}{void} \hyperlink{classleaf_adacc1e0d36163c7fd0a7c31576ecf4e8}{update\_leaf} (\textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}) \{ \textcolor{comment}{// x, y, z: scaled wrt to this->size}
+00170         x\_v += x/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00171         y\_v += y/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00172         z\_v += z/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00173         \_v += 1/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00174     \}
+00175 
+00176 \};
+00177 
+00178 
+00179 \textcolor{comment}{/* voxel class */}
+00181 
+00195 \textcolor{keyword}{class }\hyperlink{classvoxel}{voxel} \{
+00196 
+00197 \textcolor{keyword}{public}:
+00198 
+00200 
+00204     \textcolor{keywordtype}{void} * c[8]; \textcolor{comment}{// child voxels}
+00206 \textcolor{comment}{}
+00212     \textcolor{keywordtype}{float} \_v; \textcolor{comment}{// inverse of variance}
+00213 
+00215 
+00221 
+00223     \textcolor{keywordtype}{float} x\_v, y\_v, z\_v; \textcolor{comment}{// point co-ordinate wrt voxel (0-1) / variance}
+00226 \textcolor{comment}{}    \textcolor{keywordtype}{float} size; \textcolor{comment}{// edge length of voxel in meter}
+00227     \textcolor{comment}{/* voxel * p; // parent voxel - initialize in constructor if used */}
+00228 
+00229 
+00231 
+\hypertarget{Voxel_8hpp_source.tex_l00236}{}\hyperlink{classvoxel_a77f20a6fddec8f3aa3c719c3dc609948}{00236}     \hyperlink{classvoxel_a77f20a6fddec8f3aa3c719c3dc609948}{voxel} (\textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, \textcolor{keywordtype}{float} size) \{ \textcolor{comment}{// state = -1: unoccupied}
+00237         \_v = 0;
+00238         x\_v = y\_v = z\_v = 0;
+00239         this->size = size;
+00240         c[0] = c[1] = c[2] = c[3] = c[4] = c[5] = c[6] = c[7] = NULL;
+00241         \textcolor{keywordflow}{if} (x != -1 && y != -1 && z != -1)
+00242             this->update\_vox (x, y, z);
+00243     \}
+00244 
+00246 
+\hypertarget{Voxel_8hpp_source.tex_l00256}{}\hyperlink{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}{00256}     \textcolor{keywordtype}{void} \hyperlink{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}{update\_vox} (\textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}) \{ \textcolor{comment}{// x, y, z: scaled wrt to this->size}
+00257 
+00258         \textcolor{comment}{/* update child voxels */}
+00259         \textcolor{keywordtype}{int} idx = (z >= 0.5)<<2 | (y >= 0.5)<<1 | (x >= 0.5); \textcolor{comment}{// idx of child voxel the point lies in}
+00260 
+00261         \textcolor{keywordflow}{if} (size/4 >= \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{ \textcolor{comment}{/* child is a voxel object */}
+00262             \textcolor{keywordflow}{if} (c[idx] == NULL)
+00263                 c[idx] = (\textcolor{keywordtype}{void} *) \textcolor{keyword}{new} \hyperlink{classvoxel}{voxel} (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2, size/2);
+00264             \textcolor{keywordflow}{else}
+00265                 ((\hyperlink{classvoxel}{voxel} *)c[idx])->update\_vox (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00266         \}
+00267         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* child is a leaf object */}
+00268             \textcolor{keywordflow}{if} (c[idx] == NULL)
+00269                 c[idx] = (\textcolor{keywordtype}{void} *) \textcolor{keyword}{new} \hyperlink{classleaf}{leaf} (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00270             \textcolor{keywordflow}{else}
+00271                 ((\hyperlink{classleaf}{leaf} *)c[idx])->update\_leaf (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00272         \}
+00273 
+00274         \textcolor{comment}{/* update self */}
+00275         x\_v += x/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00276         y\_v += y/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00277         z\_v += z/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00278         \_v += 1/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P};
+00279 
+00280     \}
+00281 
+00283 
+\hypertarget{Voxel_8hpp_source.tex_l00286}{}\hyperlink{classvoxel_ac766278266424ede18f1fae9ccfd88be}{00286}     \textcolor{keywordtype}{void} \hyperlink{classvoxel_ac766278266424ede18f1fae9ccfd88be}{free\_mem} () \{
+00287         \textcolor{keywordflow}{if} (size/4 >= \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{ \textcolor{comment}{/* child is a voxel object */}
+00288             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00289                 \textcolor{keywordflow}{if} (c[i] != NULL) \{
+00290                     ((\hyperlink{classvoxel}{voxel} *)c[i])->free\_mem();
+00291                     \textcolor{keyword}{delete} (\hyperlink{classvoxel}{voxel} *)c[i];
+00292                 \}
+00293             \}
+00294         \}
+00295         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* child is a leaf object */}
+00296             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00297                 \textcolor{keywordflow}{if} (c[i] != NULL)
+00298                     \textcolor{keyword}{delete} (\hyperlink{classleaf}{leaf} *)c[i];
+00299             \}
+00300         \}
+00301     \}
+00302 
+00304     \textcolor{comment}{/*  This is called by occ\_grid::all\_points() (inturn called by CPU\_FE::Points(), which can be user
+       called or called by Logger::Close()) on each}
+00305 \textcolor{comment}{    *   root voxel node, which recursively appends all points to the vector set.}
+00306 \textcolor{comment}{    *   \(\backslash\)param co-ordinates of points}
+00307 \textcolor{comment}{    *   \(\backslash\)param origin of the voxel node.}
+00308 \textcolor{comment}{    *   \(\backslash\)see occ\_grid::all\_points(), CPU\_FE::Points(), Logger::Close()}
+00309 \textcolor{comment}{    */}
+\hypertarget{Voxel_8hpp_source.tex_l00310}{}\hyperlink{classvoxel_aaea83372a2e28b25ae65dcc635ebe635}{00310}     \textcolor{keywordtype}{void} \hyperlink{classvoxel_aaea83372a2e28b25ae65dcc635ebe635}{all\_points} (std::vector < std::tuple<float, float, float, float> > * \textcolor{keyword}{set}, \textcolor{keywordtype}{float} x\_o, \textcolor{keywordtype}{
+      float} y\_o, \textcolor{keywordtype}{float} z\_o) \{
+00311         \textcolor{keywordflow}{if} (size/4 >= \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{ \textcolor{comment}{/* child is a voxel object */}
+00312             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00313                 \textcolor{keywordflow}{if} (c[i] != NULL) \{
+00314                     ((\hyperlink{classvoxel}{voxel} *)c[i])->all\_points(\textcolor{keyword}{set}, x\_o+size/2*(i&1), y\_o+size/2*((i&2)>>1), z\_o+size
+      /2*((i&4)>>2));
+00315                 \}
+00316             \}
+00317         \}
+00318         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* child is a leaf object */}
+00319             \hyperlink{classleaf}{leaf} * p = NULL;
+00320             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00321                 \textcolor{keywordflow}{if} (c[i] != NULL) \{
+00322                     p = (\hyperlink{classleaf}{leaf} *) c[i];
+00323                     \textcolor{keyword}{set}->push\_back ( std::make\_tuple (x\_o+((p->\hyperlink{classleaf_ac34a93ca5739928d7389b12e735252d4}{x\_v})/(p->\hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})+(i&1))*size/2, y\_o+((p->
+      \hyperlink{classleaf_a06a94d40da44b846913db4d8900b2626}{y\_v})/(p->\hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})+((i&2)>>1))*size/2, z\_o+((p->\hyperlink{classleaf_a5f51fe13eb6e53bd9549469011e7a10e}{z\_v})/(p->\hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})+((i&4)>>2))*size/2, 1/(p->
+      \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})) );
+00324                 \}
+00325             \}
+00326         \}
+00327     \}
+00328 
+00330 
+\hypertarget{Voxel_8hpp_source.tex_l00333}{}\hyperlink{classvoxel_afe0d1d928ee0358b0fc0a67f58793cfd}{00333}     \textcolor{keywordtype}{bool} \hyperlink{classvoxel_afe0d1d928ee0358b0fc0a67f58793cfd}{is\_empty} () \{
+00334         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00335             \textcolor{keywordflow}{if} (c[i] != NULL)
+00336                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+00337         \}
+00338         \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+00339     \}
+00340 
+00341 \};
+00342 
+00343 
+00344 \textcolor{comment}{/* occ\_grid class */}
+00346 
+\hypertarget{Voxel_8hpp_source.tex_l00351}{}\hyperlink{classocc__grid}{00351} \textcolor{keyword}{class }\hyperlink{classocc__grid}{occ\_grid} \{
+00352 
+00353 \textcolor{keyword}{public}:
+00354 
+00356 
+\hypertarget{Voxel_8hpp_source.tex_l00362}{}\hyperlink{classocc__grid_ae5ebfc317affec175dba9d27f5fcf2fa}{00362}     std::map < unsigned long, std::pair<voxel *, std::array<float, 3>> > \hyperlink{classocc__grid_ae5ebfc317affec175dba9d27f5fcf2fa}{root};
+00363 
+\hypertarget{Voxel_8hpp_source.tex_l00365}{}\hyperlink{classocc__grid_a2bd8f966cb86730569eef2322e4fe263}{00365}     \hyperlink{classocc__grid_a2bd8f966cb86730569eef2322e4fe263}{occ\_grid} () \{
+00366         root.clear();
+00367     \}
+00368 
+00370 
+\hypertarget{Voxel_8hpp_source.tex_l00376}{}\hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{00376}     \textcolor{keywordtype}{void} \hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{update\_point} (\textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \textcolor{keywordtype}{float} \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}) \{ \textcolor{comment}{// x, y, z are in global co-ordinates}
+00377         std::array<float, 3> mod = this->\hyperlink{Voxel_8cuh_abbd51b1d8c2bc9b7d5ef5413e1e4ca49}{mod\_p}(std::array<float, 3> \{\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, z\});
+00378         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} idx = this->\hyperlink{Voxel_8cuh_afeed91d5a5a0b48801aca2d5edeaf3e1}{index}(std::array<float, 3> \{\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, z\});
+00379 
+00380         \textcolor{keyword}{auto} itr = root.find(idx);
+00381         \textcolor{keywordflow}{if} (itr != root.end()) \{ \textcolor{comment}{/* root voxel containing point exists */}
+00382             itr->second.first->update\_vox(mod[0]/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod[1]/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod[2]/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00383         \}
+00384         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* root voxel doesn't exist */}
+00385             \hyperlink{classvoxel}{voxel} * r = \textcolor{keyword}{new} \hyperlink{classvoxel}{voxel} (mod[0]/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod[1]/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod[2]/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00386             std::array<float, 3> l \{x-mod[0], y-mod[1], z-mod[2]\};
+00387             root.insert( std::pair< \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long}, std::pair<\hyperlink{classvoxel}{voxel} *, std::array<float, 3>> >(idx, 
+      std::pair<\hyperlink{classvoxel}{voxel} *, std::array<float, 3>>(r, l)) );
+00388         \}
+00389     \}
+00390 
+00392 
+\hypertarget{Voxel_8hpp_source.tex_l00397}{}\hyperlink{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}{00397}     \textcolor{keywordtype}{void} \hyperlink{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}{all\_points} (std::vector < std::tuple<float, float, float, float> > * \textcolor{keyword}{set}) \{
+00398         std::map<unsigned long, std::pair<voxel *, std::array<float, 3>>>::iterator itr;
+00399         \textcolor{keywordflow}{for} (itr = root.begin(); itr != root.end(); itr++)\{
+00400             itr->second.first->all\_points(\textcolor{keyword}{set}, itr->second.second[0], itr->second.second[1], itr->second.
+      second[2]);
+00401         \}
+00402     \}
+00403 
+00405 
+\hypertarget{Voxel_8hpp_source.tex_l00409}{}\hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{00409}     \textcolor{keywordtype}{void} \hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{free\_mem} () \{
+00410         std::map<unsigned long, std::pair<voxel *, std::array<float, 3>>>::iterator itr;
+00411         \textcolor{keywordflow}{for} (itr = root.begin(); itr != root.end(); itr++)\{
+00412             itr->second.first->free\_mem();
+00413         \}
+00414     \}
+00415 
+00416     \textcolor{comment}{/*void seed\_unoccupied (std::vector< std::array<float, 3> > P) \{ // vector of points: camera,
+       co-ordinates of (0,0), (w,0), (w,h), (0,h) at max depth}
+00417 \textcolor{comment}{        std::map< unsigned long, std::pair<voxel *, std::array<float, 3>> > * pre, * cur;}
+00418 \textcolor{comment}{        auto itr = root.find(this->index(P[0]));}
+00419 \textcolor{comment}{        cur->insert( std::pair< unsigned long, std::pair<voxel *, std::array<float, 3>> >(itr->first,
+       itr->second) );}
+00420 \textcolor{comment}{        this->fill\_unocuupied (pre, cur, &P);}
+00421 \textcolor{comment}{    \}}
+00422 \textcolor{comment}{}
+00423 \textcolor{comment}{    void fill\_unocuupied (std::map< unsigned long, std::pair<voxel *, std::array<float, 3>> > * pre,
+       std::map< unsigned long, std::pair<voxel *, std::array<float, 3>> > * cur, std::vector< std::array<float, 3> > *
+       P) \{}
+00424 \textcolor{comment}{        ;}
+00425 \textcolor{comment}{    \}*/}
+00426 
+00428 
+\hypertarget{Voxel_8hpp_source.tex_l00435}{}\hyperlink{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{00435}     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \hyperlink{classocc__grid_a0fb045d82217675decfc9b9289ad35ea}{index} (std::array<float, 3> p) \{
+00436         std::array<float, 3> mod = this->\hyperlink{Voxel_8cuh_abbd51b1d8c2bc9b7d5ef5413e1e4ca49}{mod\_p}(p);
+00437         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} a = (p[0] < 0) ? -2*std::round((p[0]-mod[0])/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})-1 : 2*std::round((p[0]-mod[0
+      ])/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00438         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} b = (p[1] < 0) ? -2*std::round((p[1]-mod[1])/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})-1 : 2*std::round((p[1]-mod[1
+      ])/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00439         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} c = (p[2] < 0) ? -2*std::round((p[2]-mod[2])/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})-1 : 2*std::round((p[2]-mod[2
+      ])/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00440         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} idx = (a+b+c+2)*(a+b+c+1)*(a+b+c)/6 + (a+b+1)*(a+b)/2 + a;
+00441         \textcolor{keywordflow}{return} idx;
+00442     \}
+00443 
+00445 
+\hypertarget{Voxel_8hpp_source.tex_l00449}{}\hyperlink{classocc__grid_abf7ece8bcafa68e1292b0be52a5d9996}{00449}     std::array<float, 3> \hyperlink{classocc__grid_abf7ece8bcafa68e1292b0be52a5d9996}{mod\_p} (std::array<float, 3> p) \{
+00450         \textcolor{keywordflow}{return} std::array<float, 3> \{fmodf(fmodf(p[0], \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, 
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}), fmodf(fmodf(p[1], \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}), fmodf(fmodf(p[2], 
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})\};
+00451     \}
+00452 
+00453 \};
+00454 
+00455 
+00457 
+\hypertarget{Voxel_8hpp_source.tex_l00460}{}\hyperlink{classCPU__FE}{00460} \textcolor{keyword}{class }\hyperlink{classCPU__FE}{CPU\_FE} : \textcolor{keyword}{public} \hyperlink{classMap__FE}{Map\_FE} \{
+00461 
+00462 \textcolor{keyword}{private}:
+00463 
+00465 
+\hypertarget{Voxel_8hpp_source.tex_l00467}{}\hyperlink{classCPU__FE_ad3779fc0a23127e425d8f0fc3c2661dc}{00467}     \hyperlink{classocc__grid}{occ\_grid} * \hyperlink{classCPU__FE_ad3779fc0a23127e425d8f0fc3c2661dc}{g\_map};
+00468 
+00469 \textcolor{keyword}{public}:
+00470 
+\hypertarget{Voxel_8hpp_source.tex_l00472}{}\hyperlink{classCPU__FE_a17780bbe106fb8f752e06987b5eefc7f}{00472}     \hyperlink{classCPU__FE_a17780bbe106fb8f752e06987b5eefc7f}{CPU\_FE} () \{
+00473         g\_map = \textcolor{keyword}{new} \hyperlink{classocc__grid}{occ\_grid}();
+00474     \}
+00475 
+00477 
+\hypertarget{Voxel_8hpp_source.tex_l00484}{}\hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{00484}     \textcolor{keywordtype}{void} \hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{Update} (\hyperlink{classCamera}{Camera} \textcolor{keyword}{const} &C, rs2\_pose \textcolor{keyword}{const} &pose, cv::Mat \textcolor{keyword}{const} &depth) \{
+00485         \hyperlink{classquaternion}{quaternion} q\_T265 (pose.rotation.x, pose.rotation.y, pose.rotation.z, pose.rotation.w);
+00486         \hyperlink{classquaternion}{quaternion} t\_T265 (pose.translation.x, pose.translation.y, pose.translation.z, 0);
+00487         \hyperlink{classquaternion}{quaternion} q\_G\_D435 = q\_T265 * Q\_T265\_D435 * \hyperlink{classquaternion_a01adb7930c2003b777cb91a7182c482e}{quaternion}(1,0,0,0);
+00488         quaternion t\_G\_D435 = t\_T265 + q\_T265 * T\_T265\_D435 * q\_T265.\hyperlink{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}{inv}();
+00489         quaternion pose\_pix (0, 0, 0, 0);
+00490 
+00491         \textcolor{keywordtype}{float} x\_D435, y\_D435, z\_D435;
+00492         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}; i++) \{
+00493             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w}; j++) \{
+00494                 z\_D435 = depth.at<\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} \textcolor{keywordtype}{int}>(i,j) * C.\hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale};
+00495                 x\_D435 = (j-C.\hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx})/C.\hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx} * z\_D435;
+00496                 y\_D435 = (i-C.\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy})/C.\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy} * z\_D435;
+00497 
+00498                 pose\_pix = t\_G\_D435 + q\_G\_D435 * quaternion(x\_D435,y\_D435,z\_D435,0) * q\_G\_D435.
+      \hyperlink{classquaternion_a5f2dff4e0f446d05e826a63d5a45d230}{inv}();
+00499 
+00500                 \textcolor{keywordflow}{if} (z\_D435 > \hyperlink{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}{D435\_MIN} && z\_D435 < \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX})
+00501                     g\_map->\hyperlink{classocc__grid_aaf38d339d7d1b3226d9673f8d6102b2c}{update\_point} (pose\_pix.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, pose\_pix.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, pose\_pix.
+      \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z});
+00502             \}
+00503         \}
+00504     \}
+00505 
+00507 
+\hypertarget{Voxel_8hpp_source.tex_l00510}{}\hyperlink{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{00510}     \textcolor{keywordtype}{void} \hyperlink{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{Points} (std::vector < std::tuple<float, float, float, float> > * points) \{
+00511         g\_map->\hyperlink{classocc__grid_a8b47af213fb57bf31c21ab1a9ef36505}{all\_points}(points);
+00512     \}
+00513 
+00515 
+\hypertarget{Voxel_8hpp_source.tex_l00518}{}\hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{00518}     \hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{~CPU\_FE} () \{
+00519         g\_map->\hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{free\_mem}();
+00520     \}
+00521 
+00522 \};
+00523 
+00524 
+00525 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

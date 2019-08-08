@@ -1,0 +1,348 @@
+.TH "include/Voxel.cuh" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/Voxel.cuh \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <cuda\&.h>\fP
+.br
+\fC#include <cuda_runtime\&.h>\fP
+.br
+\fC#include <cuda_profiler_api\&.h>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <typeinfo>\fP
+.br
+\fC#include <cmath>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <thrust/tuple\&.h>\fP
+.br
+\fC#include <thrust/host_vector\&.h>\fP
+.br
+\fC#include <thrust/device_vector\&.h>\fP
+.br
+\fC#include <thrust/execution_policy\&.h>\fP
+.br
+\fC#include <thrust/sort\&.h>\fP
+.br
+\fC#include <thrust/binary_search\&.h>\fP
+.br
+\fC#include 'Helper\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBquaternion\fP"
+.br
+.RI "\fIA basic Quaternion class\&. \fP"
+.ti -1c
+.RI "struct \fBPose\fP"
+.br
+.RI "\fI\fBPose\fP of T265 camera\&. \fP"
+.ti -1c
+.RI "struct \fBCam\fP"
+.br
+.RI "\fI\fBCamera\fP Intrinsics and Extrinsics\&. \fP"
+.ti -1c
+.RI "struct \fBTuple\fP"
+.br
+.RI "\fIPoint co-ordinates and variance \fP"
+.ti -1c
+.RI "struct \fBPoint\fP"
+.br
+.RI "\fI\fBPoint\fP co-ordinates\&. \fP"
+.ti -1c
+.RI "class \fBleaf\fP"
+.br
+.RI "\fILeaf nodes of the Octree structure\&. \fP"
+.ti -1c
+.RI "class \fBvoxel\fP"
+.br
+.RI "\fIVoxel/Intermediate nodes of the Octree structure\&. \fP"
+.ti -1c
+.RI "class \fBGPU_FE\fP"
+.br
+.RI "\fIWrapper class for \fBocc_grid\fP\&. \fP"
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBVOXEL_CH\fP"
+.br
+.ti -1c
+.RI "#define \fBMIN_L\fP   0\&.04"
+.br
+.RI "\fIMinimum dimension of leaf node\&. \fP"
+.ti -1c
+.RI "#define \fBVOX_L\fP   2\&.56"
+.br
+.RI "\fISize of root voxels\&. \fP"
+.ti -1c
+.RI "#define \fBVAR_P\fP   0\&.005"
+.br
+.RI "\fIVariance of measurement\&. \fP"
+.in -1c
+.PP
+.RI "\fBKernel Launch Parameters\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "#define \fBNUM_B\fP   480"
+.br
+.RI "\fINumber of blocks launched in the grid\&. \fP"
+.ti -1c
+.RI "#define \fBNUM_T\fP   640"
+.br
+.RI "\fINumber of threads launched in each block\&. \fP"
+.in -1c
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBgpuAssert\fP (cudaError_t code, const char *file, int line, bool abort=false)"
+.br
+.RI "\fIPrints out errors in CUDA kernel execution\&. \fP"
+.ti -1c
+.RI "void \fBgpuCheckKernelExecutionError\fP (const char *file, int line)"
+.br
+.RI "\fIMethod to print out errors in CUDA kernel execution\&. \fP"
+.ti -1c
+.RI "__device__ \fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > \fBbinary_search\fP (\fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > *v, long b, long e, long key)"
+.br
+.RI "\fIBinary search for key in sorted array\&. \fP"
+.ti -1c
+.RI "__device__ \fBPoint\fP \fBmod_p\fP (\fBPoint\fP p)"
+.br
+.RI "\fICalculates co-ordinate of point modulo edge length\&. \fP"
+.ti -1c
+.RI "__device__ long \fBindex\fP (\fBPoint\fP p)"
+.br
+.RI "\fICalculates index used as key to index into device vector\&. \fP"
+.ti -1c
+.RI "__global__ void \fBUpdate_root\fP (unsigned short d[\fBw\fP *\fBh\fP], \fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > *v, long *s, \fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > *temp, \fBCam\fP *c, \fBPose\fP *p)"
+.br
+.RI "\fIUpdates point in the global map\&. \fP"
+.ti -1c
+.RI "__global__ void \fBPrint\fP (\fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > *v, long *s, \fBTuple\fP *set)"
+.br
+.RI "\fIAppends points to the vector of points\&. \fP"
+.in -1c
+.SS "Variables"
+
+.PP
+.RI "\fBT265 to D435 extrinsics\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "static const \fBquaternion\fP \fBQ_T265_D435\fP (\-0\&.0089999, 0\&.0024999, 0\&.0000225, 0\&.9999564)"
+.br
+.RI "\fIQuaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$\&. \fP"
+.ti -1c
+.RI "static const \fBquaternion\fP \fBT_T265_D435\fP (0\&.021, 0\&.027, 0\&.009, 0)"
+.br
+.RI "\fITranslation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$\&. \fP"
+.in -1c
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define MIN_L   0\&.04"
+
+.PP
+Minimum dimension of leaf node\&. The Voxels will keep dividing until their the size of voxel is $\leq$ MIN_L, at which point a leaf is alloted in place of a voxel\&. Set the value as a floating value\&. eg: 1\&.00 
+.PP
+Definition at line 30 of file Voxel\&.cuh\&.
+.SS "#define NUM_B   480"
+
+.PP
+Number of blocks launched in the grid\&. Note: Launch parameters should satisfy all constraints\&. Run deviceQuery in CUDA samples to check device characteristics\&.
+.PP
+Should be less than maximum Grid size in all dimensions 
+.PP
+Definition at line 49 of file Voxel\&.cuh\&.
+.SS "#define NUM_T   640"
+
+.PP
+Number of threads launched in each block\&. Should be less than maximum Block size in all dimensions 
+.PP
+Definition at line 53 of file Voxel\&.cuh\&.
+.SS "#define VAR_P   0\&.005"
+
+.PP
+Variance of measurement\&. This is the 3-D variance of each point measured\&. Assumed constant and isotropic\&. The co-variance matrix in this case is $ VAR\_P . \mathbb{1}_{3{\times}3} $ 
+.PP
+Definition at line 40 of file Voxel\&.cuh\&.
+.SS "#define VOX_L   2\&.56"
+
+.PP
+Size of root voxels\&. The starting size of root voxels\&. This should not be $\leq$ MIN_L\&. Set the value as a floating value\&. eg: 3\&.00 
+.PP
+Definition at line 35 of file Voxel\&.cuh\&.
+.SS "#define VOXEL_CH"
+
+.PP
+Definition at line 2 of file Voxel\&.cuh\&.
+.SH "Function Documentation"
+.PP 
+.SS "__device__ \fBPair\fP< long, \fBPair\fP<\fBvoxel\fP *, \fBPoint\fP> > binary_search (\fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > * v, long b, long e, long key)"
+
+.PP
+Binary search for key in sorted array\&. Pointer to a sorted vector (stored in device) is passed along with the size and the starting index, and the binary search algorithm is used to index via key\&. It is a recursive method\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIPointer\fP to sorted vector v, beginning index b, ending index e 
+.br
+\fIkey\fP ot index into vector 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBPair\fP of index and voxel with the given index 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBUpdate_root()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 475 of file Voxel\&.cuh\&.
+.SS "void gpuAssert (cudaError_t code, const char * file, int line, bool abort = \fCfalse\fP)\fC [inline]\fP"
+
+.PP
+Prints out errors in CUDA kernel execution\&. 
+.PP
+Definition at line 196 of file Voxel\&.cuh\&.
+.SS "void gpuCheckKernelExecutionError (const char * file, int line)\fC [inline]\fP"
+
+.PP
+Method to print out errors in CUDA kernel execution\&. 
+.PP
+Definition at line 207 of file Voxel\&.cuh\&.
+.SS "__device__ long index (\fBPoint\fP p)"
+
+.PP
+Calculates index used as key to index into device vector\&. This is used to calculate a unique whole number from a set of three integers: indices of origin of the voxel\&. Instead of using three nested maps each trying to index one co-ordinate at each level ( $ O(\ln(N_x)+\ln(N_y)+\ln(N_z))$), a bijective mapping from $ \mathbb{Z}^{3} \to \mathbb{N}$ is defined\&. Although the order of the complexity remains the same, the look-up is guaranteed to occur in less time than the previous case\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIco-ordinates\fP of the origin of voxel 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+index of point 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::index()\fP, \fBGPU_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 507 of file Voxel\&.cuh\&.
+.SS "__device__ \fBPoint\fP mod_p (\fBPoint\fP p)"
+
+.PP
+Calculates co-ordinate of point modulo edge length\&. Returns $p mod VOX\_L[0, 1)^3$ 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIco-ordinate\fP of point 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+modulo of co-ordinate of point 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::mod_p()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 495 of file Voxel\&.cuh\&.
+.SS "__global__ void Print (\fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > * v, long * s, \fBTuple\fP * set)"
+
+.PP
+Appends points to the vector of points\&. This method recursively calls \fBvoxel::all_points()\fP, to append all the points in the leaf nodes to the vector\&. This method is called from \fBGPU_FE::Points()\fP Run by a single CUDA thread, since it is called only once and doesn't affect the performance\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of root voxels 
+.br
+\fIsize\fP of the voxel 
+.br
+\fI\fBTuple\fP\fP to store points 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBvoxel::all_points()\fP, \fBGPU_FE::Points()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 589 of file Voxel\&.cuh\&.
+.SS "__global__ void Update_root (unsigned short d[w *h], \fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > * v, long * s, \fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > * temp, \fBCam\fP * c, \fBPose\fP * p)"
+
+.PP
+Updates point in the global map\&. This method recursively calls \fBvoxel::update_vox()\fP on multiple threads concurrently, to update the point in the respective voxel\&. This GPU kernel itself is called upon by \fBGPU_FE::Update()\fP\&. The information on the origin of the voxel is used to identify the voxel, and the index is used as a key to search in the sorted device vector\&. This method is the same as \fBvoxel::update_vox()\fP, other than the fact that the point doesn't directly map to any 'child' voxel\&. The co-ordinates are transformed from the D435 frame to T265 global frame and then passed on to \fBocc_grid::update_point()\fP\&. Equivalent to \fBocc_grid::update_point()\fP, and \fBCPU_FE::Update()\fP\&. Since inserts and searches into the device vector would have to be done atomically, a temporary array of voxel pointers is used\&. The size of the array is fixed, and is calculated using D435 intrinsics, D435_MAX, and VOX_L, such that a mapping from each point to the array index can be made\&. Therefore, every point belonging to the same voxel is mapped to the same index in the array, which can be known\&. This not only solves the problem of consistency, but also results in almost maximum possible parallel efficiency\&. This temporary array is appended to the device vector containing root voxels, and is sorted (\fBGPU_FE::Update()\fP)\&. Although sorting a vector, which is a linear array, takes $O(n)$ as opposed to the $O(\ln(n))$ for insertion in a map, which is a red-black tree, since new voxels are sparsely created, it is not expected to reduce performance noticeably\&. This difference in insertion times can be attributed ot the fact that indexing in a linear array is $O(1)$\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBCamera\fP\fP object 
+.br
+\fIpose\fP of T265 
+.br
+\fI16-bit\fP D435 depth image 
+.br
+\fIdevice\fP vector containing root voxel pointers 
+.br
+\fIsize\fP of device vector 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBvoxel::update_vox()\fP, \fBGPU_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 536 of file Voxel\&.cuh\&.
+.SH "Variable Documentation"
+.PP 
+.SS "const \fBquaternion\fP Q_T265_D435(\-0\&.0089999, 0\&.0024999, 0\&.0000225, 0\&.9999564)\fC [static]\fP"
+
+.PP
+Quaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$\&. To be obtained from extrinsic calibration data of the mount\&. 
+.SS "const \fBquaternion\fP T_T265_D435(0\&.021, 0\&.027, 0\&.009, 0)\fC [static]\fP"
+
+.PP
+Translation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

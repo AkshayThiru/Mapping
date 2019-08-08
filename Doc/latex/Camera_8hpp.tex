@@ -1,0 +1,177 @@
+\hypertarget{Camera_8hpp}{}\subsection{include/\+Camera.hpp File Reference}
+\label{Camera_8hpp}\index{include/\+Camera.\+hpp@{include/\+Camera.\+hpp}}
+{\ttfamily \#include $<$librealsense2/rs.\+hpp$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+Include dependency graph for Camera.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{Camera_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Camera_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structBool__Init}{Bool\+\_\+\+Init}
+\begin{DoxyCompactList}\small\item\em Struct returned on \hyperlink{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{Camera\+::\+Init()} \end{DoxyCompactList}\item 
+class \hyperlink{classCamera}{Camera}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classCamera}{Camera} streams abstraction class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}~5
+\begin{DoxyCompactList}\small\item\em Length of Queue Buffers for cameras. \end{DoxyCompactList}\item 
+\#define \hyperlink{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}{I\+N\+P\+U\+T\+\_\+\+R\+A\+TE}~50
+\begin{DoxyCompactList}\small\item\em Maximum rate at which data receiving thread runs. \end{DoxyCompactList}\item 
+\#define \hyperlink{Camera_8hpp_a9359f7c0a43a27865c6d2409e74645a6}{M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE}~10
+\begin{DoxyCompactList}\small\item\em Rate at which the Global Map is updated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}{d\+\_\+fps} = 90
+\begin{DoxyCompactList}\small\item\em Frame rate for D435. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf D435\+: Image Dimensions}\par
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w} = 640
+\item 
+static const int \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h} = 480
+\begin{DoxyCompactList}\small\item\em Height. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+{\bf }\par
+\begin{DoxyCompactItemize}
+\item 
+static const double \hyperlink{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}{D435\+\_\+\+M\+IN} = 0.\+11
+\begin{DoxyCompactList}\small\item\em Minimum and maximum depth for D435. \end{DoxyCompactList}\item 
+static const double \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\+\_\+\+M\+AX} = 2.\+00
+\begin{DoxyCompactList}\small\item\em Minimum and maximum depth for D435. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+\begin{Indent}{\bf Camera Serial Numbers}\par
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::string \hyperlink{Camera_8hpp_a08da237113fcf4a0fb79c89a2ba02bce}{D\+E\+P\+T\+H\+\_\+\+S\+NO} = \char`\"{}819612073628\char`\"{}
+\begin{DoxyCompactList}\small\item\em Serial number of D435. \end{DoxyCompactList}\item 
+static const std\+::string \hyperlink{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}{T\+R\+A\+C\+K\+\_\+\+S\+NO} = \char`\"{}905312110622\char`\"{}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Macro Definition Documentation}
+\index{Camera.\+hpp@{Camera.\+hpp}!B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH@{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}}
+\index{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH@{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH}{BUFFER_LENGTH}}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH~5}\hypertarget{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}{}\label{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}
+
+
+Length of Queue Buffers for cameras. 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00038}{38} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!I\+N\+P\+U\+T\+\_\+\+R\+A\+TE@{I\+N\+P\+U\+T\+\_\+\+R\+A\+TE}}
+\index{I\+N\+P\+U\+T\+\_\+\+R\+A\+TE@{I\+N\+P\+U\+T\+\_\+\+R\+A\+TE}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{I\+N\+P\+U\+T\+\_\+\+R\+A\+TE}{INPUT_RATE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define I\+N\+P\+U\+T\+\_\+\+R\+A\+TE~50}\hypertarget{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}{}\label{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}
+
+
+Maximum rate at which data receiving thread runs. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{CPU__main_8cpp}{C\+P\+U\+\_\+main.\+cpp}, G\+P\+U\+\_\+main.\+cpp 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00042}{42} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE@{M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE}}
+\index{M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE@{M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE}{MAP_UPDATE_RATE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE~10}\hypertarget{Camera_8hpp_a9359f7c0a43a27865c6d2409e74645a6}{}\label{Camera_8hpp_a9359f7c0a43a27865c6d2409e74645a6}
+
+
+Rate at which the Global Map is updated. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{CPU__main_8cpp}{C\+P\+U\+\_\+main.\+cpp}, G\+P\+U\+\_\+main.\+cpp 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00046}{46} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+
+
+\subsubsection{Variable Documentation}
+\index{Camera.\+hpp@{Camera.\+hpp}!D435\+\_\+\+M\+AX@{D435\+\_\+\+M\+AX}}
+\index{D435\+\_\+\+M\+AX@{D435\+\_\+\+M\+AX}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{D435\+\_\+\+M\+AX}{D435_MAX}}]{\setlength{\rightskip}{0pt plus 5cm}const double D435\+\_\+\+M\+AX = 2.\+00\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{}\label{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}
+
+
+Minimum and maximum depth for D435. 
+
+N\+O\+TE\+: don\textquotesingle{}t use D435\+\_\+\+M\+IN less than 0.\+11 m 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00027}{27} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!D435\+\_\+\+M\+IN@{D435\+\_\+\+M\+IN}}
+\index{D435\+\_\+\+M\+IN@{D435\+\_\+\+M\+IN}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{D435\+\_\+\+M\+IN}{D435_MIN}}]{\setlength{\rightskip}{0pt plus 5cm}const double D435\+\_\+\+M\+IN = 0.\+11\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}{}\label{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}
+
+
+Minimum and maximum depth for D435. 
+
+N\+O\+TE\+: don\textquotesingle{}t use D435\+\_\+\+M\+IN less than 0.\+11 m 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00026}{26} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!d\+\_\+fps@{d\+\_\+fps}}
+\index{d\+\_\+fps@{d\+\_\+fps}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{d\+\_\+fps}{d_fps}}]{\setlength{\rightskip}{0pt plus 5cm}const int d\+\_\+fps = 90\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}{}\label{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}
+
+
+Frame rate for D435. 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00020}{20} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!D\+E\+P\+T\+H\+\_\+\+S\+NO@{D\+E\+P\+T\+H\+\_\+\+S\+NO}}
+\index{D\+E\+P\+T\+H\+\_\+\+S\+NO@{D\+E\+P\+T\+H\+\_\+\+S\+NO}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{D\+E\+P\+T\+H\+\_\+\+S\+NO}{DEPTH_SNO}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string D\+E\+P\+T\+H\+\_\+\+S\+NO = \char`\"{}819612073628\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_a08da237113fcf4a0fb79c89a2ba02bce}{}\label{Camera_8hpp_a08da237113fcf4a0fb79c89a2ba02bce}
+
+
+Serial number of D435. 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00033}{33} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!h@{h}}
+\index{h@{h}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{h}{h}}]{\setlength{\rightskip}{0pt plus 5cm}const int h = 480\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{}\label{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}
+
+
+Height. 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00017}{17} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!T\+R\+A\+C\+K\+\_\+\+S\+NO@{T\+R\+A\+C\+K\+\_\+\+S\+NO}}
+\index{T\+R\+A\+C\+K\+\_\+\+S\+NO@{T\+R\+A\+C\+K\+\_\+\+S\+NO}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{T\+R\+A\+C\+K\+\_\+\+S\+NO}{TRACK_SNO}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string T\+R\+A\+C\+K\+\_\+\+S\+NO = \char`\"{}905312110622\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}{}\label{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}
+Serial number of T265 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00034}{34} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera.\+hpp@{Camera.\+hpp}!w@{w}}
+\index{w@{w}!Camera.\+hpp@{Camera.\+hpp}}
+\paragraph[{\texorpdfstring{w}{w}}]{\setlength{\rightskip}{0pt plus 5cm}const int w = 640\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{}\label{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}
+Width 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00015}{15} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+

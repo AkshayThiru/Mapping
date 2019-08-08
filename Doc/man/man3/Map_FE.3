@@ -1,0 +1,91 @@
+.TH "Map_FE" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Map_FE \- Virtual class Parent of \fBCPU_FE\fP and \fBGPU_FE\fP classes\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Helper\&.hpp>\fP
+.PP
+Inherited by \fBCPU_FE\fP, and \fBGPU_FE\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBUpdate\fP (\fBCamera\fP const &C, rs2_pose const &pose, cv::Mat const &depth)=0"
+.br
+.RI "\fIMethod to update global map\&. \fP"
+.ti -1c
+.RI "virtual void \fBPoints\fP (std::vector< std::tuple< float, float, float, float > > *points)=0"
+.br
+.RI "\fIReturns all points in the map\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Virtual class Parent of \fBCPU_FE\fP and \fBGPU_FE\fP classes\&. 
+
+Classes \fBCPU_FE\fP and \fBGPU_FE\fP are the front-end classes for CPU and GPU versions of the algorithm respectively\&. Both these classes inherit MAP_FE, which is a virtual class: meaning an object of this class cannot be created\&. But such an implementation ensures two things: 
+.br
+.IP "1." 4
+Any implementation of any mapping algorithm must neccessarily implement the member methods of MAP_FE\&. 
+.br
+
+.IP "2." 4
+Other classes dependent on the global map need not change their implementation depending on the algorithm used as long as the front end of the implementation is a child of \fBMap_FE\fP\&. Also pointer of a child class can be cast to their parent class\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBCPU_FE\fP, \fBGPU_FE\fP 
+.RE
+.PP
+
+.PP
+
+.PP
+Definition at line 82 of file Helper\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void Map_FE::Points (std::vector< std::tuple< float, float, float, float > > * points)\fC [pure virtual]\fP"
+
+.PP
+Returns all points in the map\&. Primarily to be used by \fBLogger\fP class\&. The points returned are in no particular order\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of tuple containing (x, y, z) 
+.br
+\fIvariance\fP of points 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBLogger::Log()\fP 
+.RE
+.PP
+
+.PP
+Implemented in \fBGPU_FE\fP, and \fBCPU_FE\fP\&.
+.SS "virtual void Map_FE::Update (\fBCamera\fP const & C, rs2_pose const & pose, cv::Mat const & depth)\fC [pure virtual]\fP"
+
+.PP
+Method to update global map\&. This method runs at every iteration of frame recieved at a rate of MAP_UPDATE_RATE\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBCamera\fP\fP object 
+.br
+\fIcurrent\fP pose from T265 
+.br
+\fI16-bit\fP (default) depth image from D435 
+.RE
+.PP
+
+.PP
+Implemented in \fBGPU_FE\fP, and \fBCPU_FE\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

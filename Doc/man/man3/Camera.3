@@ -1,0 +1,222 @@
+.TH "Camera" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Camera \- \fBCamera\fP streams abstraction class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Camera\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCamera\fP ()"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "\fBBool_Init\fP \fBInit\fP ()"
+.br
+.RI "\fIInitialize and start camera streams\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< rs2::pipeline > \fBpipelines\fP"
+.br
+.RI "\fIUsed to call wait_for_frames() \fP"
+.ti -1c
+.RI "int \fBmodel\fP"
+.br
+.RI "\fIDistortion model type\&. \fP"
+.ti -1c
+.RI "float \fBcoeffs\fP [5]"
+.br
+.RI "\fIDistortion Coefficients\&. \fP"
+.in -1c
+.PP
+.RI "\fBD435 Intrinsics\fP"
+.br
+Depth camera properties 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBscale\fP"
+.br
+.RI "\fIDepth scale (m) \fP"
+.ti -1c
+.RI "float \fBfx\fP"
+.br
+.RI "\fIFocal length: x (pixels) \fP"
+.ti -1c
+.RI "float \fBfy\fP"
+.br
+.RI "\fIFocal length: y (pixels) \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBppx\fP"
+.br
+.RI "\fIImage center: x (pixels) \fP"
+.ti -1c
+.RI "float \fBppy\fP"
+.br
+.RI "\fIImage center: y (pixels) \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBFrame Queue\fP"
+.br
+Frame queues for tracking and depth 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "rs2::frame_queue \fBd_queue\fP"
+.br
+.ti -1c
+.RI "rs2::frame_queue \fBt_queue\fP"
+.br
+.in -1c
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "rs2::context \fBctx\fP"
+.br
+.RI "\fIRealsense context object\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCamera\fP streams abstraction class\&. 
+
+This class is used to initialize the D435 - Depth camera, and T265 - Tracking camera\&. The class object can either be used directly, or used along with Cam_RW\&.hpp as a publisher\&. All device properties can be modified in this class\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+Cam_RW\&.hpp 
+.RE
+.PP
+
+.PP
+Definition at line 69 of file Camera\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Camera::Camera ()\fC [inline]\fP"
+
+.PP
+Default Constructor\&. Initializes the Queues with a size of BUFFER_LENGTH 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBBUFFER_LENGTH\fP 
+.RE
+.PP
+
+.PP
+Definition at line 124 of file Camera\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBBool_Init\fP Camera::Init ()\fC [inline]\fP"
+
+.PP
+Initialize and start camera streams\&. Properties of the streams are set in this method\&. 
+.br
+ D435: Currently only Depth image is streamed\&. Image dimensions, bit depth, and FPS of D435 can be set in this method\&. 
+.br
+ T265: Currently only 6-DoF \fBPose\fP is streamed\&. The Degrees of Freedom of \fBPose\fP can be set in this method\&. run rs-enumerate-devices in terminal to view available configurations 
+.br
+ NOTE: The serial number is different for every camera (even for the same model)\&. This param should be set for every new device\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBw\fP, \fBh\fP, \fBd_fps\fP, \fBDEPTH_SNO\fP, \fBTRACK_SNO\fP, \fBBool_Init\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a \fBBool_Init\fP struct stating which cameras where initialzed\&. 
+.RE
+.PP
+
+.PP
+Definition at line 135 of file Camera\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "float Camera::coeffs[5]"
+
+.PP
+Distortion Coefficients\&. 
+.PP
+Definition at line 107 of file Camera\&.hpp\&.
+.SS "rs2::context Camera::ctx\fC [private]\fP"
+
+.PP
+Realsense context object\&. The members of this object can be set and passed to rs2::pipeline constructor to set the properties of the cameras\&. 
+.PP
+Definition at line 76 of file Camera\&.hpp\&.
+.SS "rs2::frame_queue Camera::d_queue"
+Queue for Depth frames 
+.PP
+Definition at line 115 of file Camera\&.hpp\&.
+.SS "float Camera::fx"
+
+.PP
+Focal length: x (pixels) 
+.PP
+Definition at line 94 of file Camera\&.hpp\&.
+.SS "float Camera::fy"
+
+.PP
+Focal length: y (pixels) 
+.PP
+Definition at line 96 of file Camera\&.hpp\&.
+.SS "int Camera::model"
+
+.PP
+Distortion model type\&. 
+.PP
+Definition at line 105 of file Camera\&.hpp\&.
+.SS "std::vector<rs2::pipeline> Camera::pipelines"
+
+.PP
+Used to call wait_for_frames() Elements of this vector can be used to wait for frames\&. If only camera is attached, the vector contains only one element\&. If both cameras are attached, the first element is for T265 and the second for D435 
+.PP
+Definition at line 85 of file Camera\&.hpp\&.
+.SS "float Camera::ppx"
+
+.PP
+Image center: x (pixels) 
+.PP
+Definition at line 100 of file Camera\&.hpp\&.
+.SS "float Camera::ppy"
+
+.PP
+Image center: y (pixels) 
+.PP
+Definition at line 102 of file Camera\&.hpp\&.
+.SS "float Camera::scale"
+
+.PP
+Depth scale (m) 
+.PP
+Definition at line 91 of file Camera\&.hpp\&.
+.SS "rs2::frame_queue Camera::t_queue"
+Queue for \fBPose\fP frames 
+.PP
+Definition at line 117 of file Camera\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

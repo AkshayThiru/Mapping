@@ -1,0 +1,65 @@
+\hypertarget{Helper_8hpp_source}{}\subsection{Helper.\+hpp}
+\label{Helper_8hpp_source}\index{include/\+Helper.\+hpp@{include/\+Helper.\+hpp}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef HELPER\_H}
+00002 \textcolor{preprocessor}{#define HELPER\_H}
+00003 
+00004 \textcolor{preprocessor}{#ifdef \_\_CUDACC\_\_}
+00005 \textcolor{preprocessor}{#define CUDA\_CALL \_\_host\_\_ \_\_device\_\_}
+00006 \textcolor{preprocessor}{#else}
+\hypertarget{Helper_8hpp_source.tex_l00007}{}\hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{00007} \textcolor{preprocessor}{#define CUDA\_CALL}
+00008 \textcolor{preprocessor}{#endif}
+00009 
+00010 
+00011 \textcolor{preprocessor}{#include "\hyperlink{Camera_8hpp}{Camera.hpp}"}
+00012 \textcolor{preprocessor}{#include <opencv2/opencv.hpp>}
+00013 
+00014 
+00015 
+00016 
+00017 \textcolor{comment}{/* Use following template class as replacement for std::pair */}
+00019 
+00025 \textcolor{keyword}{template} <\textcolor{keyword}{typename} A, \textcolor{keyword}{typename} B>
+\hypertarget{Helper_8hpp_source.tex_l00026}{}\hyperlink{classPair}{00026} \textcolor{keyword}{class }\hyperlink{classPair}{Pair} \{
+00027 
+00028 \textcolor{keyword}{public}:
+00029 
+\hypertarget{Helper_8hpp_source.tex_l00031}{}\hyperlink{classPair_a98924311a2986df358d3b1965f8abd06}{00031}     A \hyperlink{classPair_a98924311a2986df358d3b1965f8abd06}{first};
+\hypertarget{Helper_8hpp_source.tex_l00033}{}\hyperlink{classPair_af49ec2d61a46cad5cd1227dba4932aff}{00033}     B \hyperlink{classPair_af49ec2d61a46cad5cd1227dba4932aff}{second};
+00034 
+00037 
+00040     \hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{CUDA\_CALL} \hyperlink{classPair_ab76fff1f93ef8974bec7430bd67b916d}{Pair} () = \textcolor{keywordflow}{default};
+00041 
+00043 
+\hypertarget{Helper_8hpp_source.tex_l00046}{}\hyperlink{classPair_addd8fa451e9cc9e1ab0ee13ccb130966}{00046}     \hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{CUDA\_CALL} \hyperlink{classPair_addd8fa451e9cc9e1ab0ee13ccb130966}{Pair} (\textcolor{keyword}{const} A a, \textcolor{keyword}{const} B b): first(a), second(b) \{ \}
+00048 
+00051     
+00054 
+\hypertarget{Helper_8hpp_source.tex_l00059}{}\hyperlink{classPair_ab2e5000f2ce579285f773fafca762fb7}{00059}     \hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{CUDA\_CALL} \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} operator < (Pair<A, B> \textcolor{keyword}{const} &P) \textcolor{keyword}{const} \{
+00060         \textcolor{keywordflow}{return} (this->first < P.first);
+00061     \}
+00062 
+\hypertarget{Helper_8hpp_source.tex_l00064}{}\hyperlink{classPair_a8e382aa87f8063084ecea74136a35ace}{00064}     \hyperlink{Helper_8hpp_a0029886fd5e151820efb6eb46c000466}{CUDA\_CALL} \textcolor{keyword}{inline} \textcolor{keywordtype}{bool} \hyperlink{classPair_a8e382aa87f8063084ecea74136a35ace}{operator == }(\hyperlink{classPair}{Pair<A, B>} \textcolor{keyword}{const} &P)\textcolor{keyword}{ const }\{
+00065         \textcolor{keywordflow}{return} (this->first == P.\hyperlink{classPair_a98924311a2986df358d3b1965f8abd06}{first});
+00066     \}
+00068 
+00069 \};
+00070 
+00071 
+00073 
+\hypertarget{Helper_8hpp_source.tex_l00082}{}\hyperlink{classMap__FE}{00082} \textcolor{keyword}{class }\hyperlink{classMap__FE}{Map\_FE} \{
+00083 
+00084 \textcolor{keyword}{public}:
+00085 
+00087 
+00092     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} Update (\hyperlink{classCamera}{Camera} \textcolor{keyword}{const} &C, rs2\_pose \textcolor{keyword}{const} &pose, cv::Mat \textcolor{keyword}{const} &depth) = 0;
+00093 
+00095 
+00100     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} Points (std::vector < std::tuple<float, float, float, float> > * points) = 0;
+00101 
+00102 \};
+00103 
+00104 
+00105 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

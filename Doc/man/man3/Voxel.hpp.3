@@ -1,0 +1,126 @@
+.TH "include/Voxel.hpp" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+include/Voxel.hpp \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <iostream>\fP
+.br
+\fC#include <fstream>\fP
+.br
+\fC#include <typeinfo>\fP
+.br
+\fC#include <cmath>\fP
+.br
+\fC#include <math\&.h>\fP
+.br
+\fC#include <vector>\fP
+.br
+\fC#include <array>\fP
+.br
+\fC#include <tuple>\fP
+.br
+\fC#include <algorithm>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include 'Helper\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBquaternion\fP"
+.br
+.RI "\fIA basic Quaternion class\&. \fP"
+.ti -1c
+.RI "class \fBleaf\fP"
+.br
+.RI "\fILeaf nodes of the Octree structure\&. \fP"
+.ti -1c
+.RI "class \fBvoxel\fP"
+.br
+.RI "\fIVoxel/Intermediate nodes of the Octree structure\&. \fP"
+.ti -1c
+.RI "class \fBocc_grid\fP"
+.br
+.RI "\fIThe top-most class managing the global map\&. \fP"
+.ti -1c
+.RI "class \fBCPU_FE\fP"
+.br
+.RI "\fIWrapper class for \fBocc_grid\fP\&. \fP"
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBMIN_L\fP   0\&.04"
+.br
+.RI "\fIMinimum dimension of leaf node\&. \fP"
+.ti -1c
+.RI "#define \fBVOX_L\fP   2\&.56"
+.br
+.RI "\fISize of root voxels\&. \fP"
+.ti -1c
+.RI "#define \fBVAR_P\fP   0\&.005"
+.br
+.RI "\fIVariance of measurement\&. \fP"
+.in -1c
+.SS "Variables"
+
+.PP
+.RI "\fBT265 to D435 extrinsics\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "static const \fBquaternion\fP \fBQ_T265_D435\fP (\-0\&.0089999, 0\&.0024999, 0\&.0000225, 0\&.9999564)"
+.br
+.RI "\fIQuaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$\&. \fP"
+.ti -1c
+.RI "static const \fBquaternion\fP \fBT_T265_D435\fP (0\&.021, 0\&.027, 0\&.009, 0)"
+.br
+.RI "\fITranslation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$\&. \fP"
+.in -1c
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define MIN_L   0\&.04"
+
+.PP
+Minimum dimension of leaf node\&. The Voxels will keep dividing until their the size of voxel is $\leq$ MIN_L, at which point a leaf is alloted in place of a voxel\&. Set the value as a floating value\&. eg: 1\&.00 
+.PP
+Definition at line 26 of file Voxel\&.hpp\&.
+.SS "#define VAR_P   0\&.005"
+
+.PP
+Variance of measurement\&. This is the 3-D variance of each point measured\&. Assumed constant and isotropic\&. The co-variance matrix in this case is $ VAR\_P . \mathbb{1}_{3{\times}3} $ 
+.PP
+Definition at line 36 of file Voxel\&.hpp\&.
+.SS "#define VOX_L   2\&.56"
+
+.PP
+Size of root voxels\&. The starting size of root voxels\&. This should not be $\leq$ MIN_L\&. Set the value as a floating value\&. eg: 3\&.00 
+.PP
+Definition at line 31 of file Voxel\&.hpp\&.
+.SH "Variable Documentation"
+.PP 
+.SS "const \fBquaternion\fP Q_T265_D435(\-0\&.0089999, 0\&.0024999, 0\&.0000225, 0\&.9999564)\fC [static]\fP"
+
+.PP
+Quaternion from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265}$\&. To be obtained from extrinsic calibration data of the mount\&. 
+.SS "const \fBquaternion\fP T_T265_D435(0\&.021, 0\&.027, 0\&.009, 0)\fC [static]\fP"
+
+.PP
+Translation from $\mathfrak{R}_{T265} \to \mathfrak{R}_{D435}$ in $\mathfrak{R}_{T265} (m)$\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

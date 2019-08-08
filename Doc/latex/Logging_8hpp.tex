@@ -1,0 +1,146 @@
+\hypertarget{Logging_8hpp}{}\subsection{include/\+Logging.hpp File Reference}
+\label{Logging_8hpp}\index{include/\+Logging.\+hpp@{include/\+Logging.\+hpp}}
+{\ttfamily \#include $<$opencv2/opencv.\+hpp$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$chrono$>$}\\*
+{\ttfamily \#include $<$time.\+h$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include \char`\"{}gnuplot-\/iostream.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Camera.\+hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Helper.\+hpp\char`\"{}}\\*
+Include dependency graph for Logging.\+hpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Logging_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{Logging_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classLogger}{Logger}
+\begin{DoxyCompactList}\small\item\em Logging class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::string \hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{L\+O\+G\+\_\+\+P\+A\+TH} = \char`\"{}/home/Akshay/Desktop/Test/Mapping/Logs/\char`\"{}
+\begin{DoxyCompactList}\small\item\em The path where the log files will be stored. \end{DoxyCompactList}\end{DoxyCompactItemize}
+{\bf }\par
+\begin{DoxyCompactItemize}
+\item 
+static const bool \hyperlink{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{p\+\_\+logging} = true
+\begin{DoxyCompactList}\small\item\em Logging constants. \end{DoxyCompactList}\item 
+static const bool \hyperlink{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}{i\+\_\+logging} = true
+\begin{DoxyCompactList}\small\item\em If set to true, depth intrinsics of D435 will be logged. \end{DoxyCompactList}\item 
+static const bool \hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{v\+\_\+logging} = false
+\begin{DoxyCompactList}\small\item\em (Not recommended) If set to true, video feed from D435 will be logged. \end{DoxyCompactList}\item 
+static const bool \hyperlink{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}{m\+\_\+logging} = true
+\begin{DoxyCompactList}\small\item\em If set to true, the global map is logged, which can be plotted using cmd \textquotesingle{}gnuplot Display.\+gp\textquotesingle{}. \end{DoxyCompactList}\item 
+static const bool \hyperlink{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}{g\+\_\+logging} = false
+\begin{DoxyCompactList}\small\item\em (Not recommended) If set to true, a grid visulaization of map is logged. \end{DoxyCompactList}\item 
+static const bool \hyperlink{Logging_8hpp_aae489362ce8527e1feaba93222134df3}{display} = false
+\begin{DoxyCompactList}\small\item\em (Turn off for performance) If set to true, the depth feed from D\$435 is displayed in real-\/time. \end{DoxyCompactList}\item 
+static const bool \hyperlink{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}{plot\+\_\+3d} = true
+\begin{DoxyCompactList}\small\item\em (Turn off for performance) If set to true, a 3-\/D view of the depth feed from D435 is displayed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+
+\subsubsection{Variable Documentation}
+\index{Logging.\+hpp@{Logging.\+hpp}!display@{display}}
+\index{display@{display}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{display}{display}}]{\setlength{\rightskip}{0pt plus 5cm}const bool display = false\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_aae489362ce8527e1feaba93222134df3}{}\label{Logging_8hpp_aae489362ce8527e1feaba93222134df3}
+
+
+(Turn off for performance) If set to true, the depth feed from D\$435 is displayed in real-\/time. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00036}{36} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!g\+\_\+logging@{g\+\_\+logging}}
+\index{g\+\_\+logging@{g\+\_\+logging}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{g\+\_\+logging}{g_logging}}]{\setlength{\rightskip}{0pt plus 5cm}const bool g\+\_\+logging = false\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}{}\label{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}
+
+
+(Not recommended) If set to true, a grid visulaization of map is logged. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00034}{34} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!i\+\_\+logging@{i\+\_\+logging}}
+\index{i\+\_\+logging@{i\+\_\+logging}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{i\+\_\+logging}{i_logging}}]{\setlength{\rightskip}{0pt plus 5cm}const bool i\+\_\+logging = true\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}{}\label{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}
+
+
+If set to true, depth intrinsics of D435 will be logged. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00028}{28} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!L\+O\+G\+\_\+\+P\+A\+TH@{L\+O\+G\+\_\+\+P\+A\+TH}}
+\index{L\+O\+G\+\_\+\+P\+A\+TH@{L\+O\+G\+\_\+\+P\+A\+TH}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{L\+O\+G\+\_\+\+P\+A\+TH}{LOG_PATH}}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string L\+O\+G\+\_\+\+P\+A\+TH = \char`\"{}/home/Akshay/Desktop/Test/Mapping/Logs/\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{}\label{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}
+
+
+The path where the log files will be stored. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00042}{42} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!m\+\_\+logging@{m\+\_\+logging}}
+\index{m\+\_\+logging@{m\+\_\+logging}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{m\+\_\+logging}{m_logging}}]{\setlength{\rightskip}{0pt plus 5cm}const bool m\+\_\+logging = true\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}{}\label{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}
+
+
+If set to true, the global map is logged, which can be plotted using cmd \textquotesingle{}gnuplot Display.\+gp\textquotesingle{}. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00032}{32} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!p\+\_\+logging@{p\+\_\+logging}}
+\index{p\+\_\+logging@{p\+\_\+logging}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{p\+\_\+logging}{p_logging}}]{\setlength{\rightskip}{0pt plus 5cm}const bool p\+\_\+logging = true\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{}\label{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}
+
+
+Logging constants. 
+
+The follwing boolean values determine the entities to be logged.\+If set to true, pose information from T265 will be logged. 
+
+Definition at line \hyperlink{Logging_8hpp_source_l00026}{26} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!plot\+\_\+3d@{plot\+\_\+3d}}
+\index{plot\+\_\+3d@{plot\+\_\+3d}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{plot\+\_\+3d}{plot_3d}}]{\setlength{\rightskip}{0pt plus 5cm}const bool plot\+\_\+3d = true\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}{}\label{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}
+
+
+(Turn off for performance) If set to true, a 3-\/D view of the depth feed from D435 is displayed. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00038}{38} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+
+\index{Logging.\+hpp@{Logging.\+hpp}!v\+\_\+logging@{v\+\_\+logging}}
+\index{v\+\_\+logging@{v\+\_\+logging}!Logging.\+hpp@{Logging.\+hpp}}
+\paragraph[{\texorpdfstring{v\+\_\+logging}{v_logging}}]{\setlength{\rightskip}{0pt plus 5cm}const bool v\+\_\+logging = false\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{}\label{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}
+
+
+(Not recommended) If set to true, video feed from D435 will be logged. 
+
+
+
+Definition at line \hyperlink{Logging_8hpp_source_l00030}{30} of file \hyperlink{Logging_8hpp_source}{Logging.\+hpp}.
+

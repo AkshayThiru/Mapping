@@ -1,0 +1,259 @@
+\hypertarget{classCamera}{}\subsection{Camera Class Reference}
+\label{classCamera}\index{Camera@{Camera}}
+
+
+\hyperlink{classCamera}{Camera} streams abstraction class.  
+
+
+
+
+{\ttfamily \#include $<$Camera.\+hpp$>$}
+
+
+
+Collaboration diagram for Camera\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classCamera__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCamera_a01f94c3543f56ede7af49dc778f19331}{Camera} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\hyperlink{structBool__Init}{Bool\+\_\+\+Init} \hyperlink{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{Init} ()
+\begin{DoxyCompactList}\small\item\em Initialize and start camera streams. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ rs2\+::pipeline $>$ \hyperlink{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}{pipelines}
+\begin{DoxyCompactList}\small\item\em Used to call wait\+\_\+for\+\_\+frames() \end{DoxyCompactList}\item 
+int \hyperlink{classCamera_a3061c56d262cab256468f05b9d8838fc}{model}
+\begin{DoxyCompactList}\small\item\em Distortion model type. \end{DoxyCompactList}\item 
+float \hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{coeffs} \mbox{[}5\mbox{]}
+\begin{DoxyCompactList}\small\item\em Distortion Coefficients. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf D435 Intrinsics}\par
+{\em Depth camera properties }\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale}
+\begin{DoxyCompactList}\small\item\em Depth scale (m) \end{DoxyCompactList}\item 
+float \hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx}
+\begin{DoxyCompactList}\small\item\em Focal length\+: x (pixels) \end{DoxyCompactList}\item 
+float \hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy}
+\begin{DoxyCompactList}\small\item\em Focal length\+: y (pixels) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\end{Indent}
+{\bf }\par
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx}
+\begin{DoxyCompactList}\small\item\em Image center\+: x (pixels) \end{DoxyCompactList}\item 
+float \hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy}
+\begin{DoxyCompactList}\small\item\em Image center\+: y (pixels) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+\begin{Indent}{\bf Frame Queue}\par
+{\em Frame queues for tracking and depth }\begin{DoxyCompactItemize}
+\item 
+rs2\+::frame\+\_\+queue \hyperlink{classCamera_a84a3a043e61b967fb1dc6fbe62bf33aa}{d\+\_\+queue}
+\item 
+rs2\+::frame\+\_\+queue \hyperlink{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}{t\+\_\+queue}
+\end{DoxyCompactItemize}
+\end{Indent}
+\subsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+rs2\+::context \hyperlink{classCamera_a4373bc8793e3bb1d6eb2cca3eb25a31e}{ctx}
+\begin{DoxyCompactList}\small\item\em Realsense context object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+\hyperlink{classCamera}{Camera} streams abstraction class. 
+
+This class is used to initialize the D435 -\/ Depth camera, and T265 -\/ Tracking camera. The class object can either be used directly, or used along with Cam\+\_\+\+R\+W.\+hpp as a publisher. All device properties can be modified in this class. \begin{DoxySeeAlso}{See also}
+Cam\+\_\+\+R\+W.\+hpp 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00069}{69} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{Camera@{Camera}!Camera@{Camera}}
+\index{Camera@{Camera}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{Camera()}{Camera()}}]{\setlength{\rightskip}{0pt plus 5cm}Camera\+::\+Camera (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classCamera_a01f94c3543f56ede7af49dc778f19331}{}\label{classCamera_a01f94c3543f56ede7af49dc778f19331}
+
+
+Default Constructor. 
+
+Initializes the Queues with a size of B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH \begin{DoxySeeAlso}{See also}
+\hyperlink{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}{B\+U\+F\+F\+E\+R\+\_\+\+L\+E\+N\+G\+TH} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00124}{124} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{Camera@{Camera}!Init@{Init}}
+\index{Init@{Init}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{Init()}{Init()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Bool\+\_\+\+Init} Camera\+::\+Init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{}\label{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}
+
+
+Initialize and start camera streams. 
+
+Properties of the streams are set in this method. ~\newline
+ D435\+: Currently only Depth image is streamed. Image dimensions, bit depth, and F\+PS of D435 can be set in this method. ~\newline
+ T265\+: Currently only 6-\/\+DoF \hyperlink{structPose}{Pose} is streamed. The Degrees of Freedom of \hyperlink{structPose}{Pose} can be set in this method. run rs-\/enumerate-\/devices in terminal to view available configurations ~\newline
+ N\+O\+TE\+: The serial number is different for every camera (even for the same model). This param should be set for every new device. \begin{DoxySeeAlso}{See also}
+\hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w}, \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}, \hyperlink{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}{d\+\_\+fps}, \hyperlink{Camera_8hpp_a08da237113fcf4a0fb79c89a2ba02bce}{D\+E\+P\+T\+H\+\_\+\+S\+NO}, \hyperlink{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}{T\+R\+A\+C\+K\+\_\+\+S\+NO}, \hyperlink{structBool__Init}{Bool\+\_\+\+Init} 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+a \hyperlink{structBool__Init}{Bool\+\_\+\+Init} struct stating which cameras where initialzed. 
+\end{DoxyReturn}
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00135}{135} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=225pt]{classCamera_a7f09b843d9b3a97e78eefcebbc53e054_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{Camera@{Camera}!coeffs@{coeffs}}
+\index{coeffs@{coeffs}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{coeffs}{coeffs}}]{\setlength{\rightskip}{0pt plus 5cm}float Camera\+::coeffs\mbox{[}5\mbox{]}}\hypertarget{classCamera_af6b42da84223170eb6434a3df1d677af}{}\label{classCamera_af6b42da84223170eb6434a3df1d677af}
+
+
+Distortion Coefficients. 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00107}{107} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!ctx@{ctx}}
+\index{ctx@{ctx}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{ctx}{ctx}}]{\setlength{\rightskip}{0pt plus 5cm}rs2\+::context Camera\+::ctx\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classCamera_a4373bc8793e3bb1d6eb2cca3eb25a31e}{}\label{classCamera_a4373bc8793e3bb1d6eb2cca3eb25a31e}
+
+
+Realsense context object. 
+
+The members of this object can be set and passed to rs2\+::pipeline constructor to set the properties of the cameras. 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00076}{76} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!d\+\_\+queue@{d\+\_\+queue}}
+\index{d\+\_\+queue@{d\+\_\+queue}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{d\+\_\+queue}{d_queue}}]{\setlength{\rightskip}{0pt plus 5cm}rs2\+::frame\+\_\+queue Camera\+::d\+\_\+queue}\hypertarget{classCamera_a84a3a043e61b967fb1dc6fbe62bf33aa}{}\label{classCamera_a84a3a043e61b967fb1dc6fbe62bf33aa}
+Queue for Depth frames 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00115}{115} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!fx@{fx}}
+\index{fx@{fx}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{fx}{fx}}]{\setlength{\rightskip}{0pt plus 5cm}float Camera\+::fx}\hypertarget{classCamera_a4f5e789525c1c9306028c080922582e2}{}\label{classCamera_a4f5e789525c1c9306028c080922582e2}
+
+
+Focal length\+: x (pixels) 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00094}{94} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!fy@{fy}}
+\index{fy@{fy}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{fy}{fy}}]{\setlength{\rightskip}{0pt plus 5cm}float Camera\+::fy}\hypertarget{classCamera_a1472650e23f3df5f23dda7f94537e889}{}\label{classCamera_a1472650e23f3df5f23dda7f94537e889}
+
+
+Focal length\+: y (pixels) 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00096}{96} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!model@{model}}
+\index{model@{model}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{model}{model}}]{\setlength{\rightskip}{0pt plus 5cm}int Camera\+::model}\hypertarget{classCamera_a3061c56d262cab256468f05b9d8838fc}{}\label{classCamera_a3061c56d262cab256468f05b9d8838fc}
+
+
+Distortion model type. 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00105}{105} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!pipelines@{pipelines}}
+\index{pipelines@{pipelines}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{pipelines}{pipelines}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$rs2\+::pipeline$>$ Camera\+::pipelines}\hypertarget{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}{}\label{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}
+
+
+Used to call wait\+\_\+for\+\_\+frames() 
+
+Elements of this vector can be used to wait for frames. If only camera is attached, the vector contains only one element. If both cameras are attached, the first element is for T265 and the second for D435 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00085}{85} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!ppx@{ppx}}
+\index{ppx@{ppx}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{ppx}{ppx}}]{\setlength{\rightskip}{0pt plus 5cm}float Camera\+::ppx}\hypertarget{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{}\label{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}
+
+
+Image center\+: x (pixels) 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00100}{100} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!ppy@{ppy}}
+\index{ppy@{ppy}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{ppy}{ppy}}]{\setlength{\rightskip}{0pt plus 5cm}float Camera\+::ppy}\hypertarget{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{}\label{classCamera_a0e51f157264b9c9e18feb584c5a6c606}
+
+
+Image center\+: y (pixels) 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00102}{102} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!scale@{scale}}
+\index{scale@{scale}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{scale}{scale}}]{\setlength{\rightskip}{0pt plus 5cm}float Camera\+::scale}\hypertarget{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{}\label{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}
+
+
+Depth scale (m) 
+
+
+
+Definition at line \hyperlink{Camera_8hpp_source_l00091}{91} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+\index{Camera@{Camera}!t\+\_\+queue@{t\+\_\+queue}}
+\index{t\+\_\+queue@{t\+\_\+queue}!Camera@{Camera}}
+\paragraph[{\texorpdfstring{t\+\_\+queue}{t_queue}}]{\setlength{\rightskip}{0pt plus 5cm}rs2\+::frame\+\_\+queue Camera\+::t\+\_\+queue}\hypertarget{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}{}\label{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}
+Queue for \hyperlink{structPose}{Pose} frames 
+
+Definition at line \hyperlink{Camera_8hpp_source_l00117}{117} of file \hyperlink{Camera_8hpp_source}{Camera.\+hpp}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Camera_8hpp}{Camera.\+hpp}\end{DoxyCompactItemize}

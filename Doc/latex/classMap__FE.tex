@@ -1,0 +1,126 @@
+\hypertarget{classMap__FE}{}\subsection{Map\+\_\+\+FE Class Reference}
+\label{classMap__FE}\index{Map\+\_\+\+FE@{Map\+\_\+\+FE}}
+
+
+Virtual class Parent of \hyperlink{classCPU__FE}{C\+P\+U\+\_\+\+FE} and \hyperlink{classGPU__FE}{G\+P\+U\+\_\+\+FE} classes.  
+
+
+
+
+{\ttfamily \#include $<$Helper.\+hpp$>$}
+
+
+
+Inheritance diagram for Map\+\_\+\+FE\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{classMap__FE__inherit__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{Update} (\hyperlink{classCamera}{Camera} const \&C, rs2\+\_\+pose const \&pose, cv\+::\+Mat const \&depth)=0
+\begin{DoxyCompactList}\small\item\em Method to update global map. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Points} (std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$points)=0
+\begin{DoxyCompactList}\small\item\em Returns all points in the map. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Virtual class Parent of \hyperlink{classCPU__FE}{C\+P\+U\+\_\+\+FE} and \hyperlink{classGPU__FE}{G\+P\+U\+\_\+\+FE} classes. 
+
+Classes \hyperlink{classCPU__FE}{C\+P\+U\+\_\+\+FE} and \hyperlink{classGPU__FE}{G\+P\+U\+\_\+\+FE} are the front-\/end classes for C\+PU and G\+PU versions of the algorithm respectively. Both these classes inherit M\+A\+P\+\_\+\+FE, which is a virtual class\+: meaning an object of this class cannot be created. But such an implementation ensures two things\+: ~\newline
+
+\begin{DoxyEnumerate}
+\item Any implementation of any mapping algorithm must neccessarily implement the member methods of M\+A\+P\+\_\+\+FE. ~\newline
+
+\item Other classes dependent on the global map need not change their implementation depending on the algorithm used as long as the front end of the implementation is a child of \hyperlink{classMap__FE}{Map\+\_\+\+FE}. Also pointer of a child class can be cast to their parent class. \begin{DoxySeeAlso}{See also}
+\hyperlink{classCPU__FE}{C\+P\+U\+\_\+\+FE}, \hyperlink{classGPU__FE}{G\+P\+U\+\_\+\+FE} 
+\end{DoxySeeAlso}
+
+\end{DoxyEnumerate}
+
+Definition at line \hyperlink{Helper_8hpp_source_l00082}{82} of file \hyperlink{Helper_8hpp_source}{Helper.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{Map\+\_\+\+FE@{Map\+\_\+\+FE}!Points@{Points}}
+\index{Points@{Points}!Map\+\_\+\+FE@{Map\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{Points(std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$points)=0}{Points(std::vector< std::tuple< float, float, float, float > > *points)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Map\+\_\+\+F\+E\+::\+Points (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$}]{points}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{}\label{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}
+
+
+Returns all points in the map. 
+
+Primarily to be used by \hyperlink{classLogger}{Logger} class. The points returned are in no particular order. 
+\begin{DoxyParams}{Parameters}
+{\em vector} & of tuple containing (x, y, z) \\
+\hline
+{\em variance} & of points \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classLogger_adcc95257ff2edceded8e272dac3603ce}{Logger\+::\+Log()} 
+\end{DoxySeeAlso}
+
+
+Implemented in \hyperlink{classGPU__FE_aea86626bdab826bc91b955ad6e5f6653}{G\+P\+U\+\_\+\+FE}, and \hyperlink{classCPU__FE_a4b085e590daa33cf1e2f100a58236009}{C\+P\+U\+\_\+\+FE}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classMap__FE_aedfee41631a7287c9eb377ccb05317d6_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{Map\+\_\+\+FE@{Map\+\_\+\+FE}!Update@{Update}}
+\index{Update@{Update}!Map\+\_\+\+FE@{Map\+\_\+\+FE}}
+\paragraph[{\texorpdfstring{Update(\+Camera const \&\+C, rs2\+\_\+pose const \&pose, cv\+::\+Mat const \&depth)=0}{Update(Camera const &C, rs2_pose const &pose, cv::Mat const &depth)=0}}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Map\+\_\+\+F\+E\+::\+Update (
+\begin{DoxyParamCaption}
+\item[{{\bf Camera} const \&}]{C, }
+\item[{rs2\+\_\+pose const \&}]{pose, }
+\item[{cv\+::\+Mat const \&}]{depth}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}\hypertarget{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{}\label{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}
+
+
+Method to update global map. 
+
+This method runs at every iteration of frame recieved at a rate of M\+A\+P\+\_\+\+U\+P\+D\+A\+T\+E\+\_\+\+R\+A\+TE. 
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classCamera}{Camera}} & object \\
+\hline
+{\em current} & pose from T265 \\
+\hline
+{\em 16-\/bit} & (default) depth image from D435 \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classGPU__FE_aa9039bd613961d4e0911b8514ed14fba}{G\+P\+U\+\_\+\+FE}, and \hyperlink{classCPU__FE_aae7cb60a405b294a680a929ecff5c2ae}{C\+P\+U\+\_\+\+FE}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=245pt]{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Helper_8hpp}{Helper.\+hpp}\end{DoxyCompactItemize}

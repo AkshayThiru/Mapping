@@ -1,0 +1,173 @@
+.TH "occ_grid" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+occ_grid \- The top-most class managing the global map\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Voxel\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBocc_grid\fP ()"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "void \fBupdate_point\fP (float x, float y, float z)"
+.br
+.RI "\fIUpdates point in the global map\&. \fP"
+.ti -1c
+.RI "void \fBall_points\fP (std::vector< std::tuple< float, float, float, float > > *set)"
+.br
+.RI "\fIAppends points to the vector of points\&. \fP"
+.ti -1c
+.RI "void \fBfree_mem\fP ()"
+.br
+.RI "\fIDeletes the global map\&. \fP"
+.ti -1c
+.RI "unsigned long \fBindex\fP (std::array< float, 3 > p)"
+.br
+.RI "\fICalculates index used as key to index into root\&. \fP"
+.ti -1c
+.RI "std::array< float, 3 > \fBmod_p\fP (std::array< float, 3 > p)"
+.br
+.RI "\fICalculates co-ordinate of point modulo edge length\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::map< unsigned long, std::pair< \fBvoxel\fP *, std::array< float, 3 > > > \fBroot\fP"
+.br
+.RI "\fIArray of pointers and origins of root voxels\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+The top-most class managing the global map\&. 
+
+An object of this class maintains the map\&. This class is specific to the CPU mode of operation and can be thought of as an interface between the user and the global map\&. A map, which is a red-black tree, is maintained, containing all the root voxels in the map\&. The equivalent of this class for GPU code are the \fBglobal\fP methods called from the host on the device\&. 
+.PP
+Definition at line 351 of file Voxel\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "occ_grid::occ_grid ()\fC [inline]\fP"
+
+.PP
+Default Constructor\&. 
+.PP
+Definition at line 365 of file Voxel\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void occ_grid::all_points (std::vector< std::tuple< float, float, float, float > > * set)\fC [inline]\fP"
+
+.PP
+Appends points to the vector of points\&. This method recursively calls \fBvoxel::all_points()\fP, to append all the points in the leaf nodes to the vector\&. This method is called from \fBCPU_FE::Points()\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of point co-ordinates 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBvoxel::all_points()\fP, \fBCPU_FE::Points()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 397 of file Voxel\&.hpp\&.
+.SS "void occ_grid::free_mem ()\fC [inline]\fP"
+
+.PP
+Deletes the global map\&. This method recursively calls \fBvoxel::free_mem()\fP, to delete all the nodes in the octree\&. This method is called from \fBCPU_FE::~CPU_FE()\fP 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBvoxel::free_mem()\fP, \fBCPU_FE::~CPU_FE()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 409 of file Voxel\&.hpp\&.
+.SS "unsigned long occ_grid::index (std::array< float, 3 > p)\fC [inline]\fP"
+
+.PP
+Calculates index used as key to index into root\&. This is used to calculate a unique whole number from a set of three integers: indices of origin of the voxel\&. Instead of using three nested maps each trying to index one co-ordinate at each level ( $ O(\ln(N_x)+\ln(N_y)+\ln(N_z))$), a bijective mapping from $ \mathbb{Z}^{3} \to \mathbb{N}$ is defined\&. Although the order of the complexity remains the same, the look-up is guaranteed to occur in less time than the previous case\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIco-ordinates\fP of the origin of voxel 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+index of point 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::update_point()\fP, \fBroot\fP 
+.RE
+.PP
+
+.PP
+Definition at line 435 of file Voxel\&.hpp\&.
+.SS "std::array<float, 3> occ_grid::mod_p (std::array< float, 3 > p)\fC [inline]\fP"
+
+.PP
+Calculates co-ordinate of point modulo edge length\&. Returns $p \mod VOX\_L[0, 1)^3$ 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIco-ordinate\fP of point 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+modulo of co-ordinate of point 
+.RE
+.PP
+
+.PP
+Definition at line 449 of file Voxel\&.hpp\&.
+.SS "void occ_grid::update_point (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Updates point in the global map\&. This method recursively calls \fBvoxel::update_vox()\fP, to update the point in the respective voxel\&. This method itself is called upon by \fBCPU_FE::Update()\fP\&. The information on the origin of the voxel is used to identify the voxel, and the index is used as a key to search in the red-black tree\&. This method is the same as \fBvoxel::update_vox()\fP, other than the fact that the point doesn't directly map to any 'child' voxel\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIglobal\fP co-ordinates of the point to be updated 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBindex()\fP, \fBvoxel::update_vox()\fP, \fBCPU_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 376 of file Voxel\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::map< unsigned long, std::pair<\fBvoxel\fP *, std::array<float, 3> > > occ_grid::root"
+
+.PP
+Array of pointers and origins of root voxels\&. This map contains an index calculated from the origin of the root voxel as the key, and a pair containing pointer to root voxel and the co-ordinates of the origin of the voxel\&. A key-value paradigm is used in order to implement a red-black tree, which brings down look-up time from $O(n)$ to $O(\ln(n))$\&. The index is a unique whole number calculated using the origin of the voxel\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::index()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 362 of file Voxel\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

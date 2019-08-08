@@ -1,0 +1,5 @@
+<map id="Logger::Close" name="Logger::Close">
+<area shape="rect" id="node2" href="$classMap__FE.html#aedfee41631a7287c9eb377ccb05317d6" title="Returns all points in the map. " alt="" coords="323,5,439,32"/>
+<area shape="rect" id="node3" href="$classLogger.html#ac58fee4bd66a5359deb29a86948d584d" title="Constructs a grid representation of the map. " alt="" coords="156,56,271,83"/>
+<area shape="rect" id="node4" href="$classLogger.html#a38c5de03e0de7deffd7b516b13f826ff" title="Recursively constructs a voxel wireframe. " alt="" coords="319,56,444,83"/>
+</map>

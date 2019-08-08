@@ -1,0 +1,260 @@
+\hypertarget{Logging_8hpp_source}{}\subsection{Logging.\+hpp}
+\label{Logging_8hpp_source}\index{include/\+Logging.\+hpp@{include/\+Logging.\+hpp}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef LOGGER\_H}
+00002 \textcolor{preprocessor}{#define LOGGER\_H}
+00003 
+00004 
+00005 \textcolor{preprocessor}{#include <opencv2/opencv.hpp>}
+00006 
+00007 \textcolor{preprocessor}{#include <iostream>}
+00008 \textcolor{preprocessor}{#include <fstream>}
+00009 \textcolor{preprocessor}{#include <vector>}
+00010 \textcolor{preprocessor}{#include <unistd.h>}
+00011 \textcolor{preprocessor}{#include <chrono>}
+00012 \textcolor{preprocessor}{#include <time.h>}
+00013 \textcolor{preprocessor}{#include <string>}
+00014 
+00015 \textcolor{preprocessor}{#include "gnuplot-iostream.h"}
+00016 \textcolor{preprocessor}{#include "\hyperlink{Camera_8hpp}{Camera.hpp}"}
+00017 \textcolor{preprocessor}{#include "\hyperlink{Helper_8hpp}{Helper.hpp}"}
+00018 
+00019 
+00021 
+00023 
+\hypertarget{Logging_8hpp_source.tex_l00026}{}\hyperlink{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{00026} \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{p\_logging} = \textcolor{keyword}{true}; \textcolor{comment}{// logs pose data from T265}
+\hypertarget{Logging_8hpp_source.tex_l00028}{}\hyperlink{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}{00028} \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}{i\_logging} = \textcolor{keyword}{true}; \textcolor{comment}{// logs depth intrinsics data}
+\hypertarget{Logging_8hpp_source.tex_l00030}{}\hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{00030} \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{v\_logging} = \textcolor{keyword}{false}; \textcolor{comment}{// logs depth feed from D435 (normalized) - use correct depth
+       and video type}
+\hypertarget{Logging_8hpp_source.tex_l00032}{}\hyperlink{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}{00032} \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}{m\_logging} = \textcolor{keyword}{true}; \textcolor{comment}{// logs a point visualization for global map and trajectory}
+\hypertarget{Logging_8hpp_source.tex_l00034}{}\hyperlink{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}{00034} \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}{g\_logging} = \textcolor{keyword}{false}; \textcolor{comment}{// logs a grid visualization for global map - not recommended}
+\hypertarget{Logging_8hpp_source.tex_l00036}{}\hyperlink{Logging_8hpp_aae489362ce8527e1feaba93222134df3}{00036} \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_aae489362ce8527e1feaba93222134df3}{display} = \textcolor{keyword}{false}; \textcolor{comment}{// displays depth feed (normalized)}
+\hypertarget{Logging_8hpp_source.tex_l00038}{}\hyperlink{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}{00038} \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{bool} \hyperlink{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}{plot\_3d} = \textcolor{keyword}{true}; \textcolor{comment}{// displays 3-D view of depth feed from D435}
+00040 \textcolor{comment}{}
+\hypertarget{Logging_8hpp_source.tex_l00042}{}\hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{00042} \textcolor{keyword}{static} \textcolor{keyword}{const} std::string \hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{LOG\_PATH} = \textcolor{stringliteral}{"/home/Akshay/Desktop/Test/Mapping/Logs/"}; \textcolor{comment}{// path for logging}
+00043 
+00044 
+00045 
+00047 
+\hypertarget{Logging_8hpp_source.tex_l00052}{}\hyperlink{classLogger}{00052} \textcolor{keyword}{class }\hyperlink{classLogger}{Logger} \{
+00053 
+00054 \textcolor{keyword}{private}:
+00055 
+\hypertarget{Logging_8hpp_source.tex_l00057}{}\hyperlink{classLogger_a99c616f02a46e95f2e976ab7d880dbc5}{00057}     \textcolor{keywordtype}{bool} \hyperlink{classLogger_a99c616f02a46e95f2e976ab7d880dbc5}{start};
+00058 
+\hypertarget{Logging_8hpp_source.tex_l00060}{}\hyperlink{classLogger_a7f6f65922677036ca61ba12a19fdb719}{00060}     std::chrono::high\_resolution\_clock::time\_point \hyperlink{classLogger_a7f6f65922677036ca61ba12a19fdb719}{ti};
+00061 
+\hypertarget{Logging_8hpp_source.tex_l00063}{}\hyperlink{classLogger_afe5c4b612d69878aa65ce940a042fd8c}{00063}     time\_t \hyperlink{classLogger_afe5c4b612d69878aa65ce940a042fd8c}{today};
+\hypertarget{Logging_8hpp_source.tex_l00065}{}\hyperlink{classLogger_a0fd4efa39e08c0253f59f76e08abefee}{00065}     \textcolor{keywordtype}{char} \hyperlink{classLogger_a0fd4efa39e08c0253f59f76e08abefee}{buf}[80];
+00066     
+00067     \textcolor{comment}{/* output files for logging */}
+00070 
+\hypertarget{Logging_8hpp_source.tex_l00072}{}\hyperlink{classLogger_a7314c685ce4579a7d8b118e5d5327d13}{00072}     std::ofstream \hyperlink{classLogger_a7314c685ce4579a7d8b118e5d5327d13}{pose\_file};
+\hypertarget{Logging_8hpp_source.tex_l00074}{}\hyperlink{classLogger_acf9b6a89a6f8c520d010d87cff33b9df}{00074}     std::ofstream \hyperlink{classLogger_acf9b6a89a6f8c520d010d87cff33b9df}{d\_in\_file};
+\hypertarget{Logging_8hpp_source.tex_l00076}{}\hyperlink{classLogger_a5e5b9ad704575bda69b184a5b136735f}{00076}     cv::VideoWriter \hyperlink{classLogger_a5e5b9ad704575bda69b184a5b136735f}{depth\_file};
+\hypertarget{Logging_8hpp_source.tex_l00078}{}\hyperlink{classLogger_a1aedce7141d1346bc39c94e3a3eba4d6}{00078}     std::ofstream \hyperlink{classLogger_a1aedce7141d1346bc39c94e3a3eba4d6}{map\_file};
+\hypertarget{Logging_8hpp_source.tex_l00080}{}\hyperlink{classLogger_a715ae637741f3b00ba8ebb9858cb5577}{00080}     std::ofstream \hyperlink{classLogger_a715ae637741f3b00ba8ebb9858cb5577}{grid\_file};
+00082 
+\hypertarget{Logging_8hpp_source.tex_l00084}{}\hyperlink{classLogger_a63eca256c57dee44717f3002654887c7}{00084}     Gnuplot \hyperlink{classLogger_a63eca256c57dee44717f3002654887c7}{gp};
+00085 
+00086 \textcolor{keyword}{public}:
+00087 
+00089 
+\hypertarget{Logging_8hpp_source.tex_l00091}{}\hyperlink{classLogger_abc41bfb031d896170c7675fa96a6b30c}{00091}     \hyperlink{classLogger_abc41bfb031d896170c7675fa96a6b30c}{Logger} () \{
+00092         today = time(0);
+00093         strftime (buf, \textcolor{keyword}{sizeof}(buf), \textcolor{stringliteral}{"%Y\_%m\_%d\_%H\_%M\_%S"}, localtime(&today));
+00094         start = \textcolor{keyword}{false};
+00095     \}
+00096 
+00098 
+\hypertarget{Logging_8hpp_source.tex_l00100}{}\hyperlink{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e}{00100}     \textcolor{keywordtype}{void} \hyperlink{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e}{Init}() \{
+00101         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{p\_logging})
+00102             pose\_file.open(\hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{LOG\_PATH}+\textcolor{stringliteral}{"pose.tsv"});
+00103         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}{i\_logging})
+00104             d\_in\_file.open(\hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{LOG\_PATH}+\textcolor{stringliteral}{"intrinsics.csv"});
+00105         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{v\_logging})
+00106             depth\_file.open(\hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{LOG\_PATH}+std::string(buf)+\textcolor{stringliteral}{".avi"}, CV\_FOURCC(\textcolor{charliteral}{'F'},\textcolor{charliteral}{'F'},\textcolor{charliteral}{'V'},\textcolor{charliteral}{'1'}), 
+      \hyperlink{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}{INPUT\_RATE}, cv::Size(\hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w},\hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}), \textcolor{keyword}{false});
+00107         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}{m\_logging})
+00108             map\_file.open(\hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{LOG\_PATH}+\textcolor{stringliteral}{"map.tsv"});
+00109         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}{g\_logging})
+00110             grid\_file.open(\hyperlink{Logging_8hpp_aa95bcbf818cd309e7d34d0309dc2932f}{LOG\_PATH}+\textcolor{stringliteral}{"grid.gp"});
+00111     \}
+00112 
+00114 
+\hypertarget{Logging_8hpp_source.tex_l00121}{}\hyperlink{classLogger_adcc95257ff2edceded8e272dac3603ce}{00121}     \textcolor{keywordtype}{void} \hyperlink{classLogger_adcc95257ff2edceded8e272dac3603ce}{Log} (\hyperlink{classCamera}{Camera} \textcolor{keyword}{const} * C, rs2\_pose \textcolor{keyword}{const} * pose, cv::Mat \textcolor{keyword}{const} * depth) \{
+00122         \textcolor{keywordtype}{float} xl, yu, xr, yd;
+00123         xl = -C->\hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx}/C->\hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx}*\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}; xr = (\hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w}-1-C->\hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx})/C->\hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx}*
+      \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX};
+00124         yu = -C->\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy}/C->\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy}*\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}; yd = (\hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}-1-C->\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy})/C->\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy}*
+      \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX};
+00125 
+00126         \textcolor{keywordflow}{if} (!start) \{
+00127             ti = std::chrono::high\_resolution\_clock::now();
+00128             start = \textcolor{keyword}{true};
+00129             \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}{plot\_3d}) \{
+00130                 gp << \textcolor{stringliteral}{"set view 180, 0\(\backslash\)n"};
+00131                 gp << \textcolor{stringliteral}{"set xrange ["}<<xl<<\textcolor{stringliteral}{":"}<<xr<<\textcolor{stringliteral}{"]\(\backslash\)n"};
+00132                 gp << \textcolor{stringliteral}{"set yrange ["}<<yu<<\textcolor{stringliteral}{":"}<<yd<<\textcolor{stringliteral}{"]\(\backslash\)n"};
+00133                 gp << \textcolor{stringliteral}{"set zrange [0:"}<<\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}<<\textcolor{stringliteral}{"]\(\backslash\)n"};
+00134                 gp << \textcolor{stringliteral}{"set cbrange [0:"}<<D435\_MAX<<\textcolor{stringliteral}{"]\(\backslash\)n"};
+00135             \}
+00136         \}
+00137 
+00138         \textcolor{keyword}{auto} tf = std::chrono::high\_resolution\_clock::now() - \hyperlink{classLogger_a7f6f65922677036ca61ba12a19fdb719}{ti};
+00139         \textcolor{keywordtype}{double} t = std::chrono::duration\_cast<std::chrono::milliseconds>(tf).count();
+00140         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{v\_logging} || \hyperlink{Logging_8hpp_aae489362ce8527e1feaba93222134df3}{display}) \{
+00141             cv::Mat adj\_depth;
+00142             cv::convertScaleAbs(*depth, adj\_depth, 255.0/65535.0);
+00143             cv::threshold (adj\_depth, adj\_depth, \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}/C->\hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale} * 255.0/65535.0, 0, 
+      cv::THRESH\_TRUNC);
+00144             cv::convertScaleAbs(adj\_depth, adj\_depth, 65535.0*C->\hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale}/
+      \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX});
+00145 
+00146             \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{v\_logging})
+00147                 depth\_file.write(adj\_depth);
+00148 
+00149             \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_aae489362ce8527e1feaba93222134df3}{display})
+00150                 imshow (\textcolor{stringliteral}{"Depth Image"}, adj\_depth);
+00151         \}
+00152         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{p\_logging})
+00153             pose\_file << t << \textcolor{stringliteral}{" "} << pose->translation.x << \textcolor{stringliteral}{" "} << pose->translation.y << \textcolor{stringliteral}{" "} << pose->
+      translation.z << \textcolor{stringliteral}{" "} << pose->rotation.w << \textcolor{stringliteral}{" "} << pose->rotation.x << \textcolor{stringliteral}{" "} << pose->rotation.y << \textcolor{stringliteral}{" "} << pose->
+      rotation.z << \textcolor{stringliteral}{" "} << pose->tracker\_confidence << \textcolor{stringliteral}{"\(\backslash\)n"};
+00154 
+00155         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a90bc243756c79ffb6d9c4a4ea99c41c2}{plot\_3d}) \{
+00156             \textcolor{keywordtype}{float} x\_D435, y\_D435, z\_D435;
+00157             std::vector< std::tuple<float, float, float> > points;
+00158             points.push\_back(std::make\_tuple(0, 0, 0));
+00159             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}; i+=10) \{
+00160                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} j = 0; j < \hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w}; j+=10) \{
+00161                     z\_D435 = depth->at<\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} \textcolor{keywordtype}{int}>(i,j) * C->\hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale};
+00162                     x\_D435 = (j-C->\hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx})/C->\hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx} * z\_D435;
+00163                     y\_D435 = (i-C->\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy})/C->\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy} * z\_D435;
+00164 
+00165                     if (z\_D435 >= \hyperlink{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}{D435\_MIN} && z\_D435 <= \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX})
+00166                         points.push\_back(std::make\_tuple(x\_D435, y\_D435, z\_D435));
+00167                 \}
+00168             \}
+00169             gp << \textcolor{stringliteral}{"set key off\(\backslash\)n"};
+00170             gp << \textcolor{stringliteral}{"set view equal xyz\(\backslash\)n"};
+00171             gp << \textcolor{stringliteral}{"set object polygon from "}<<xl<<\textcolor{stringliteral}{","}<<yu<<\textcolor{stringliteral}{","}<<\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}<<\textcolor{stringliteral}{" to "}<<xr<<\textcolor{stringliteral}{","}<<yu<<\textcolor{stringliteral}{","}<
+      <\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}<<\textcolor{stringliteral}{" to "}<<xr<<\textcolor{stringliteral}{","}<<yd<<\textcolor{stringliteral}{","}<<\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}<<\textcolor{stringliteral}{" to "}<<xl<<\textcolor{stringliteral}{","}<<yd<<\textcolor{stringliteral}{","}<<
+      \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}<<\textcolor{stringliteral}{" to "}<<xl<<\textcolor{stringliteral}{","}<<yu<<\textcolor{stringliteral}{","}<<\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX}<<\textcolor{stringliteral}{" fs transparent solid 0 fc rgb 'black' lw
+       0.1\(\backslash\)n"};
+00172             gp << \textcolor{stringliteral}{"splot '-' using 1:2:3 with points pointsize 0.25 pointtype 8 palette, \(\backslash\)\(\backslash\)\(\backslash\)n"};
+00173             gp << \textcolor{stringliteral}{"'-' using 1:2:3:($4-$1):($5-$2):($6-$3) with vectors nohead lc rgb 'black' lw 0.25\(\backslash\)n"};
+00174             gp.send1d(points);
+00175             gp << \textcolor{stringliteral}{"0 0 0 "}<<xl<<\textcolor{stringliteral}{" "}<<yu<<\textcolor{stringliteral}{" "}<<D435\_MAX<<\textcolor{stringliteral}{"\(\backslash\)n"};
+00176             gp << \textcolor{stringliteral}{"0 0 0 "}<<xr<<\textcolor{stringliteral}{" "}<<yu<<\textcolor{stringliteral}{" "}<<D435\_MAX<<\textcolor{stringliteral}{"\(\backslash\)n"};
+00177             gp << \textcolor{stringliteral}{"0 0 0 "}<<xr<<\textcolor{stringliteral}{" "}<<yd<<\textcolor{stringliteral}{" "}<<D435\_MAX<<\textcolor{stringliteral}{"\(\backslash\)n"};
+00178             gp << \textcolor{stringliteral}{"0 0 0 "}<<xl<<\textcolor{stringliteral}{" "}<<yd<<\textcolor{stringliteral}{" "}<<D435\_MAX<<\textcolor{stringliteral}{"\(\backslash\)n"};
+00179             gp << \textcolor{stringliteral}{"e\(\backslash\)n"};
+00180             gp << \textcolor{stringliteral}{"pause 0.05\(\backslash\)n"};
+00181         \}
+00182 
+00183     \}
+00184 
+00186 
+\hypertarget{Logging_8hpp_source.tex_l00192}{}\hyperlink{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{00192}     \textcolor{keywordtype}{void} \hyperlink{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{Close}(\hyperlink{classCamera}{Camera} \textcolor{keyword}{const} * C, \hyperlink{classMap__FE}{Map\_FE} * F) \{
+00193         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_adaf32a6a0736e8e3da49a3c2b0705fa7}{v\_logging})
+00194             depth\_file.release();
+00195         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a3beae9ccc576e738591191c70cf26623}{m\_logging}) \{
+00196             std::vector< std::tuple<float, float, float, float> > points;
+00197             F->\hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Points}(&points);
+00198             \textcolor{keywordflow}{for} (std::vector< std::tuple<float, float, float, float> >::iterator it = points.begin(); it !=
+       points.end(); it++) \{
+00199                 map\_file << std::get<0>(*it) << \textcolor{stringliteral}{" "} << std::get<1>(*it) << \textcolor{stringliteral}{" "} << std::get<2>(*it) << \textcolor{stringliteral}{" "} <
+      < std::get<3>(*it) << \textcolor{stringliteral}{"\(\backslash\)n"};
+00200             \}
+00201             map\_file.close();
+00202         \}
+00203         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a2fe143d334b5c5fd12da86fe05423074}{p\_logging})
+00204             pose\_file.close();
+00205         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_af862762a869dc8c1eda840a8ca645e15}{i\_logging}) \{
+00206             d\_in\_file << \textcolor{stringliteral}{"scale,"} << C->\hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale} << \textcolor{stringliteral}{"\(\backslash\)n"};
+00207             d\_in\_file << \textcolor{stringliteral}{"focal length,"} << C->\hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx} << \textcolor{stringliteral}{","} << C->\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy} << \textcolor{stringliteral}{"\(\backslash\)n"};
+00208             d\_in\_file << \textcolor{stringliteral}{"center,"} << C->\hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx} << \textcolor{stringliteral}{","} << C->\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy} << \textcolor{stringliteral}{"\(\backslash\)n"};
+00209             d\_in\_file << \textcolor{stringliteral}{"distortion model,"} << C->\hyperlink{classCamera_a3061c56d262cab256468f05b9d8838fc}{model} << \textcolor{stringliteral}{"\(\backslash\)n"};
+00210             d\_in\_file << \textcolor{stringliteral}{"coefficients,"} << C->\hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{coeffs}[0] << \textcolor{stringliteral}{","} << C->
+      \hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{coeffs}[1] << \textcolor{stringliteral}{","} << C->\hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{coeffs}[2] << \textcolor{stringliteral}{","} << C->\hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{coeffs}[3] << \textcolor{stringliteral}{","} << C->
+      \hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{coeffs}[4] << \textcolor{stringliteral}{"\(\backslash\)n"};
+00211             d\_in\_file.close();
+00212         \}
+00213         \textcolor{keywordflow}{if} (\hyperlink{Logging_8hpp_a5aa1661b54df291d66e2329c124e8f7b}{g\_logging}) \{
+00214             this->\hyperlink{classLogger_ac58fee4bd66a5359deb29a86948d584d}{obj\_grid}(F);
+00215             grid\_file.close();
+00216         \}
+00217 
+00218     \}
+00219 
+00220 \textcolor{keyword}{private}:
+00221 
+00223 
+\hypertarget{Logging_8hpp_source.tex_l00229}{}\hyperlink{classLogger_ac58fee4bd66a5359deb29a86948d584d}{00229}     \textcolor{keywordtype}{void} \hyperlink{classLogger_ac58fee4bd66a5359deb29a86948d584d}{obj\_grid} (\hyperlink{classMap__FE}{Map\_FE} * F) \{
+00230         std::vector< std::tuple<float, float, float, float> > points;
+00231         F->\hyperlink{classMap__FE_aedfee41631a7287c9eb377ccb05317d6}{Points}(&points);
+00232         grid\_file << \textcolor{stringliteral}{"set key off\(\backslash\)n"};
+00233         grid\_file << \textcolor{stringliteral}{"set xrange [-4:4]\(\backslash\)n"};
+00234         grid\_file << \textcolor{stringliteral}{"set yrange [-4:4]\(\backslash\)n"};
+00235         grid\_file << \textcolor{stringliteral}{"set zrange [-4:4]\(\backslash\)n"};
+00236         grid\_file << \textcolor{stringliteral}{"set view equal xyz\(\backslash\)n"};
+00237 
+00238         \textcolor{keywordflow}{for} (std::vector< std::tuple<float, float, float, float> >::iterator it = points.begin(); it != 
+      points.end(); it++) \{
+00239             \textcolor{keywordtype}{float} m\_x = fmodf(fmodf(std::get<0>(*it), \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, 
+      \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00240             \textcolor{keywordtype}{float} m\_y = fmodf(fmodf(std::get<1>(*it), \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, 
+      \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00241             \textcolor{keywordtype}{float} m\_z = fmodf(fmodf(std::get<2>(*it), \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, 
+      \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00242             
+00243             this->\hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{point\_grid} (std::get<0>(*it)-m\_x, std::get<1>(*it)-m\_y, std::get<2>(*it)-m\_z, 
+      m\_x, m\_y, m\_z, \hyperlink{Voxel_8cuh_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00244         \}
+00245 
+00246         grid\_file << \textcolor{stringliteral}{"splot '-' with points pointsize 0.25 pointtype 7\(\backslash\)n"};
+00247         grid\_file << \textcolor{stringliteral}{"0 0 0\(\backslash\)n"};
+00248         grid\_file << \textcolor{stringliteral}{"e\(\backslash\)n"};
+00249         grid\_file << \textcolor{stringliteral}{"pause -1\(\backslash\)n"};
+00250     \}
+00251 
+00253 
+\hypertarget{Logging_8hpp_source.tex_l00260}{}\hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{00260}     \textcolor{keywordtype}{void} \hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{point\_grid} (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z, \textcolor{keywordtype}{float} m\_x, \textcolor{keywordtype}{float} m\_y, \textcolor{keywordtype}{float} m\_z, \textcolor{keywordtype}{float} size) \{
+00261 
+00262         grid\_file << \textcolor{stringliteral}{"set object polygon from "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<
+      <x+size<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z; \textcolor{keywordflow}{if} (size/2 < 
+      \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 1 fc rgb 'red' lw 0.1\(\backslash\)n"};\} \textcolor{keywordflow}{else} \{grid\_file << \textcolor{stringliteral}{"fs
+       transparent solid 0 fc rgb 'black' lw 0.1\(\backslash\)n"};\}
+00263         grid\_file << \textcolor{stringliteral}{"set object polygon from "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<
+      <x+size<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z; \textcolor{keywordflow}{if} (size/2 < 
+      \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 1 fc rgb 'red' lw 0.1\(\backslash\)n"};\} \textcolor{keywordflow}{else} \{grid\_file << \textcolor{stringliteral}{"fs
+       transparent solid 0 fc rgb 'black' lw 0.1\(\backslash\)n"};\}
+00264         grid\_file << \textcolor{stringliteral}{"set object polygon from "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<
+      <x<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z; \textcolor{keywordflow}{if} (size/2 < 
+      \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 1 fc rgb 'red' lw 0.1\(\backslash\)n"};\} \textcolor{keywordflow}{else} \{grid\_file << \textcolor{stringliteral}{"fs
+       transparent solid 0 fc rgb 'black' lw 0.1\(\backslash\)n"};\}
+00265         grid\_file << \textcolor{stringliteral}{"set object polygon from "}<<x+size<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{
+      ","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y+
+      size<<\textcolor{stringliteral}{","}<<z+size; \textcolor{keywordflow}{if} (size/2 < \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 1 fc rgb 'red' lw 0.1\(\backslash\)n"};\} \textcolor{keywordflow}{else}
+       \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 0 fc rgb 'black' lw 0.1\(\backslash\)n"};\}
+00266         grid\_file << \textcolor{stringliteral}{"set object polygon from "}<<x+size<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{
+      ","}<<z+size<<\textcolor{stringliteral}{" to "}<<x<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y+
+      size<<\textcolor{stringliteral}{","}<<z+size; \textcolor{keywordflow}{if} (size/2 < \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 1 fc rgb 'red' lw 0.1\(\backslash\)n"};\} \textcolor{keywordflow}{else}
+       \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 0 fc rgb 'black' lw 0.1\(\backslash\)n"};\}
+00267         grid\_file << \textcolor{stringliteral}{"set object polygon from "}<<x+size<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z+size<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{
+      ","}<<z+size<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y+size<<\textcolor{stringliteral}{","}<<z<<\textcolor{stringliteral}{" to "}<<x+size<<\textcolor{stringliteral}{","}<<y+
+      size<<\textcolor{stringliteral}{","}<<z+size; \textcolor{keywordflow}{if} (size/2 < \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 1 fc rgb 'red' lw 0.1\(\backslash\)n"};\} \textcolor{keywordflow}{else}
+       \{grid\_file << \textcolor{stringliteral}{"fs transparent solid 0 fc rgb 'black' lw 0.1\(\backslash\)n"};\}
+00268     
+00269         \textcolor{keywordflow}{if} (size/2 >= \hyperlink{Voxel_8cuh_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L})
+00270             this->\hyperlink{classLogger_a38c5de03e0de7deffd7b516b13f826ff}{point\_grid} (x+m\_x-fmodf(m\_x,size/2), y+m\_y-fmodf(m\_y,size/2), z+m\_z-fmodf(m\_z,
+      size/2), fmodf(m\_x,size/2), fmodf(m\_y,size/2), fmodf(m\_z,size/2), size/2);
+00271     \}
+00272 
+00273 \};
+00274 
+00275 
+00276 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

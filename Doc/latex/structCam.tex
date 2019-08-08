@@ -1,0 +1,115 @@
+\hypertarget{structCam}{}\subsection{Cam Struct Reference}
+\label{structCam}\index{Cam@{Cam}}
+
+
+\hyperlink{classCamera}{Camera} Intrinsics and Extrinsics.  
+
+
+
+
+Collaboration diagram for Cam\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=142pt]{structCam__coll__graph}
+\end{center}
+\end{figure}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{structCam_a99a4c54ed1a408665a0963f308008ec8}{scale}
+\begin{DoxyCompactList}\small\item\em Depth scale ( $ \textit{m}$) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf Focal length (pixels)}\par
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{structCam_a7d82658b0f9a7df54516cffb6d67ac07}{fx}
+\item 
+float \hyperlink{structCam_a2c80b4688fa8d02ad6c645246b6ea0d4}{fy}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf Image Center (pixels)}\par
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{structCam_a0d44db9d2a2e8c416cbf9cd30b6cd6f1}{ppx}
+\item 
+float \hyperlink{structCam_a5af4cee2ad3b008befb9626990dfbff2}{ppy}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}{\bf T265 to D435 Extrinsics}\par
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classquaternion}{quaternion} \hyperlink{structCam_a8b6ed5501753ad64cf3e36f798fbf3cd}{Q\+\_\+\+TD}
+\item 
+\hyperlink{classquaternion}{quaternion} \hyperlink{structCam_a05f5a946647cd44a473b0fd03186ca96}{T\+\_\+\+TD}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Detailed Description}
+\hyperlink{classCamera}{Camera} Intrinsics and Extrinsics. 
+
+Used to pass to C\+U\+DA kernel 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00130}{130} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Member Data Documentation}
+\index{Cam@{Cam}!fx@{fx}}
+\index{fx@{fx}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{fx}{fx}}]{\setlength{\rightskip}{0pt plus 5cm}float Cam\+::fx}\hypertarget{structCam_a7d82658b0f9a7df54516cffb6d67ac07}{}\label{structCam_a7d82658b0f9a7df54516cffb6d67ac07}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00135}{135} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Cam@{Cam}!fy@{fy}}
+\index{fy@{fy}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{fy}{fy}}]{\setlength{\rightskip}{0pt plus 5cm}float Cam\+::fy}\hypertarget{structCam_a2c80b4688fa8d02ad6c645246b6ea0d4}{}\label{structCam_a2c80b4688fa8d02ad6c645246b6ea0d4}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00135}{135} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Cam@{Cam}!ppx@{ppx}}
+\index{ppx@{ppx}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{ppx}{ppx}}]{\setlength{\rightskip}{0pt plus 5cm}float Cam\+::ppx}\hypertarget{structCam_a0d44db9d2a2e8c416cbf9cd30b6cd6f1}{}\label{structCam_a0d44db9d2a2e8c416cbf9cd30b6cd6f1}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00141}{141} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Cam@{Cam}!ppy@{ppy}}
+\index{ppy@{ppy}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{ppy}{ppy}}]{\setlength{\rightskip}{0pt plus 5cm}float Cam\+::ppy}\hypertarget{structCam_a5af4cee2ad3b008befb9626990dfbff2}{}\label{structCam_a5af4cee2ad3b008befb9626990dfbff2}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00141}{141} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Cam@{Cam}!Q\+\_\+\+TD@{Q\+\_\+\+TD}}
+\index{Q\+\_\+\+TD@{Q\+\_\+\+TD}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{Q\+\_\+\+TD}{Q_TD}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf quaternion} Cam\+::\+Q\+\_\+\+TD}\hypertarget{structCam_a8b6ed5501753ad64cf3e36f798fbf3cd}{}\label{structCam_a8b6ed5501753ad64cf3e36f798fbf3cd}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00150}{150} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Cam@{Cam}!scale@{scale}}
+\index{scale@{scale}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{scale}{scale}}]{\setlength{\rightskip}{0pt plus 5cm}float Cam\+::scale}\hypertarget{structCam_a99a4c54ed1a408665a0963f308008ec8}{}\label{structCam_a99a4c54ed1a408665a0963f308008ec8}
+
+
+Depth scale ( $ \textit{m}$) 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00145}{145} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{Cam@{Cam}!T\+\_\+\+TD@{T\+\_\+\+TD}}
+\index{T\+\_\+\+TD@{T\+\_\+\+TD}!Cam@{Cam}}
+\paragraph[{\texorpdfstring{T\+\_\+\+TD}{T_TD}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf quaternion} Cam\+::\+T\+\_\+\+TD}\hypertarget{structCam_a05f5a946647cd44a473b0fd03186ca96}{}\label{structCam_a05f5a946647cd44a473b0fd03186ca96}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00150}{150} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8cuh}{Voxel.\+cuh}\end{DoxyCompactItemize}

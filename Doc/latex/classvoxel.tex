@@ -1,0 +1,399 @@
+\hypertarget{classvoxel}{}\subsection{voxel Class Reference}
+\label{classvoxel}\index{voxel@{voxel}}
+
+
+Voxel/\+Intermediate nodes of the Octree structure.  
+
+
+
+
+{\ttfamily \#include $<$Voxel.\+hpp$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classvoxel_a1f832fd40f23c4fd721a4144387db6ef}{voxel} (float x, float y, float z, float \hyperlink{classvoxel_a573bae3d6e8383a4b2235d3cd33e7ab6}{size})
+\begin{DoxyCompactList}\small\item\em Constructor for voxel node. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{update\+\_\+vox} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Update method for this node object. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{classvoxel_a1748472909af5ef1f28d0a0c6648dbbd}{update\+\_\+self} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Update method for self. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{classvoxel_aff25abf72186eb31821d1ffacf557c67}{free\+\_\+mem} ()
+\begin{DoxyCompactList}\small\item\em Recursively frees up memory inside this voxel node. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}{all\+\_\+points} (\hyperlink{structTuple}{Tuple} $\ast$set, float x\+\_\+o, float y\+\_\+o, float z\+\_\+o, int $\ast$idx)
+\begin{DoxyCompactList}\small\item\em Appends all leaf node points in this node to vector set. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ bool \hyperlink{classvoxel_ae8d08bec6f007a905812764672327522}{is\+\_\+empty} ()
+\begin{DoxyCompactList}\small\item\em Checks if this node has been observed or not. \end{DoxyCompactList}\item 
+\hyperlink{classvoxel_a77f20a6fddec8f3aa3c719c3dc609948}{voxel} (float x, float y, float z, float \hyperlink{classvoxel_a573bae3d6e8383a4b2235d3cd33e7ab6}{size})
+\begin{DoxyCompactList}\small\item\em Constructor for voxel node. \end{DoxyCompactList}\item 
+void \hyperlink{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}{update\+\_\+vox} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Update method for this node object. \end{DoxyCompactList}\item 
+void \hyperlink{classvoxel_ac766278266424ede18f1fae9ccfd88be}{free\+\_\+mem} ()
+\begin{DoxyCompactList}\small\item\em Recursively frees up memory inside this voxel node. \end{DoxyCompactList}\item 
+void \hyperlink{classvoxel_aaea83372a2e28b25ae65dcc635ebe635}{all\+\_\+points} (std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$set, float x\+\_\+o, float y\+\_\+o, float z\+\_\+o)
+\begin{DoxyCompactList}\small\item\em Appends all leaf node points in this node to vector set. \end{DoxyCompactList}\item 
+bool \hyperlink{classvoxel_afe0d1d928ee0358b0fc0a67f58793cfd}{is\+\_\+empty} ()
+\begin{DoxyCompactList}\small\item\em Checks if this node has been observed or not. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \hyperlink{classvoxel_aa280f71c0258d85ffef6f1818872a00a}{c} \mbox{[}8\mbox{]}
+\begin{DoxyCompactList}\small\item\em Pointers to child voxels/leafs. \end{DoxyCompactList}\item 
+float \hyperlink{classvoxel_a01aebb82be393552c039c11a2c168845}{\+\_\+v}
+\begin{DoxyCompactList}\small\item\em Inverse of variance. \end{DoxyCompactList}\item 
+float \hyperlink{classvoxel_a573bae3d6e8383a4b2235d3cd33e7ab6}{size}
+\end{DoxyCompactItemize}
+\begin{Indent}{\bf Co-\/ordinates}\par
+{\em Co-\/ordinates of a single point inside voxel node divided by the variance.
+
+The co-\/ordinates are measured relative to voxel node edge length, ie. $x, y, z \in [0,1)$. Note that although x\+\_\+v, y\+\_\+v, and z\+\_\+v can are unbounded, the values of x, y, and z are bounded since the update is a convex combination of two points inside the node. The co-\/ordinates are divided by the variance so that the update can be performed in a single atomic operation while running in G\+PU. \begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh}{Voxel.\+cuh} 
+\end{DoxySeeAlso}
+}\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classvoxel_a263a7912d9018052399d4b99fb220f2e}{x\+\_\+v}
+\item 
+float \hyperlink{classvoxel_a67b339eef4ce4330a18d15973dcf6a24}{y\+\_\+v}
+\item 
+float \hyperlink{classvoxel_a66addb3e42303e4a90a745c2174b0043}{z\+\_\+v}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Detailed Description}
+Voxel/\+Intermediate nodes of the Octree structure. 
+
+G\+PU\+: ~\newline
+ Primarily stores the pointers to the eight children of this voxel object. Additionally it also stores the co-\/ordinate of a combined single point, calculated from all its children. This information can be used if memory consumed by the Octree structure reaches a threshold, in which case all the children of a voxel object at some particular level can deleted freeing some space, but at the same time not losing information about the space inside (although accuracy will decrease). The x, y, z co-\/ordinates of thr single point stored inside is relative to edge length ie. $x, y, z \in [0,1)$. This is to maintain uniform accuracy across all points. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-\/ordinates minimum. ie. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \hyperlink{classvoxel_a01aebb82be393552c039c11a2c168845}{voxel\+::\+\_\+v} $> 0$, the leaf node is occupied. If \+\_\+v $= 0$, the voxel node is empty (this is not the same as unobserved. This means that this node has been observed, but there is no point inside it). This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation. Additionally, if any child pointer c\mbox{[}i\mbox{]} $= NULL$, then that child has not yet been observed. An object of this class can only be declared inside the C\+U\+DA kernel.
+
+C\+PU\+: ~\newline
+ Primarily stores the pointers to the eight children of this voxel object. Additionally it also stores the co-\/ordinate of a combined single point, calculated from all its children. This information can be used if memory consumed by the Octree structure reaches a threshold, in which case all the children of a voxel object at some particular level can deleted freeing some space, but at the same time not losing information about the space inside (although accuracy will decrease). The x, y, z co-\/ordinates of thr single point stored inside is relative to edge length ie. $x, y, z \in [0,1)$. This is to maintain uniform accuracy across all points. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-\/ordinates minimum. ie. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \hyperlink{classvoxel_a01aebb82be393552c039c11a2c168845}{voxel\+::\+\_\+v} $> 0$, the leaf node is occupied. If \+\_\+v $= 0$, the voxel node is empty (this is not the same as unobserved. This means that this node has been observed, but there is no point inside it). This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation. Additionally, if any child pointer c\mbox{[}i\mbox{]} $= NULL$, then that child has not yet been observed. 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00297}{297} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{voxel@{voxel}!voxel@{voxel}}
+\index{voxel@{voxel}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{voxel(float x, float y, float z, float size)}{voxel(float x, float y, float z, float size)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ voxel\+::voxel (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z, }
+\item[{float}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_a1f832fd40f23c4fd721a4144387db6ef}{}\label{classvoxel_a1f832fd40f23c4fd721a4144387db6ef}
+
+
+Constructor for voxel node. 
+
+Note that this is the only constructor provided. 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+{\em edge} & length of voxel ( $\textit{m}$) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00334}{334} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!voxel@{voxel}}
+\index{voxel@{voxel}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{voxel(float x, float y, float z, float size)}{voxel(float x, float y, float z, float size)}}]{\setlength{\rightskip}{0pt plus 5cm}voxel\+::voxel (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z, }
+\item[{float}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_a77f20a6fddec8f3aa3c719c3dc609948}{}\label{classvoxel_a77f20a6fddec8f3aa3c719c3dc609948}
+
+
+Constructor for voxel node. 
+
+Note that this is the only constructor provided. If the parameters provided are $(-1, -1, -,1)$, the node is set to be empty. Note that x\+\_\+v, y\+\_\+v, and z\+\_\+v are set $= 0$. 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+{\em edge} & length of voxel ( $\textit{m}$) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00236}{236} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{voxel@{voxel}!all\+\_\+points@{all\+\_\+points}}
+\index{all\+\_\+points@{all\+\_\+points}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{all\+\_\+points(std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$set, float x\+\_\+o, float y\+\_\+o, float z\+\_\+o)}{all_points(std::vector< std::tuple< float, float, float, float > > *set, float x_o, float y_o, float z_o)}}]{\setlength{\rightskip}{0pt plus 5cm}void voxel\+::all\+\_\+points (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ std\+::tuple$<$ float, float, float, float $>$ $>$ $\ast$}]{set, }
+\item[{float}]{x\+\_\+o, }
+\item[{float}]{y\+\_\+o, }
+\item[{float}]{z\+\_\+o}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_aaea83372a2e28b25ae65dcc635ebe635}{}\label{classvoxel_aaea83372a2e28b25ae65dcc635ebe635}
+
+
+Appends all leaf node points in this node to vector set. 
+
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00310}{310} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{voxel@{voxel}!all\+\_\+points@{all\+\_\+points}}
+\index{all\+\_\+points@{all\+\_\+points}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{all\+\_\+points(\+Tuple $\ast$set, float x\+\_\+o, float y\+\_\+o, float z\+\_\+o, int $\ast$idx)}{all_points(Tuple *set, float x_o, float y_o, float z_o, int *idx)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ void voxel\+::all\+\_\+points (
+\begin{DoxyParamCaption}
+\item[{{\bf Tuple} $\ast$}]{set, }
+\item[{float}]{x\+\_\+o, }
+\item[{float}]{y\+\_\+o, }
+\item[{float}]{z\+\_\+o, }
+\item[{int $\ast$}]{idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}{}\label{classvoxel_a4189fb0f24ad9eba1447e2ebf8ee0015}
+
+
+Appends all leaf node points in this node to vector set. 
+
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00432}{432} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!free\+\_\+mem@{free\+\_\+mem}}
+\index{free\+\_\+mem@{free\+\_\+mem}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{free\+\_\+mem()}{free_mem()}}]{\setlength{\rightskip}{0pt plus 5cm}void voxel\+::free\+\_\+mem (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_ac766278266424ede18f1fae9ccfd88be}{}\label{classvoxel_ac766278266424ede18f1fae9ccfd88be}
+
+
+Recursively frees up memory inside this voxel node. 
+
+This is called upon by the member method \hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{occ\+\_\+grid\+::free\+\_\+mem()} (which is inturn called by \hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{C\+P\+U\+\_\+\+F\+E\+::$\sim$\+C\+P\+U\+\_\+\+F\+E()}) on each of the root voxel nodes, which recursively deletes all the nodes in the octree. \begin{DoxySeeAlso}{See also}
+\hyperlink{classocc__grid_adbfab59a1fb247d53a993fd9a2a26d67}{occ\+\_\+grid\+::free\+\_\+mem()}, \hyperlink{classCPU__FE_a425dc3014e22d7aeaaf261ac945f4da1}{C\+P\+U\+\_\+\+F\+E\+::$\sim$\+C\+P\+U\+\_\+\+F\+E()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00286}{286} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{voxel@{voxel}!free\+\_\+mem@{free\+\_\+mem}}
+\index{free\+\_\+mem@{free\+\_\+mem}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{free\+\_\+mem()}{free_mem()}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ void voxel\+::free\+\_\+mem (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_aff25abf72186eb31821d1ffacf557c67}{}\label{classvoxel_aff25abf72186eb31821d1ffacf557c67}
+
+
+Recursively frees up memory inside this voxel node. 
+
+This is called upon by the global method Delete() (which is inturn called by \hyperlink{classGPU__FE_a1da80fa2f9f13df184e545e46f9d9270}{G\+P\+U\+\_\+\+F\+E\+::$\sim$\+G\+P\+U\+\_\+\+F\+E()}) on each of the root voxel nodes, which recursively deletes all the nodes in the octree. Run by a single C\+U\+DA thread, since it is called only once and doesn\textquotesingle{}t affect the performance. \begin{DoxySeeAlso}{See also}
+\hyperlink{classGPU__FE_a1da80fa2f9f13df184e545e46f9d9270}{G\+P\+U\+\_\+\+F\+E\+::$\sim$\+G\+P\+U\+\_\+\+F\+E()}, Delete() 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00407}{407} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!is\+\_\+empty@{is\+\_\+empty}}
+\index{is\+\_\+empty@{is\+\_\+empty}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{is\+\_\+empty()}{is_empty()}}]{\setlength{\rightskip}{0pt plus 5cm}bool voxel\+::is\+\_\+empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_afe0d1d928ee0358b0fc0a67f58793cfd}{}\label{classvoxel_afe0d1d928ee0358b0fc0a67f58793cfd}
+
+
+Checks if this node has been observed or not. 
+
+If the node has atleast one filled or empty children, this method returns false. \begin{DoxySeeAlso}{See also}
+\hyperlink{classvoxel}{voxel} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00333}{333} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{voxel@{voxel}!is\+\_\+empty@{is\+\_\+empty}}
+\index{is\+\_\+empty@{is\+\_\+empty}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{is\+\_\+empty()}{is_empty()}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ bool voxel\+::is\+\_\+empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_ae8d08bec6f007a905812764672327522}{}\label{classvoxel_ae8d08bec6f007a905812764672327522}
+
+
+Checks if this node has been observed or not. 
+
+If the node has atleast one filled or empty children, this method returns false. \begin{DoxySeeAlso}{See also}
+\hyperlink{classvoxel}{voxel} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00456}{456} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!update\+\_\+self@{update\+\_\+self}}
+\index{update\+\_\+self@{update\+\_\+self}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{update\+\_\+self(float x, float y, float z)}{update_self(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ void voxel\+::update\+\_\+self (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_a1748472909af5ef1f28d0a0c6648dbbd}{}\label{classvoxel_a1748472909af5ef1f28d0a0c6648dbbd}
+
+
+Update method for self. 
+
+Following the update of the children, the point stored inside this voxel is updated. atommic\+Add() function and the transformed variables ensure consistency while multi-\/threading. This method is similar to \hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()} 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()}, \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00394}{394} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{classvoxel_a1748472909af5ef1f28d0a0c6648dbbd_icgraph}
+\end{center}
+\end{figure}
+
+
+\index{voxel@{voxel}!update\+\_\+vox@{update\+\_\+vox}}
+\index{update\+\_\+vox@{update\+\_\+vox}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{update\+\_\+vox(float x, float y, float z)}{update_vox(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}void voxel\+::update\+\_\+vox (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}{}\label{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}
+
+
+Update method for this node object. 
+
+For each voxel, two update steps are performed\+: one for the child voxel/leaf the input point lies in, and one for this voxel object. For the child update, it is first checked whether the child exists. If it does, \hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()} or \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()} is called on the child object. If it doesn\textquotesingle{}t, a new child voxel/leaf is created and the constructor \hyperlink{classleaf_adfaf04cd4b50545cbc902d1aa36bc609}{leaf\+::leaf()} or \hyperlink{classvoxel_a1f832fd40f23c4fd721a4144387db6ef}{voxel\+::voxel()} is called. This step is a recursive one. The decision of whether the child is a voxel node or a leaf node is made considering the edge lengths of the children. ( $=\frac{this\to\_v}{2}$) If child edge length $ \leq $ M\+I\+N\+\_\+L, the child is a leaf node, else it is a voxel node. The next step is self update which is similar to \hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()} 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00256}{256} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{voxel@{voxel}!update\+\_\+vox@{update\+\_\+vox}}
+\index{update\+\_\+vox@{update\+\_\+vox}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{update\+\_\+vox(float x, float y, float z)}{update_vox(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ void voxel\+::update\+\_\+vox (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classvoxel_a97737aec7c381e72d929d2f084952683}{}\label{classvoxel_a97737aec7c381e72d929d2f084952683}
+
+
+Update method for this node object. 
+
+For each voxel, two update steps are performed\+: one for the child voxel/leaf the input point lies in, and one for this voxel object. For the child update, it is first checked whether the child exists. If it does, \hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()} or \hyperlink{classvoxel_a97737aec7c381e72d929d2f084952683}{voxel\+::update\+\_\+vox()} is called on the child object. If it doesn\textquotesingle{}t, a new child voxel/leaf is created and the constructor \hyperlink{classleaf_adfaf04cd4b50545cbc902d1aa36bc609}{leaf\+::leaf()} or \hyperlink{classvoxel_a1f832fd40f23c4fd721a4144387db6ef}{voxel\+::voxel()} is called. This step is a recursive one. To avoid multiple threads creating inconsistent and wasteful copies of the same child node, the following strategy is used\+: Each thread creates a copy of child voxel, then an atomic Compare and Swap (atomic\+C\+A\+S()) is applied on the child pointer. Only one thread can successfully replace the pointer. This pointer is subsequently used for all updates, and the unused children are deleted. The decision of whether the child is a voxel node or a leaf node is made considering the edge lengths of the children. ( $=\frac{this\to\_v}{2}$) If child edge length $ \leq $ M\+I\+N\+\_\+L, the child is a leaf node, else it is a voxel node. The next step is self update which is similar to \hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()} 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{leaf\+::update\+\_\+leaf()}, \hyperlink{classvoxel_a1748472909af5ef1f28d0a0c6648dbbd}{voxel\+::update\+\_\+self()} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00355}{355} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{classvoxel_a97737aec7c381e72d929d2f084952683_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{voxel@{voxel}!\+\_\+v@{\+\_\+v}}
+\index{\+\_\+v@{\+\_\+v}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{\+\_\+v}{_v}}]{\setlength{\rightskip}{0pt plus 5cm}float voxel\+::\+\_\+v}\hypertarget{classvoxel_a01aebb82be393552c039c11a2c168845}{}\label{classvoxel_a01aebb82be393552c039c11a2c168845}
+
+
+Inverse of variance. 
+
+The points are assumed to be distributed as a 3-\/D uniform gaussian distribution when measured. As more points are updated in the node, this variance decreases, ie. the certainity of a point existing in the node increases. The update rule is the typical update rule of gaussian distribution, same as the one in Measurement Update Step in E\+KF and S\+L\+AM. Inverse of variance is stored so that the update can be performed in a single atomic step while running in G\+PU.
+
+The points are assumed to be distributed as a 3-\/D uniform gaussian distribution when measured. As more points are updated in the node, this variance decreases, ie. the certainity of a point existing in the node increases. The update rule is the typical update rule of gaussian distribution, same as the one in Measurement Update Step in E\+KF and S\+L\+AM. Inverse of variance is stored so that the update can be performed in a single atomic step while running in G\+PU. \begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh}{Voxel.\+cuh} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00313}{313} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!c@{c}}
+\index{c@{c}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{c}{c}}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ voxel\+::c}\hypertarget{classvoxel_aa280f71c0258d85ffef6f1818872a00a}{}\label{classvoxel_aa280f71c0258d85ffef6f1818872a00a}
+
+
+Pointers to child voxels/leafs. 
+
+The pointers are of type void $\ast$ becuase the child can either be a voxel node or a leaf node depending on the level, M\+I\+N\+\_\+L, and V\+O\+X\+\_\+L. The order of numbering is such that the index of smaller co-\/ordinate child $<$ index of larger co-\/ordinate child with the preference among dimensions being $ z > y > x$ ie. index $ = (z\geq0.5)\ll2 \lor (y\geq0.5)\ll1 \lor (x\geq0.5)$ 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00306}{306} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!size@{size}}
+\index{size@{size}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{size}{size}}]{\setlength{\rightskip}{0pt plus 5cm}float voxel\+::size}\hypertarget{classvoxel_a573bae3d6e8383a4b2235d3cd33e7ab6}{}\label{classvoxel_a573bae3d6e8383a4b2235d3cd33e7ab6}
+Edge length of voxel node ( $\textit{m}$) 
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00326}{326} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!x\+\_\+v@{x\+\_\+v}}
+\index{x\+\_\+v@{x\+\_\+v}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{x\+\_\+v}{x_v}}]{\setlength{\rightskip}{0pt plus 5cm}float voxel\+::x\+\_\+v}\hypertarget{classvoxel_a263a7912d9018052399d4b99fb220f2e}{}\label{classvoxel_a263a7912d9018052399d4b99fb220f2e}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00323}{323} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!y\+\_\+v@{y\+\_\+v}}
+\index{y\+\_\+v@{y\+\_\+v}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{y\+\_\+v}{y_v}}]{\setlength{\rightskip}{0pt plus 5cm}float voxel\+::y\+\_\+v}\hypertarget{classvoxel_a67b339eef4ce4330a18d15973dcf6a24}{}\label{classvoxel_a67b339eef4ce4330a18d15973dcf6a24}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00323}{323} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{voxel@{voxel}!z\+\_\+v@{z\+\_\+v}}
+\index{z\+\_\+v@{z\+\_\+v}!voxel@{voxel}}
+\paragraph[{\texorpdfstring{z\+\_\+v}{z_v}}]{\setlength{\rightskip}{0pt plus 5cm}float voxel\+::z\+\_\+v}\hypertarget{classvoxel_a66addb3e42303e4a90a745c2174b0043}{}\label{classvoxel_a66addb3e42303e4a90a745c2174b0043}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00323}{323} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8cuh}{Voxel.\+cuh}\item 
+include/\hyperlink{Voxel_8hpp}{Voxel.\+hpp}\end{DoxyCompactItemize}

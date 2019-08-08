@@ -1,0 +1,141 @@
+.TH "CPU_FE" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CPU_FE \- Wrapper class for \fBocc_grid\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Voxel\&.hpp>\fP
+.PP
+Inherits \fBMap_FE\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCPU_FE\fP ()"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "void \fBUpdate\fP (\fBCamera\fP const &C, rs2_pose const &pose, cv::Mat const &depth)"
+.br
+.RI "\fIUpdates the measurement data in the global map\&. \fP"
+.ti -1c
+.RI "void \fBPoints\fP (std::vector< std::tuple< float, float, float, float > > *points)"
+.br
+.RI "\fIAppends all points in global map to the vector\&. \fP"
+.ti -1c
+.RI "\fB~CPU_FE\fP ()"
+.br
+.RI "\fIDestructor\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBocc_grid\fP * \fBg_map\fP"
+.br
+.RI "\fIGlobal map object\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Wrapper class for \fBocc_grid\fP\&. 
+
+This class acts as an abstraction for the \fBocc_grid\fP class\&. Also inherits virtual class \fBMap_FE\fP, so implements all its virtual methods\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBMap_FE\fP 
+.RE
+.PP
+
+.PP
+Definition at line 460 of file Voxel\&.hpp\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CPU_FE::CPU_FE ()\fC [inline]\fP"
+
+.PP
+Default Constructor\&. 
+.PP
+Definition at line 472 of file Voxel\&.hpp\&.
+.SS "CPU_FE::~CPU_FE ()\fC [inline]\fP"
+
+.PP
+Destructor\&. Deletes the global map 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::free_mem()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 518 of file Voxel\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void CPU_FE::Points (std::vector< std::tuple< float, float, float, float > > * points)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Appends all points in global map to the vector\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of points 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::all_points()\fP, \fBMap_FE::Points()\fP 
+.RE
+.PP
+
+.PP
+Implements \fBMap_FE\fP\&.
+.PP
+Definition at line 510 of file Voxel\&.hpp\&.
+.SS "void CPU_FE::Update (\fBCamera\fP const & C, rs2_pose const & pose, cv::Mat const & depth)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Updates the measurement data in the global map\&. Sequencially calls \fBocc_grid::update_point()\fP on all points in the depth image\&. The co-ordinates are transformed from the D435 frame to T265 global frame and then passed on to \fBocc_grid::update_point()\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBCamera\fP\fP object 
+.br
+\fIpose\fP of T265 
+.br
+\fI16-bit\fP D435 depth image 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::update_point()\fP, \fBMap_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Implements \fBMap_FE\fP\&.
+.PP
+Definition at line 484 of file Voxel\&.hpp\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBocc_grid\fP* CPU_FE::g_map\fC [private]\fP"
+
+.PP
+Global map object\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid\fP 
+.RE
+.PP
+
+.PP
+Definition at line 467 of file Voxel\&.hpp\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

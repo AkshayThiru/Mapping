@@ -1,0 +1,102 @@
+.TH "Cam" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Cam \- \fBCamera\fP Intrinsics and Extrinsics\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "float \fBscale\fP"
+.br
+.RI "\fIDepth scale ( $ \textit{m}$) \fP"
+.in -1c
+.PP
+.RI "\fBFocal length (pixels)\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBfx\fP"
+.br
+.ti -1c
+.RI "float \fBfy\fP"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fBImage Center (pixels)\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBppx\fP"
+.br
+.ti -1c
+.RI "float \fBppy\fP"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fBT265 to D435 Extrinsics\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBquaternion\fP \fBQ_TD\fP"
+.br
+.ti -1c
+.RI "\fBquaternion\fP \fBT_TD\fP"
+.br
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCamera\fP Intrinsics and Extrinsics\&. 
+
+Used to pass to CUDA kernel 
+.PP
+Definition at line 130 of file Voxel\&.cuh\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "float Cam::fx"
+
+.PP
+Definition at line 135 of file Voxel\&.cuh\&.
+.SS "float Cam::fy"
+
+.PP
+Definition at line 135 of file Voxel\&.cuh\&.
+.SS "float Cam::ppx"
+
+.PP
+Definition at line 141 of file Voxel\&.cuh\&.
+.SS "float Cam::ppy"
+
+.PP
+Definition at line 141 of file Voxel\&.cuh\&.
+.SS "\fBquaternion\fP Cam::Q_TD"
+
+.PP
+Definition at line 150 of file Voxel\&.cuh\&.
+.SS "float Cam::scale"
+
+.PP
+Depth scale ( $ \textit{m}$) 
+.PP
+Definition at line 145 of file Voxel\&.cuh\&.
+.SS "\fBquaternion\fP Cam::T_TD"
+
+.PP
+Definition at line 150 of file Voxel\&.cuh\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

@@ -1,0 +1,209 @@
+.TH "GPU_FE" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+GPU_FE \- Wrapper class for \fBocc_grid\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBMap_FE\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGPU_FE\fP ()"
+.br
+.RI "\fIDefault Constructor\&. \fP"
+.ti -1c
+.RI "void \fBUpdate\fP (\fBCamera\fP const &\fBC\fP, rs2_pose const &pose, cv::Mat const &depth)"
+.br
+.RI "\fIUpdates the measurement data in the global map\&. \fP"
+.ti -1c
+.RI "void \fBPoints\fP (std::vector< std::tuple< float, float, float, float > > *points)"
+.br
+.RI "\fIAppends all points in global map to the vector\&. \fP"
+.ti -1c
+.RI "\fB~GPU_FE\fP ()"
+.br
+.RI "\fIDestructor\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "thrust::host_vector< \fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > > \fBHV\fP"
+.br
+.RI "\fIVector in host memory containing root voxels\&. \fP"
+.ti -1c
+.RI "long \fBs\fP"
+.br
+.RI "\fISize of HV vector\&. \fP"
+.ti -1c
+.RI "\fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > * \fBdtemp\fP"
+.br
+.RI "\fITemporary array stored in device memory\&. \fP"
+.ti -1c
+.RI "\fBPair\fP< long, \fBPair\fP< \fBvoxel\fP *, \fBPoint\fP > > * \fBhtemp\fP"
+.br
+.RI "\fITemporary array stored in host memory\&. \fP"
+.ti -1c
+.RI "unsigned short * \fBD\fP"
+.br
+.RI "\fIPointer to depth image stored on device\&. \fP"
+.ti -1c
+.RI "\fBPose\fP * \fBP\fP"
+.br
+.RI "\fIPointer to \fBPose\fP struct stored on device\&. \fP"
+.ti -1c
+.RI "\fBCam\fP * \fBC\fP"
+.br
+.RI "\fIPointer ot \fBCam\fP struct stored on device\&. \fP"
+.ti -1c
+.RI "long * \fBS\fP"
+.br
+.RI "\fISize of HV vector; passed to device\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Wrapper class for \fBocc_grid\fP\&. 
+
+This class acts as an abstraction for the CUDA kernel methods\&. Also inherits virtual class \fBMap_FE\fP, so implements all its virtual methods\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBMap_FE\fP 
+.RE
+.PP
+
+.PP
+Definition at line 603 of file Voxel\&.cuh\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "GPU_FE::GPU_FE ()\fC [inline]\fP"
+
+.PP
+Default Constructor\&. Static memory required for the device members are allocated on device memory\&. Space for temporary array on host is allocated in host heap memory\&. 
+.PP
+Definition at line 638 of file Voxel\&.cuh\&.
+.SS "GPU_FE::~GPU_FE ()\fC [inline]\fP"
+
+.PP
+Destructor\&. Deletes the global map 
+.PP
+\fBSee also:\fP
+.RS 4
+Delete() 
+.RE
+.PP
+
+.PP
+Definition at line 729 of file Voxel\&.cuh\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void GPU_FE::Points (std::vector< std::tuple< float, float, float, float > > * points)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Appends all points in global map to the vector\&. This is a single threaded kernel method call\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvector\fP of points 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBPrint()\fP, \fBMap_FE::Points()\fP 
+.RE
+.PP
+
+.PP
+Implements \fBMap_FE\fP\&.
+.PP
+Definition at line 704 of file Voxel\&.cuh\&.
+.SS "void GPU_FE::Update (\fBCamera\fP const & C, rs2_pose const & pose, cv::Mat const & depth)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+Updates the measurement data in the global map\&. Calls the global kernel method \fBUpdate_root()\fP\&. Structs to be passed to the kernel are set up and the input parameters ae copied on to the device memory\&. After the call to the kernel has finished, the new root voxels are stored in HV and sorted by their indices\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBCamera\fP\fP object 
+.br
+\fIpose\fP of T265 
+.br
+\fI16-bit\fP D435 depth image 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBUpdate_root()\fP, \fBMap_FE::Update()\fP 
+.RE
+.PP
+
+.PP
+Implements \fBMap_FE\fP\&.
+.PP
+Definition at line 658 of file Voxel\&.cuh\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCam\fP* GPU_FE::C\fC [private]\fP"
+
+.PP
+Pointer ot \fBCam\fP struct stored on device\&. 
+.PP
+Definition at line 628 of file Voxel\&.cuh\&.
+.SS "unsigned short* GPU_FE::D\fC [private]\fP"
+
+.PP
+Pointer to depth image stored on device\&. 
+.PP
+Definition at line 624 of file Voxel\&.cuh\&.
+.SS "\fBPair\fP< long, \fBPair\fP<\fBvoxel\fP *, \fBPoint\fP> >* GPU_FE::dtemp\fC [private]\fP"
+
+.PP
+Temporary array stored in device memory\&. This temporary array is used to store pointers to voxels created during current update on the device\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBUpdate_root\fP 
+.RE
+.PP
+
+.PP
+Definition at line 618 of file Voxel\&.cuh\&.
+.SS "\fBPair\fP< long, \fBPair\fP<\fBvoxel\fP *, \fBPoint\fP> >* GPU_FE::htemp\fC [private]\fP"
+
+.PP
+Temporary array stored in host memory\&. This temporary array is used to copy the contents of dtemp vector and append them to HV vector\&. 
+.PP
+Definition at line 622 of file Voxel\&.cuh\&.
+.SS "thrust::host_vector< \fBPair\fP< long, \fBPair\fP<\fBvoxel\fP *, \fBPoint\fP> > > GPU_FE::HV\fC [private]\fP"
+
+.PP
+Vector in host memory containing root voxels\&. The vector is sorted using the index of the root voxels and is copied on to a device-side vector before passing to the kernel methods\&. 
+.PP
+Definition at line 611 of file Voxel\&.cuh\&.
+.SS "\fBPose\fP* GPU_FE::P\fC [private]\fP"
+
+.PP
+Pointer to \fBPose\fP struct stored on device\&. 
+.PP
+Definition at line 626 of file Voxel\&.cuh\&.
+.SS "long GPU_FE::s\fC [private]\fP"
+
+.PP
+Size of HV vector\&. 
+.PP
+Definition at line 613 of file Voxel\&.cuh\&.
+.SS "long* GPU_FE::S\fC [private]\fP"
+
+.PP
+Size of HV vector; passed to device\&. 
+.PP
+Definition at line 630 of file Voxel\&.cuh\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

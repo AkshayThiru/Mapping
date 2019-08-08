@@ -1,0 +1,505 @@
+\hypertarget{cVoxel_8hpp_source}{}\subsection{c\+Voxel.\+hpp}
+\label{cVoxel_8hpp_source}\index{include/c\+Voxel.\+hpp@{include/c\+Voxel.\+hpp}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef VOXEL\_H}
+00002 \textcolor{preprocessor}{#define VOXEL\_H}
+00003 
+00004 \textcolor{preprocessor}{#ifdef \_\_CUDACC\_\_}
+00005 
+00006 
+00007 \textcolor{preprocessor}{#include <cuda.h>}
+00008 \textcolor{preprocessor}{#include <cuda\_runtime.h>}
+00009 \textcolor{preprocessor}{#include <cuda\_profiler\_api.h>}
+00010 
+00011 \textcolor{preprocessor}{#include <iostream>}
+00012 \textcolor{preprocessor}{#include <fstream>}
+00013 
+00014 \textcolor{preprocessor}{#include <typeinfo>}
+00015 \textcolor{preprocessor}{#include <cmath>}
+00016 \textcolor{preprocessor}{#include <math.h>}
+00017 \textcolor{preprocessor}{#include <utility>}
+00018 \textcolor{preprocessor}{#include <unistd.h>}
+00019 \textcolor{preprocessor}{#include <thrust/tuple.h>}
+00020 \textcolor{preprocessor}{#include <thrust/host\_vector.h>}
+00021 \textcolor{preprocessor}{#include <thrust/device\_vector.h>}
+00022 \textcolor{preprocessor}{#include <thrust/execution\_policy.h>}
+00023 \textcolor{preprocessor}{#include <thrust/sort.h>}
+00024 \textcolor{preprocessor}{#include <thrust/binary\_search.h>}
+00025 
+00026 \textcolor{preprocessor}{#include "\hyperlink{Helper_8hpp}{Helper.hpp}"}
+00027 
+00029 
+00032 \textcolor{preprocessor}{#define MIN\_L 0.04 // minimum edge length of leaf in meter}
+00033 
+00037 \textcolor{preprocessor}{#define VOX\_L 2.56 // edge length of root voxel in meter (>= MIN\_L). Define as float:eg: 2.00}
+00038 
+00042 \textcolor{preprocessor}{#define VAR\_P 0.005 // variance of each measurement}
+00043 
+00046 
+00049 
+00051 \textcolor{preprocessor}{#define NUM\_B 480}
+00052 
+00055 \textcolor{preprocessor}{#define NUM\_T 640}
+00056 
+00058 
+00060 
+00064 \textcolor{keyword}{class }\hyperlink{classquaternion}{quaternion} \{
+00065 
+00066 \textcolor{keyword}{public}:
+00067 
+00070     \textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w};
+00072 
+00074 
+00078     \_\_host\_\_ \_\_device\_\_ \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion} (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z, \textcolor{keywordtype}{float} w) \{
+00079         this->x = \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x};
+00080         this->y = \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y};
+00081         this->z = \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z};
+00082         this->w = \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w};
+00083     \}
+00084 
+00086 
+00089     \_\_host\_\_ \_\_device\_\_ \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}{inv} () \{
+00090         \textcolor{keywordtype}{float} l = (this->\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x})*(this->x) + (this->\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y})*(this->y) + (this->\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z})*(this->z) + (this->
+      \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w})*(this->w);
+00091         \textcolor{keywordflow}{return} \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion} (-(this->x)/l, -(this->y)/l, -(this->z)/l, (this->w)/l);
+00092     \}
+00093 
+00095     \textcolor{comment}{/*  To be used as \(\backslash\)f$q\_1*q\_2\(\backslash\)f$ \(\backslash\)f$\(\backslash\)equiv q\_1\(\backslash\)timesq\_2\(\backslash\)f$, where &\(\backslash\)f$q\_1\(\backslash\)f$ = this}
+00096 \textcolor{comment}{    *   \(\backslash\)param \(\backslash\)f$q\_2\(\backslash\)f$}
+00097 \textcolor{comment}{    *   \(\backslash\)return quaternion}
+00098 \textcolor{comment}{    */}
+00099     \_\_host\_\_ \_\_device\_\_ \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a444a0e12b77a4388d496de9210117786}{operator * }(\hyperlink{classquaternion}{quaternion} \textcolor{keyword}{const} &q) \{
+00100         \hyperlink{classquaternion}{quaternion} q\_t(0, 0, 0, 0);
+00101         q\_t.x = + this->x*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} + this->y*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} - this->z*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} + this->w*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x};
+00102         q\_t.y = - this->x*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} + this->y*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} + this->z*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} + this->w*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y};
+00103         q\_t.z = + this->x*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} - this->y*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} + this->z*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w} + this->w*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z};
+00104         q\_t.w = - this->x*q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x} - this->y*q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y} - this->z*q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z} + this->w*q.\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w};
+00105         \textcolor{keywordflow}{return} q\_t;
+00106     \}
+00107 
+00109     \textcolor{comment}{/*  To be used as \(\backslash\)f$q\_1+q\_2\(\backslash\)f$ \(\backslash\)f$\(\backslash\)equiv q\_1+q\_2\(\backslash\)f$, where &\(\backslash\)f$q\_1\(\backslash\)f$ = this}
+00110 \textcolor{comment}{    *   \(\backslash\)param \(\backslash\)f$q\_2\(\backslash\)f$}
+00111 \textcolor{comment}{    *   \(\backslash\)return quaternion}
+00112 \textcolor{comment}{    */}
+00113     \_\_host\_\_ \_\_device\_\_ \hyperlink{classquaternion}{quaternion} \hyperlink{classquaternion_a5def90b88f02a02961ff51d6cd3e7dae}{operator + }(\hyperlink{classquaternion}{quaternion} \textcolor{keyword}{const} &q) \{
+00114         \textcolor{keywordflow}{return} \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion} (this->x+q.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, this->y+q.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, this->z+q.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, this->w+q.
+      \hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w});
+00115     \}
+00116 \};
+00117 
+00119 
+00121 \textcolor{keyword}{struct }Pose \{
+00123     \hyperlink{classquaternion}{quaternion} t;
+00125     \hyperlink{classquaternion}{quaternion} r;
+00126 \};
+00127 
+00128 \textcolor{keyword}{struct }Cam \{
+00129     \textcolor{keywordtype}{float} fx, fy;   \textcolor{comment}{// |}
+00130     \textcolor{keywordtype}{float} ppx, ppy; \textcolor{comment}{// | - Camera intrinsics}
+00131     \textcolor{keywordtype}{float} scale;    \textcolor{comment}{// |}
+00132 
+00133     \hyperlink{classquaternion}{quaternion} Q\_TD, T\_TD; \textcolor{comment}{// Camera extrinsics}
+00134 \};
+00135 
+00136 \textcolor{keyword}{struct }Tuple \{
+00137     \textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}, c;
+00138 \};
+00139 
+00140 \textcolor{keyword}{struct }Point \{
+00141     \textcolor{keywordtype}{float} \hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, \hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z};
+00142 \};
+00143 
+00144 
+00146 
+00148 
+00151 \textcolor{keyword}{static} \textcolor{keyword}{const} \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}{Q\_T265\_D435} (-0.0089999, 0.0024999, 0.0000225, 0.9999564); \textcolor{comment}{//
+       | - T265 to D435 extrinsics}
+00153 \textcolor{comment}{}\textcolor{keyword}{static} \textcolor{keyword}{const} \hyperlink{classquaternion}{quaternion} \hyperlink{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}{T\_T265\_D435} (0.021, 0.027, 0.009, 0);                      \textcolor{comment}{//
+       |}
+00155 \textcolor{comment}{}
+00156 
+00157 
+00158 
+00159 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} gpuAssert(cudaError\_t code, \textcolor{keyword}{const} \textcolor{keywordtype}{char} *file, \textcolor{keywordtype}{int} line, \textcolor{keywordtype}{bool} abort=\textcolor{keyword}{false})
+00160 \{
+00161     \textcolor{keywordflow}{if} (code != cudaSuccess) 
+00162     \{
+00163         fprintf(stderr,\textcolor{stringliteral}{"GPUassert: %s %s %d\(\backslash\)n"}, cudaGetErrorString(code), file, line);
+00164         \textcolor{keywordflow}{if}( abort )
+00165             exit(code);
+00166     \}
+00167 \}
+00168 
+00169 \textcolor{keyword}{inline} \textcolor{keywordtype}{void} gpuCheckKernelExecutionError( \textcolor{keyword}{const} \textcolor{keywordtype}{char} *file, \textcolor{keywordtype}{int} line)
+00170 \{
+00171     gpuAssert( cudaPeekAtLastError(), file, line);
+00172     gpuAssert( cudaDeviceSynchronize(), file, line);    
+00173 \}
+00174 
+00175 
+00176 \textcolor{comment}{/* leaf class */}
+00177 \textcolor{keyword}{class }\hyperlink{classleaf}{leaf} \{
+00178 
+00179 \textcolor{keyword}{public}:
+00180 
+00181     \textcolor{keywordtype}{float} \_v;
+00182     \textcolor{keywordtype}{float} x\_v, y\_v, z\_v;
+00183 
+00184     \_\_device\_\_ \hyperlink{classleaf}{leaf} (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z) \{ \textcolor{comment}{// state = -1: unoccupied}
+00185         \_v = 0;
+00186         x\_v = y\_v = z\_v = 0;
+00187     \}
+00188 
+00189     \_\_device\_\_ \textcolor{keywordtype}{void} update\_leaf (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z) \{ \textcolor{comment}{// x, y, z: scaled wrt to this->size}
+00190         atomicAdd(&x\_v, x/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P});
+00191         atomicAdd(&y\_v, y/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P});
+00192         atomicAdd(&z\_v, z/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P});
+00193         atomicAdd(&\_v, 1/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P});
+00194     \}
+00195 
+00196 \};
+00197 
+00198 
+00199 \textcolor{comment}{/* voxel class */}
+00200 \textcolor{keyword}{class }\hyperlink{classvoxel}{voxel} \{
+00201 
+00202 \textcolor{keyword}{public}:
+00203 
+00204     \textcolor{keywordtype}{void} * c[8]; \textcolor{comment}{// child voxels}
+00205     \textcolor{keywordtype}{float} \_v; \textcolor{comment}{// inverse of variance}
+00206     \textcolor{keywordtype}{float} x\_v, y\_v, z\_v; \textcolor{comment}{// point co-ordinate wrt voxel (0-1) / variance}
+00207     \textcolor{keywordtype}{float} size; \textcolor{comment}{// edge length of voxel in meter}
+00208     \textcolor{comment}{/* voxel * p; // parent voxel - initialize in constructor if used */}
+00209 
+00210     \_\_device\_\_ \hyperlink{classvoxel}{voxel} (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z, \textcolor{keywordtype}{float} size) \{ \textcolor{comment}{// state = -1: unoccupied}
+00211         \_v = 0;
+00212         x\_v = y\_v = z\_v = 0;
+00213         this->size = size;
+00214         c[0] = c[1] = c[2] = c[3] = c[4] = c[5] = c[6] = c[7] = NULL;
+00215     \}
+00216 
+00217     \_\_device\_\_ \textcolor{keywordtype}{void} update\_vox (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z) \{ \textcolor{comment}{// x, y, z: scaled wrt to this->size}
+00218 
+00219         \textcolor{comment}{/* update child voxels */}
+00220         \textcolor{keywordtype}{int} idx = (z >= 0.5)<<2 | (y >= 0.5)<<1 | (x >= 0.5); \textcolor{comment}{// idx of child voxel the point lies in}
+00221 
+00222         \textcolor{keywordflow}{if} (size/4 >= \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{ \textcolor{comment}{/* child is a voxel object */}
+00223             \textcolor{keywordflow}{if} (c[idx] == NULL) \{
+00224                 \textcolor{keywordtype}{void} * cptr = (\textcolor{keywordtype}{void} *) \textcolor{keyword}{new} \hyperlink{classvoxel}{voxel} (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2, size
+      /2);
+00225                 \textcolor{keywordflow}{if} ((\textcolor{keywordtype}{void} *)atomicCAS ((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} *)&c[idx], (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int})NULL, (\textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int})cptr) != NULL) \textcolor{comment}{// child created by some other thread}
+00226                     \textcolor{keyword}{delete} ((\hyperlink{classvoxel}{voxel} *)cptr);
+00227                 ((\hyperlink{classvoxel}{voxel} *)c[idx])->update\_self(fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00228                 ((\hyperlink{classvoxel}{voxel} *)c[idx])->\hyperlink{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}{update\_vox}(fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2
+      );
+00229             \}
+00230             \textcolor{keywordflow}{else} \{
+00231                 ((\hyperlink{classvoxel}{voxel} *)c[idx])->update\_self(fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00232                 ((\hyperlink{classvoxel}{voxel} *)c[idx])->update\_vox (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00233             \}
+00234         \}
+00235         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* child is a leaf object */}
+00236             \textcolor{keywordflow}{if} (c[idx] == NULL) \{
+00237                 \textcolor{keywordtype}{void} * cptr = (\textcolor{keywordtype}{void} *) \textcolor{keyword}{new} \hyperlink{classleaf}{leaf} (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00238                 \textcolor{keywordflow}{if} ((\textcolor{keywordtype}{void} *)atomicCAS ((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} *)&c[idx], (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int})NULL, (\textcolor{keywordtype}{
+      unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int})cptr) != NULL) \textcolor{comment}{// child created by some other thread}
+00239                     \textcolor{keyword}{delete} ((\hyperlink{classleaf}{leaf} *)cptr);
+00240                 ((\hyperlink{classleaf}{leaf} *)c[idx])->\hyperlink{classleaf_adacc1e0d36163c7fd0a7c31576ecf4e8}{update\_leaf} (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*
+      2);
+00241             \}
+00242             \textcolor{keywordflow}{else} \{
+00243                 ((\hyperlink{classleaf}{leaf} *)c[idx])->update\_leaf (fmodf(x,0.5)*2, fmodf(y,0.5)*2, fmodf(z,0.5)*2);
+00244             \}
+00245         \}
+00246 
+00247     \}
+00248 
+00249     \_\_device\_\_ \textcolor{keywordtype}{void} update\_self (\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y, \textcolor{keywordtype}{float} z) \{
+00250         \textcolor{comment}{/* update self */}
+00251         atomicAdd(&this->x\_v, x/\hyperlink{Voxel_8hpp_ae1cd6283839fc3aebf9bccbd1044a365}{VAR\_P});
+00252         \textcolor{comment}{//atomicAdd(&y\_v, y/VAR\_P);}
+00253         \textcolor{comment}{//atomicAdd(&z\_v, z/VAR\_P);}
+00254         \textcolor{comment}{//atomicAdd(&\_v, 1/VAR\_P);}
+00255     \}
+00256 
+00257     \_\_device\_\_ \textcolor{keywordtype}{void} free\_mem () \{
+00258         \textcolor{keywordflow}{if} (size/4 >= \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{ \textcolor{comment}{/* child is a voxel object */}
+00259             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00260                 \textcolor{keywordflow}{if} (c[i] != NULL) \{
+00261                     ((\hyperlink{classvoxel}{voxel} *)c[i])->free\_mem();
+00262                     \textcolor{keyword}{delete} (\hyperlink{classvoxel}{voxel} *)c[i];
+00263                 \}
+00264             \}
+00265         \}
+00266         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* child is a leaf object */}
+00267             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00268                 \textcolor{keywordflow}{if} (c[i] != NULL)
+00269                     \textcolor{keyword}{delete} (\hyperlink{classleaf}{leaf} *)c[i];
+00270             \}
+00271         \}
+00272     \}
+00273 
+00274     \_\_device\_\_ \textcolor{keywordtype}{void} all\_points (Tuple * \textcolor{keyword}{set}, \textcolor{keywordtype}{float} x\_o, \textcolor{keywordtype}{float} y\_o, \textcolor{keywordtype}{float} z\_o, \textcolor{keywordtype}{int} * idx) \{
+00275         \textcolor{keywordflow}{if} (size/4 >= \hyperlink{Voxel_8hpp_a29d8f4bb35f9fa62e1d680bc6ab1f4f1}{MIN\_L}) \{ \textcolor{comment}{/* child is a voxel object */}
+00276             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00277                 \textcolor{keywordflow}{if} (c[i] != NULL) \{
+00278                     ((\hyperlink{classvoxel}{voxel} *)c[i])->all\_points(\textcolor{keyword}{set}, x\_o+size/2*(i&1), y\_o+size/2*((i&2)>>1), z\_o+size
+      /2*((i&4)>>2), idx);
+00279                 \}
+00280             \}
+00281         \}
+00282         \textcolor{keywordflow}{else} \{ \textcolor{comment}{/* child is a leaf object */}
+00283             \hyperlink{classleaf}{leaf} * p = NULL;
+00284             \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00285                 \textcolor{keywordflow}{if} (c[i] != NULL) \{
+00286                     p = (\hyperlink{classleaf}{leaf} *) c[i];
+00287                     Tuple temp = \{x\_o+((p->\hyperlink{classleaf_ac34a93ca5739928d7389b12e735252d4}{x\_v})/(p->\hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})+(i&1))*size/2, y\_o+((p->
+      \hyperlink{classleaf_a06a94d40da44b846913db4d8900b2626}{y\_v})/(p->\hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})+((i&2)>>1))*size/2, z\_o+((p->\hyperlink{classleaf_a5f51fe13eb6e53bd9549469011e7a10e}{z\_v})/(p->\hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})+((i&4)>>2))*size/2, 1/(p->
+      \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\_v})\};
+00288                     \textcolor{keyword}{set}[(*idx)++] = temp;
+00289                 \}
+00290             \}
+00291         \}
+00292     \}
+00293 
+00294     \_\_device\_\_ \textcolor{keywordtype}{bool} is\_empty () \{
+00295         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 8; i++) \{
+00296             \textcolor{keywordflow}{if} (c[i] != NULL)
+00297                 \textcolor{keywordflow}{return} \textcolor{keyword}{false};
+00298         \}
+00299         \textcolor{keywordflow}{return} \textcolor{keyword}{true};
+00300     \}
+00301 
+00302 \};
+00303 
+00304 
+00305 \_\_device\_\_ \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > binary\_search (
+      \hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, \hyperlink{classPair}{Pair<voxel *, Point>} > * v, \textcolor{keywordtype}{long} b, \textcolor{keywordtype}{long} e, \textcolor{keywordtype}{long} key) \{ \textcolor{comment}{// ascending
+       order is assumed}
+00306     \textcolor{keywordflow}{if} (e >= b) \{
+00307         \textcolor{keywordtype}{long} m = b + (e-b)/2;
+00308         \textcolor{keywordflow}{if} (v[m].first == key)
+00309             \textcolor{keywordflow}{return} v[m];
+00310         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (v[m].first > key)
+00311             \textcolor{keywordflow}{return} binary\_search (v, b, m-1, key);
+00312         \textcolor{keywordflow}{else} 
+00313             \textcolor{keywordflow}{return} binary\_search (v, m+1, e, key);
+00314     \}
+00315     \textcolor{keywordflow}{return} \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > (0l, 
+      \hyperlink{classPair}{Pair<voxel *, Point>} (NULL, Point \{0, 0, 0\}));
+00316 
+00317 \}
+00318 
+00319 
+00320 \_\_device\_\_ Point mod\_p (Point p) \{
+00321         \textcolor{keywordflow}{return} Point \{fmodf(fmodf(p.x, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}), fmodf(fmodf(p.y, 
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}), fmodf(fmodf(p.z, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}) + \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, 
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})\};
+00322 \}
+00323 
+00324 
+00325 \_\_device\_\_ \textcolor{keywordtype}{long} index (Point p) \{
+00326     Point mod = mod\_p(p);
+00327     \textcolor{keywordtype}{long} a = (p.x < 0) ? -2*std::round((p.x-mod.x)/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})-1 : 2*std::round((p.x-mod.x)/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00328     \textcolor{keywordtype}{long} b = (p.y < 0) ? -2*std::round((p.y-mod.y)/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})-1 : 2*std::round((p.y-mod.y)/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00329     \textcolor{keywordtype}{long} c = (p.z < 0) ? -2*std::round((p.z-mod.z)/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L})-1 : 2*std::round((p.z-mod.z)/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00330     \textcolor{keywordtype}{long} idx = (a+b+c+2)*(a+b+c+1)*(a+b+c)/6 + (a+b+1)*(a+b)/2 + a;
+00331     \textcolor{keywordflow}{return} idx;
+00332 \}
+00333 
+00334 
+00335 \_\_global\_\_ \textcolor{keywordtype}{void} Update\_root (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} d[w*\hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}], \hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, 
+      \hyperlink{classPair}{Pair<voxel *, Point>} > * v, \textcolor{keywordtype}{long} * s, \hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, 
+      \hyperlink{classPair}{Pair<voxel *, Point>} > * temp, Cam * c, Pose * p) \{
+00336     \textcolor{keywordtype}{int} tid = threadIdx.x; \textcolor{comment}{// 0-(w-1)}
+00337     \textcolor{keywordtype}{int} bid = blockIdx.x; \textcolor{comment}{// 0-(h-1)}
+00338     \textcolor{keywordtype}{int} \textcolor{keywordtype}{id}  = (blockDim.x)*bid+tid;
+00339 
+00340     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = \textcolor{keywordtype}{id}; i < w*\hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}; i+=NUM\_T*NUM\_B) \{
+00341         \textcolor{keywordtype}{float} z\_D435 = d[i] * c->scale;
+00342         \textcolor{keywordtype}{float} x\_D435 = ((i%\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w})-c->ppx)/c->fx * z\_D435;
+00343         \textcolor{keywordtype}{float} y\_D435 = ((i/\hyperlink{classquaternion_ab2b38aca1971114e0ba4218b75d7f472}{w})-c->ppy)/c->fy * z\_D435;
+00344 
+00345         \hyperlink{classquaternion}{quaternion} pose\_pix = p->t + p->r * \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion}(x\_D435,y\_D435,z\_D435,0) * p->r.
+      inv();
+00346 
+00347         \textcolor{keywordflow}{if} (z\_D435 < D435\_MIN || z\_D435 > \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX})
+00348             \textcolor{keywordflow}{continue};
+00349 
+00350         \textcolor{keywordtype}{long} idx = index (Point \{pose\_pix.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, pose\_pix.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, pose\_pix.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}\});
+00351         Point mod = mod\_p(Point \{pose\_pix.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}, pose\_pix.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}, pose\_pix.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}\});
+00352         \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > p\_idx = binary\_search (v, 0l, (*
+      s)-1l, idx);
+00353         \textcolor{keywordflow}{if} (p\_idx.second.first != NULL) \{ \textcolor{comment}{// voxel containing point exists}
+00354             ((\hyperlink{classvoxel}{voxel}*)p\_idx.second.first)->update\_self (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00355             p\_idx.second.first->update\_vox (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00356         \}
+00357         \textcolor{keywordflow}{else} \{ \textcolor{comment}{// voxel doesn't exist}
+00358             \textcolor{keywordtype}{long} n1 = std::round((pose\_pix.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}-mod.x)/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00359             \textcolor{keywordtype}{long} n2 = std::round((pose\_pix.\hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}-mod.y)/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00360             \textcolor{keywordtype}{long} n3 = std::round((pose\_pix.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}-mod.z)/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00361 
+00362             \textcolor{keywordtype}{void} * cptr = (\textcolor{keywordtype}{void} *)\textcolor{keyword}{new} \hyperlink{classvoxel}{voxel} (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00363             \textcolor{keywordtype}{void} * ac\_ptr = (\textcolor{keywordtype}{void} *)atomicCAS ((\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} *)&(temp[25*(((n3%5)+5)%5)+5*(((n2%5
+      )+5)%5)+(((n1%5)+5)%5)].second.first), (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} int)NULL, (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{long} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int})cptr);
+00364             \textcolor{keywordflow}{if} (ac\_ptr != NULL) \{\textcolor{comment}{// voxel created by some other thread}
+00365                 \textcolor{keyword}{delete}((\hyperlink{classvoxel}{voxel} *)cptr);
+00366                 ((\hyperlink{classvoxel}{voxel} *)ac\_ptr)->update\_self (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00367                 ((\hyperlink{classvoxel}{voxel} *)ac\_ptr)->\hyperlink{classvoxel_ae550590cfe0d4c3d0e78cbf0cfa3390f}{update\_vox} (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00368             \}
+00369             \textcolor{keywordflow}{else} \{ \textcolor{comment}{// voxel created by current thread}
+00370                 \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > p\_temp(idx, 
+      \hyperlink{classPair}{Pair<voxel *, Point>}((\hyperlink{classvoxel}{voxel} *)cptr, Point \{pose\_pix.\hyperlink{classquaternion_acdcda48f9dd7ff35873aae38fa33ab78}{x}-mod.x, pose\_pix.
+      \hyperlink{classquaternion_a48e3d1fbf5e12eb54985c32b45dd8303}{y}-mod.y, pose\_pix.\hyperlink{classquaternion_a538598007238d399f79ddcecd39ef5cf}{z}-mod.z\}));
+00371                 temp[25*(((n3%5)+5)%5)+5*(((n2%5)+5)%5)+(((n1%5)+5)%5)] = p\_temp;
+00372                 ((\hyperlink{classvoxel}{voxel} *)cptr)->update\_self (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00373                 ((\hyperlink{classvoxel}{voxel} *)cptr)->update\_vox (mod.x/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.y/\hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L}, mod.z/
+      \hyperlink{Voxel_8hpp_a3c1c8b966e30fa8ca2de07abe3b3d74a}{VOX\_L});
+00374             \}
+00375         \}
+00376     \}
+00377 \}
+00378 
+00379 \_\_global\_\_ \textcolor{keywordtype}{void} Print (\hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, \hyperlink{classPair}{Pair<voxel *, Point>} > * v, \textcolor{keywordtype}{long} * s, Tuple * \textcolor{keyword}{
+      set}) \{
+00380     \textcolor{keywordtype}{int} idx = 0;
+00381     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < *s; i++) \{
+00382         \textcolor{keywordtype}{float} x = v[i].second.second.x;
+00383         \textcolor{keywordtype}{float} y = v[i].second.second.y;
+00384         \textcolor{keywordtype}{float} z = v[i].second.second.z;
+00385         v[i].second.first->all\_points(\textcolor{keyword}{set}, x, y, z, &idx);
+00386     \}
+00387 \}
+00388 
+00389 
+00390 \textcolor{keyword}{class }GPU\_FE : \textcolor{keyword}{public} \hyperlink{classMap__FE}{Map\_FE} \{
+00391 
+00392 \textcolor{keyword}{private}:
+00393 
+00394     \textcolor{comment}{//thrust::device\_vector< Pair< long, Pair<voxel *, Point> > > DV; // vector stored on device containing
+       pairs of index and pointers to root voxels stored in device memory}
+00395     thrust::host\_vector< Pair< long, Pair<voxel *, Point> > > HV; \textcolor{comment}{// vector stored on host containing pairs
+       of index and pointers to root voxels stored in device memory}
+00396     \textcolor{keywordtype}{long} s; \textcolor{comment}{// size of device\_vector}
+00397     \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > * dtemp; \textcolor{comment}{// temporary array to store
+       pairs in kernel}
+00398     \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > * htemp; \textcolor{comment}{// temporary array to store
+       pairs on host}
+00399 
+00400     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short} * D; \textcolor{comment}{// pointer to depth image stored in device}
+00401     Pose * P; \textcolor{comment}{// pointer to pose stored in device}
+00402     Cam * C; \textcolor{comment}{// pointer to camera properties stored in device}
+00403     \textcolor{keywordtype}{long} * S;
+00404 
+00405 \textcolor{keyword}{public}:
+00406 
+00407     GPU\_FE () \{
+00408         cudaMalloc ((\textcolor{keywordtype}{void} **) &D, w*h*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}));
+00409         cudaMalloc ((\textcolor{keywordtype}{void} **) &P, \textcolor{keyword}{sizeof}(Pose));
+00410         cudaMalloc ((\textcolor{keywordtype}{void} **) &C, \textcolor{keyword}{sizeof}(Cam));
+00411         cudaMalloc ((\textcolor{keywordtype}{void} **) &dtemp, 125*\textcolor{keyword}{sizeof}(\hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, 
+      \hyperlink{classPair}{Pair<voxel *, Point>} >));
+00412         htemp = (\hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > *) malloc(125*\textcolor{keyword}{sizeof}(
+      \hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, \hyperlink{classPair}{Pair<voxel *, Point>} >));
+00413         cudaMalloc ((\textcolor{keywordtype}{void} **) &S, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}));
+00414         s = 0l;
+00415 
+00416     \}
+00417 
+00418     \textcolor{keywordtype}{void} Update (\hyperlink{classCamera}{Camera} \textcolor{keyword}{const} &C, rs2\_pose \textcolor{keyword}{const} &pose, cv::Mat \textcolor{keyword}{const} &depth) \{
+00419         \hyperlink{classquaternion}{quaternion} q\_T265 (pose.rotation.x, pose.rotation.y, pose.rotation.z, pose.rotation.w);
+00420         \hyperlink{classquaternion}{quaternion} t\_T265 (pose.translation.x, pose.translation.y, pose.translation.z, 0);
+00421         \hyperlink{classquaternion}{quaternion} q\_G\_D435 = q\_T265 * \hyperlink{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}{Q\_T265\_D435} * 
+      \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion}(1,0,0,0);
+00422         \hyperlink{classquaternion}{quaternion} t\_G\_D435 = t\_T265 + q\_T265 * \hyperlink{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}{T\_T265\_D435} * q\_T265.
+      \hyperlink{classquaternion_a52cd9cd03bc2613e56dd798cb1037a51}{inv}();
+00423 
+00424         \textcolor{keyword}{struct }Cam c = \{0, 0, 0, 0, 0, \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion}(0,0,0,0), \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion}(0,0,0,0)\};
+00425         c.fx = C.\hyperlink{classCamera_a4f5e789525c1c9306028c080922582e2}{fx}; c.fy = C.\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy};
+00426         c.ppx = C.\hyperlink{classCamera_aa646a2de04e9ad37395dcf3c4a171abe}{ppx}; c.ppy = C.\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy};
+00427         c.scale = C.\hyperlink{classCamera_a50152f7c8f2ce7601dd6086c90b3a65c}{scale};
+00428         c.Q\_TD = \hyperlink{Voxel_8hpp_ae638036c15a578080c34013047df2c4f}{Q\_T265\_D435}; c.T\_TD = \hyperlink{Voxel_8hpp_a084c6bfb66f9daa4728fe8355861f1a4}{T\_T265\_D435};
+00429 
+00430         \textcolor{keyword}{struct }Pose p = \{\hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion}(0,0,0,0), \hyperlink{classquaternion_a7939abaec2de1b11ff2208cbd8fbd93e}{quaternion}(0,0,0,0)\};
+00431         p.t = t\_G\_D435;
+00432         p.r = q\_G\_D435;
+00433 
+00434         thrust::device\_vector< Pair< long, Pair<voxel *, Point> > > DV(HV.begin(), HV.end());
+00435 
+00436         cudaMemcpy (this->C, &c, \textcolor{keyword}{sizeof}(Cam), cudaMemcpyHostToDevice);
+00437         cudaMemcpy (this->P, &p, \textcolor{keyword}{sizeof}(Pose), cudaMemcpyHostToDevice);
+00438         cudaMemcpy (this->D, depth.ptr<\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}>(0), w*h*\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{short}), 
+      cudaMemcpyHostToDevice);
+00439         \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} > p\_temp = 
+      \hyperlink{classPair}{Pair< long, Pair<voxel *, Point>} >(0l, 
+      \hyperlink{classPair}{Pair<voxel *, Point>}(NULL, Point\{0,0,0\}));
+00440         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 125; i++)
+00441             htemp[i] = p\_temp;
+00442         cudaMemcpy (this->dtemp, htemp, 125*\textcolor{keyword}{sizeof}(\hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, 
+      \hyperlink{classPair}{Pair<voxel *, Point>} >), cudaMemcpyHostToDevice);
+00443         cudaMemcpy (this->S, &s, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}), cudaMemcpyHostToDevice);
+00444 
+00445         Update\_root<<<NUM\_B, NUM\_T>>>(D, thrust::raw\_pointer\_cast(&DV[0]), S, dtemp, this->C, P);
+00446         gpuCheckKernelExecutionError( \_\_FILE\_\_, \_\_LINE\_\_);
+00447 
+00448         cudaMemcpy (htemp, this->dtemp, 125*\textcolor{keyword}{sizeof}(\hyperlink{classPair}{Pair}< \textcolor{keywordtype}{long}, 
+      \hyperlink{classPair}{Pair<voxel *, Point>} >), cudaMemcpyDeviceToHost);
+00449         \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 125; i++) \{
+00450             \textcolor{keywordflow}{if} ((\textcolor{keywordtype}{void} *)htemp[i].second.\hyperlink{classPair_a98924311a2986df358d3b1965f8abd06}{first} != NULL) \{
+00451                 HV.push\_back (htemp[i]);\textcolor{comment}{// std::cout << i << " " << htemp[i].first << "\(\backslash\)n";}
+00452                 s++;
+00453             \}
+00454         \}
+00455         thrust::stable\_sort (thrust::host, HV.begin(), HV.end());
+00456 
+00457     \}
+00458 
+00459     \textcolor{keywordtype}{void} Points (std::vector < std::tuple<float, float, float, float> > * points) \{ \textcolor{comment}{// keep single threaded
+       preferably}
+00460         Tuple \textcolor{keyword}{set}[100000];
+00461         Tuple * cset;
+00462         cudaMalloc ((\textcolor{keywordtype}{void} **) &cset, 100000*\textcolor{keyword}{sizeof}(Tuple));
+00463         cudaMemcpy (S, &s, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{long}), cudaMemcpyHostToDevice);
+00464         thrust::device\_vector< Pair< long, Pair<voxel *, Point> > > DV(HV.begin(), HV.end());
+00465         Print<<<1, 1>>> (thrust::raw\_pointer\_cast(&DV[0]), S, cset);
+00466         cudaMemcpy (\textcolor{keyword}{set}, cset, 100000*\textcolor{keyword}{sizeof}(Tuple), cudaMemcpyDeviceToHost);
+00467         \textcolor{keywordtype}{int} i = 0;
+00468         \textcolor{keywordflow}{while}(i < 100000) \{
+00469             Tuple pt = \textcolor{keyword}{set}[i];
+00470             \textcolor{keywordflow}{if} (pt.x != 0 || pt.y != 0 || pt.z != 0) \{
+00471                 i++;
+00472                 points->push\_back(std::make\_tuple(pt.x, pt.y, pt.z, pt.c));
+00473                 \textcolor{keywordflow}{continue};
+00474             \}
+00475             \textcolor{keywordflow}{break};
+00476         \}
+00477 
+00478     \}
+00479 
+00480     ~GPU\_FE () \{ \textcolor{comment}{// keep single threaded preferably}
+00481         cudaFree(D);
+00482         cudaFree(P);
+00483         cudaFree(S);
+00484         cudaFree(C);
+00485         cudaFree(dtemp);
+00486     \}
+00487 
+00488 \};
+00489 
+00490 
+00491 \textcolor{preprocessor}{#endif}
+00492 
+00493 
+00494 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

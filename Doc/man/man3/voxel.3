@@ -1,0 +1,309 @@
+.TH "voxel" 3 "Thu Aug 8 2019" "Mapping" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+voxel \- Voxel/Intermediate nodes of the Octree structure\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Voxel\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "__device__ \fBvoxel\fP (float x, float y, float z, float \fBsize\fP)"
+.br
+.RI "\fIConstructor for voxel node\&. \fP"
+.ti -1c
+.RI "__device__ void \fBupdate_vox\fP (float x, float y, float z)"
+.br
+.RI "\fIUpdate method for this node object\&. \fP"
+.ti -1c
+.RI "__device__ void \fBupdate_self\fP (float x, float y, float z)"
+.br
+.RI "\fIUpdate method for self\&. \fP"
+.ti -1c
+.RI "__device__ void \fBfree_mem\fP ()"
+.br
+.RI "\fIRecursively frees up memory inside this voxel node\&. \fP"
+.ti -1c
+.RI "__device__ void \fBall_points\fP (\fBTuple\fP *set, float x_o, float y_o, float z_o, int *idx)"
+.br
+.RI "\fIAppends all leaf node points in this node to vector set\&. \fP"
+.ti -1c
+.RI "__device__ bool \fBis_empty\fP ()"
+.br
+.RI "\fIChecks if this node has been observed or not\&. \fP"
+.ti -1c
+.RI "\fBvoxel\fP (float x, float y, float z, float \fBsize\fP)"
+.br
+.RI "\fIConstructor for voxel node\&. \fP"
+.ti -1c
+.RI "void \fBupdate_vox\fP (float x, float y, float z)"
+.br
+.RI "\fIUpdate method for this node object\&. \fP"
+.ti -1c
+.RI "void \fBfree_mem\fP ()"
+.br
+.RI "\fIRecursively frees up memory inside this voxel node\&. \fP"
+.ti -1c
+.RI "void \fBall_points\fP (std::vector< std::tuple< float, float, float, float > > *set, float x_o, float y_o, float z_o)"
+.br
+.RI "\fIAppends all leaf node points in this node to vector set\&. \fP"
+.ti -1c
+.RI "bool \fBis_empty\fP ()"
+.br
+.RI "\fIChecks if this node has been observed or not\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "void * \fBc\fP [8]"
+.br
+.RI "\fIPointers to child voxels/leafs\&. \fP"
+.ti -1c
+.RI "float \fB_v\fP"
+.br
+.RI "\fIInverse of variance\&. \fP"
+.ti -1c
+.RI "float \fBsize\fP"
+.br
+.in -1c
+.PP
+.RI "\fBCo-ordinates\fP"
+.br
+Co-ordinates of a single point inside voxel node divided by the variance\&.
+.PP
+The co-ordinates are measured relative to voxel node edge length, ie\&. $x, y, z \in [0,1)$\&. Note that although x_v, y_v, and z_v can are unbounded, the values of x, y, and z are bounded since the update is a convex combination of two points inside the node\&. The co-ordinates are divided by the variance so that the update can be performed in a single atomic operation while running in GPU\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBVoxel\&.cuh\fP 
+.RE
+.PP
+
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "float \fBx_v\fP"
+.br
+.ti -1c
+.RI "float \fBy_v\fP"
+.br
+.ti -1c
+.RI "float \fBz_v\fP"
+.br
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Voxel/Intermediate nodes of the Octree structure\&. 
+
+GPU: 
+.br
+ Primarily stores the pointers to the eight children of this voxel object\&. Additionally it also stores the co-ordinate of a combined single point, calculated from all its children\&. This information can be used if memory consumed by the Octree structure reaches a threshold, in which case all the children of a voxel object at some particular level can deleted freeing some space, but at the same time not losing information about the space inside (although accuracy will decrease)\&. The x, y, z co-ordinates of thr single point stored inside is relative to edge length ie\&. $x, y, z \in [0,1)$\&. This is to maintain uniform accuracy across all points\&. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-ordinates minimum\&. ie\&. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \fBvoxel::_v\fP $> 0$, the leaf node is occupied\&. If _v $= 0$, the voxel node is empty (this is not the same as unobserved\&. This means that this node has been observed, but there is no point inside it)\&. This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation\&. Additionally, if any child pointer c[i] $= NULL$, then that child has not yet been observed\&. An object of this class can only be declared inside the CUDA kernel\&.
+.PP
+CPU: 
+.br
+ Primarily stores the pointers to the eight children of this voxel object\&. Additionally it also stores the co-ordinate of a combined single point, calculated from all its children\&. This information can be used if memory consumed by the Octree structure reaches a threshold, in which case all the children of a voxel object at some particular level can deleted freeing some space, but at the same time not losing information about the space inside (although accuracy will decrease)\&. The x, y, z co-ordinates of thr single point stored inside is relative to edge length ie\&. $x, y, z \in [0,1)$\&. This is to maintain uniform accuracy across all points\&. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-ordinates minimum\&. ie\&. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \fBvoxel::_v\fP $> 0$, the leaf node is occupied\&. If _v $= 0$, the voxel node is empty (this is not the same as unobserved\&. This means that this node has been observed, but there is no point inside it)\&. This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation\&. Additionally, if any child pointer c[i] $= NULL$, then that child has not yet been observed\&. 
+.PP
+Definition at line 297 of file Voxel\&.cuh\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "__device__ voxel::voxel (float x, float y, float z, float size)\fC [inline]\fP"
+
+.PP
+Constructor for voxel node\&. Note that this is the only constructor provided\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.br
+\fIedge\fP length of voxel ( $\textit{m}$) 
+.RE
+.PP
+
+.PP
+Definition at line 334 of file Voxel\&.cuh\&.
+.SS "voxel::voxel (float x, float y, float z, float size)\fC [inline]\fP"
+
+.PP
+Constructor for voxel node\&. Note that this is the only constructor provided\&. If the parameters provided are $(-1, -1, -,1)$, the node is set to be empty\&. Note that x_v, y_v, and z_v are set $= 0$\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.br
+\fIedge\fP length of voxel ( $\textit{m}$) 
+.RE
+.PP
+
+.PP
+Definition at line 236 of file Voxel\&.hpp\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void voxel::all_points (std::vector< std::tuple< float, float, float, float > > * set, float x_o, float y_o, float z_o)\fC [inline]\fP"
+
+.PP
+Appends all leaf node points in this node to vector set\&. 
+.PP
+Definition at line 310 of file Voxel\&.hpp\&.
+.SS "__device__ void voxel::all_points (\fBTuple\fP * set, float x_o, float y_o, float z_o, int * idx)\fC [inline]\fP"
+
+.PP
+Appends all leaf node points in this node to vector set\&. 
+.PP
+Definition at line 432 of file Voxel\&.cuh\&.
+.SS "void voxel::free_mem ()\fC [inline]\fP"
+
+.PP
+Recursively frees up memory inside this voxel node\&. This is called upon by the member method \fBocc_grid::free_mem()\fP (which is inturn called by \fBCPU_FE::~CPU_FE()\fP) on each of the root voxel nodes, which recursively deletes all the nodes in the octree\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBocc_grid::free_mem()\fP, \fBCPU_FE::~CPU_FE()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 286 of file Voxel\&.hpp\&.
+.SS "__device__ void voxel::free_mem ()\fC [inline]\fP"
+
+.PP
+Recursively frees up memory inside this voxel node\&. This is called upon by the global method Delete() (which is inturn called by \fBGPU_FE::~GPU_FE()\fP) on each of the root voxel nodes, which recursively deletes all the nodes in the octree\&. Run by a single CUDA thread, since it is called only once and doesn't affect the performance\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBGPU_FE::~GPU_FE()\fP, Delete() 
+.RE
+.PP
+
+.PP
+Definition at line 407 of file Voxel\&.cuh\&.
+.SS "bool voxel::is_empty ()\fC [inline]\fP"
+
+.PP
+Checks if this node has been observed or not\&. If the node has atleast one filled or empty children, this method returns false\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBvoxel\fP 
+.RE
+.PP
+
+.PP
+Definition at line 333 of file Voxel\&.hpp\&.
+.SS "__device__ bool voxel::is_empty ()\fC [inline]\fP"
+
+.PP
+Checks if this node has been observed or not\&. If the node has atleast one filled or empty children, this method returns false\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBvoxel\fP 
+.RE
+.PP
+
+.PP
+Definition at line 456 of file Voxel\&.cuh\&.
+.SS "__device__ void voxel::update_self (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Update method for self\&. Following the update of the children, the point stored inside this voxel is updated\&. atommicAdd() function and the transformed variables ensure consistency while multi-threading\&. This method is similar to \fBleaf::update_leaf()\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBleaf::update_leaf()\fP, \fBvoxel::update_vox()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 394 of file Voxel\&.cuh\&.
+.SS "void voxel::update_vox (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Update method for this node object\&. For each voxel, two update steps are performed: one for the child voxel/leaf the input point lies in, and one for this voxel object\&. For the child update, it is first checked whether the child exists\&. If it does, \fBleaf::update_leaf()\fP or \fBvoxel::update_vox()\fP is called on the child object\&. If it doesn't, a new child voxel/leaf is created and the constructor \fBleaf::leaf()\fP or \fBvoxel::voxel()\fP is called\&. This step is a recursive one\&. The decision of whether the child is a voxel node or a leaf node is made considering the edge lengths of the children\&. ( $=\frac{this\to\_v}{2}$) If child edge length $ \leq $ MIN_L, the child is a leaf node, else it is a voxel node\&. The next step is self update which is similar to \fBleaf::update_leaf()\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBleaf::update_leaf()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 256 of file Voxel\&.hpp\&.
+.SS "__device__ void voxel::update_vox (float x, float y, float z)\fC [inline]\fP"
+
+.PP
+Update method for this node object\&. For each voxel, two update steps are performed: one for the child voxel/leaf the input point lies in, and one for this voxel object\&. For the child update, it is first checked whether the child exists\&. If it does, \fBleaf::update_leaf()\fP or \fBvoxel::update_vox()\fP is called on the child object\&. If it doesn't, a new child voxel/leaf is created and the constructor \fBleaf::leaf()\fP or \fBvoxel::voxel()\fP is called\&. This step is a recursive one\&. To avoid multiple threads creating inconsistent and wasteful copies of the same child node, the following strategy is used: Each thread creates a copy of child voxel, then an atomic Compare and Swap (atomicCAS()) is applied on the child pointer\&. Only one thread can successfully replace the pointer\&. This pointer is subsequently used for all updates, and the unused children are deleted\&. The decision of whether the child is a voxel node or a leaf node is made considering the edge lengths of the children\&. ( $=\frac{this\to\_v}{2}$) If child edge length $ \leq $ MIN_L, the child is a leaf node, else it is a voxel node\&. The next step is self update which is similar to \fBleaf::update_leaf()\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI(x,y,z)\fP relative to node, ie\&. $x, y, z \in [0,1)$ for correct operation 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBleaf::update_leaf()\fP, \fBvoxel::update_self()\fP 
+.RE
+.PP
+
+.PP
+Definition at line 355 of file Voxel\&.cuh\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "float voxel::_v"
+
+.PP
+Inverse of variance\&. The points are assumed to be distributed as a 3-D uniform gaussian distribution when measured\&. As more points are updated in the node, this variance decreases, ie\&. the certainity of a point existing in the node increases\&. The update rule is the typical update rule of gaussian distribution, same as the one in Measurement Update Step in EKF and SLAM\&. Inverse of variance is stored so that the update can be performed in a single atomic step while running in GPU\&.
+.PP
+The points are assumed to be distributed as a 3-D uniform gaussian distribution when measured\&. As more points are updated in the node, this variance decreases, ie\&. the certainity of a point existing in the node increases\&. The update rule is the typical update rule of gaussian distribution, same as the one in Measurement Update Step in EKF and SLAM\&. Inverse of variance is stored so that the update can be performed in a single atomic step while running in GPU\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBVoxel\&.cuh\fP 
+.RE
+.PP
+
+.PP
+Definition at line 313 of file Voxel\&.cuh\&.
+.SS "void * voxel::c"
+
+.PP
+Pointers to child voxels/leafs\&. The pointers are of type void * becuase the child can either be a voxel node or a leaf node depending on the level, MIN_L, and VOX_L\&. The order of numbering is such that the index of smaller co-ordinate child $<$ index of larger co-ordinate child with the preference among dimensions being $ z > y > x$ ie\&. index $ = (z\geq0.5)\ll2 \lor (y\geq0.5)\ll1 \lor (x\geq0.5)$ 
+.PP
+Definition at line 306 of file Voxel\&.cuh\&.
+.SS "float voxel::size"
+Edge length of voxel node ( $\textit{m}$) 
+.PP
+Definition at line 326 of file Voxel\&.cuh\&.
+.SS "float voxel::x_v"
+
+.PP
+Definition at line 323 of file Voxel\&.cuh\&.
+.SS "float voxel::y_v"
+
+.PP
+Definition at line 323 of file Voxel\&.cuh\&.
+.SS "float voxel::z_v"
+
+.PP
+Definition at line 323 of file Voxel\&.cuh\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Mapping from the source code\&.

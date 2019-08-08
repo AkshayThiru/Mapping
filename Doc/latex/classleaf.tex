@@ -1,0 +1,207 @@
+\hypertarget{classleaf}{}\subsection{leaf Class Reference}
+\label{classleaf}\index{leaf@{leaf}}
+
+
+Leaf nodes of the Octree structure.  
+
+
+
+
+{\ttfamily \#include $<$Voxel.\+hpp$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \hyperlink{classleaf_adfaf04cd4b50545cbc902d1aa36bc609}{leaf} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Constructor for leaf node. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ void \hyperlink{classleaf_a3c205ce57e242832977bde6e1a04d7da}{update\+\_\+leaf} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Update method for this node object. \end{DoxyCompactList}\item 
+\hyperlink{classleaf_aafe906fcbc78cef65683b3015de636bd}{leaf} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Constructor for leaf node. \end{DoxyCompactList}\item 
+void \hyperlink{classleaf_adacc1e0d36163c7fd0a7c31576ecf4e8}{update\+\_\+leaf} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em Update method for this node object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{\+\_\+v}
+\begin{DoxyCompactList}\small\item\em Inverse of variance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf Co-\/ordinates}\par
+{\em Co-\/ordinates of point inside leaf node divided by the variance.
+
+The co-\/ordinates are measured relative to leaf node edge length, ie. $x, y, z \in [0,1)$. Note that although x\+\_\+v, y\+\_\+v, and z\+\_\+v can are unbounded, the values of x, y, and z are bounded since the update is a convex combination of two points inside the node. The co-\/ordinates are divided by the variance so that the update can be performed in a single atomic operation while running in G\+PU. \begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh}{Voxel.\+cuh} 
+\end{DoxySeeAlso}
+}\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classleaf_ac34a93ca5739928d7389b12e735252d4}{x\+\_\+v}
+\item 
+float \hyperlink{classleaf_a06a94d40da44b846913db4d8900b2626}{y\+\_\+v}
+\item 
+float \hyperlink{classleaf_a5f51fe13eb6e53bd9549469011e7a10e}{z\+\_\+v}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsubsection{Detailed Description}
+Leaf nodes of the Octree structure. 
+
+G\+PU\+: ~\newline
+ This is not implemented as a voxel object because there can be millions of nodes and so the size should be as small as possible. Stores the x, y, z co-\/ordinates of a single point inside it relative to edge length ie. $x, y, z \in [0,1)$. This is to maintain uniform accuracy across all points. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-\/ordinates minimum. ie. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{leaf\+::\+\_\+v} $> 0$, the leaf node is occupied. If \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{leaf\+::\+\_\+v} $= 0$, the leaf node is empty (this is not the same as unobserved. This means that this node has been observed, but there is no point inside it). This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation. Although this is not particularly important for the C\+PU operation, it is extremely essential for the G\+PU operation to maintain consistency. An object of this class can only be declared inside the C\+U\+DA kernel.
+
+C\+PU\+: ~\newline
+ This is not implemented as a voxel object because there can be millions of nodes and so the size should be as small as possible. Stores the x, y, z co-\/ordinates of a single point inside it relative to edge length ie. $x, y, z \in [0,1)$. This is to maintain uniform accuracy across all points. (accuracy of float type reduces as one moves away from 0) The origin of the node is the vertex with all co-\/ordinates minimum. ie. if the origin of voxel is $(x_o, y_o, z_o)$ and edge length is $L$, The vertices of the node are $\{(x_o, y_o, z_o), ..., (x_o+L, y_o+L, z_o+L)\}$ If the member \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{leaf\+::\+\_\+v} $> 0$, the leaf node is occupied. If \hyperlink{classleaf_a4fc347dbd4f5911bbb477910588ed512}{leaf\+::\+\_\+v} $= 0$, the leaf node is empty (this is not the same as unobserved. This means that this node has been observed, but there is no point inside it). This has been used becuase if initially a node was observed to be empty, and containing a point afterwards, the same update rule can be used without any change, in a single atomic operation. Although this is not particularly important for the C\+PU operation, it is extremely essential for the G\+PU operation to maintain consistency. \begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh}{Voxel.\+cuh} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00228}{228} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\index{leaf@{leaf}!leaf@{leaf}}
+\index{leaf@{leaf}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{leaf(float x, float y, float z)}{leaf(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ leaf\+::leaf (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classleaf_adfaf04cd4b50545cbc902d1aa36bc609}{}\label{classleaf_adfaf04cd4b50545cbc902d1aa36bc609}
+
+
+Constructor for leaf node. 
+
+Note that this is the only constructor provided. 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to leaf node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00257}{257} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{leaf@{leaf}!leaf@{leaf}}
+\index{leaf@{leaf}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{leaf(float x, float y, float z)}{leaf(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}leaf\+::leaf (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classleaf_aafe906fcbc78cef65683b3015de636bd}{}\label{classleaf_aafe906fcbc78cef65683b3015de636bd}
+
+
+Constructor for leaf node. 
+
+Note that this is the only constructor provided. If the parameters provided are $(-1, -1, -,1)$, the node is set to be empty. Note that x\+\_\+v, y\+\_\+v, and z\+\_\+v are set $= 0$. 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to leaf node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00155}{155} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+
+
+\subsubsection{Member Function Documentation}
+\index{leaf@{leaf}!update\+\_\+leaf@{update\+\_\+leaf}}
+\index{update\+\_\+leaf@{update\+\_\+leaf}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{update\+\_\+leaf(float x, float y, float z)}{update_leaf(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}void leaf\+::update\+\_\+leaf (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classleaf_adacc1e0d36163c7fd0a7c31576ecf4e8}{}\label{classleaf_adacc1e0d36163c7fd0a7c31576ecf4e8}
+
+
+Update method for this node object. 
+
+Since every node contains only a single point, this update rule is used to combine the points into a single point. This is the same as the Measurement Update Step in E\+KF and S\+L\+AM. In this particular case the rule is a simple weighted average. So, if the point already existing in the node has a very low variance, the updated point will be very close to the previous point. Even if an anisotropic gaussian probability distribution function is used, the updated point will always be a convex combination of two points. 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to leaf node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8hpp_source_l00169}{169} of file \hyperlink{Voxel_8hpp_source}{Voxel.\+hpp}.
+
+\index{leaf@{leaf}!update\+\_\+leaf@{update\+\_\+leaf}}
+\index{update\+\_\+leaf@{update\+\_\+leaf}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{update\+\_\+leaf(float x, float y, float z)}{update_leaf(float x, float y, float z)}}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+device\+\_\+\+\_\+ void leaf\+::update\+\_\+leaf (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classleaf_a3c205ce57e242832977bde6e1a04d7da}{}\label{classleaf_a3c205ce57e242832977bde6e1a04d7da}
+
+
+Update method for this node object. 
+
+Since every node contains only a single point, this update rule is used to combine the points into a single point. This is the same as the Measurement Update Step in E\+KF and S\+L\+AM. In this particular case the rule is a simple weighted average. So, if the point already existing in the node has a very low variance, the updated point will be very close to the previous point. Even if an anisotropic gaussian probability distribution function is used, the updated point will always be a convex combination of two points. atommic\+Add() function and the transformed variables ensure consistency while multi-\/threading. 
+\begin{DoxyParams}{Parameters}
+{\em (x,y,z)} & relative to leaf node, ie. $x, y, z \in [0,1)$ for correct operation \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00270}{270} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{classleaf_a3c205ce57e242832977bde6e1a04d7da_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsubsection{Member Data Documentation}
+\index{leaf@{leaf}!\+\_\+v@{\+\_\+v}}
+\index{\+\_\+v@{\+\_\+v}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{\+\_\+v}{_v}}]{\setlength{\rightskip}{0pt plus 5cm}float leaf\+::\+\_\+v}\hypertarget{classleaf_a4fc347dbd4f5911bbb477910588ed512}{}\label{classleaf_a4fc347dbd4f5911bbb477910588ed512}
+
+
+Inverse of variance. 
+
+The points are assumed to be distributed as a 3-\/D uniform gaussian distribution when measured. As more points are updated in the node, this variance decreases, ie. the certainity of a point existing in the node increases. The update rule is the typical update rule of gaussian distribution, same as the one in Measurement Update Step in E\+KF and S\+L\+AM. Inverse of variance is stored so that the update can be performed in a single atomic step while running in G\+PU. \begin{DoxySeeAlso}{See also}
+\hyperlink{Voxel_8cuh}{Voxel.\+cuh} 
+\end{DoxySeeAlso}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00239}{239} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{leaf@{leaf}!x\+\_\+v@{x\+\_\+v}}
+\index{x\+\_\+v@{x\+\_\+v}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{x\+\_\+v}{x_v}}]{\setlength{\rightskip}{0pt plus 5cm}float leaf\+::x\+\_\+v}\hypertarget{classleaf_ac34a93ca5739928d7389b12e735252d4}{}\label{classleaf_ac34a93ca5739928d7389b12e735252d4}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00250}{250} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{leaf@{leaf}!y\+\_\+v@{y\+\_\+v}}
+\index{y\+\_\+v@{y\+\_\+v}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{y\+\_\+v}{y_v}}]{\setlength{\rightskip}{0pt plus 5cm}float leaf\+::y\+\_\+v}\hypertarget{classleaf_a06a94d40da44b846913db4d8900b2626}{}\label{classleaf_a06a94d40da44b846913db4d8900b2626}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00250}{250} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+\index{leaf@{leaf}!z\+\_\+v@{z\+\_\+v}}
+\index{z\+\_\+v@{z\+\_\+v}!leaf@{leaf}}
+\paragraph[{\texorpdfstring{z\+\_\+v}{z_v}}]{\setlength{\rightskip}{0pt plus 5cm}float leaf\+::z\+\_\+v}\hypertarget{classleaf_a5f51fe13eb6e53bd9549469011e7a10e}{}\label{classleaf_a5f51fe13eb6e53bd9549469011e7a10e}
+
+
+Definition at line \hyperlink{Voxel_8cuh_source_l00250}{250} of file \hyperlink{Voxel_8cuh_source}{Voxel.\+cuh}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{Voxel_8cuh}{Voxel.\+cuh}\item 
+include/\hyperlink{Voxel_8hpp}{Voxel.\+hpp}\end{DoxyCompactItemize}

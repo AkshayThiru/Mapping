@@ -1,0 +1,133 @@
+\hypertarget{GPU__main_8cu_source}{}\subsection{G\+P\+U\+\_\+main.\+cu}
+\label{GPU__main_8cu_source}\index{src/\+G\+P\+U\+\_\+main.\+cu@{src/\+G\+P\+U\+\_\+main.\+cu}}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{// nvcc -std=c++11 GPU\_main.cu -o GPU\_main -lrealsense2 -lboost\_iostreams -lboost\_system -lboost\_filesystem
+       `pkg-config opencv --cflags --libs` -lpthread -Wno-deprecated-gpu-targets}
+00002 
+00003 \textcolor{preprocessor}{#include <opencv2/opencv.hpp>}
+00004 
+00005 \textcolor{preprocessor}{#include <iostream>}
+00006 \textcolor{preprocessor}{#include <fstream>}
+00007 \textcolor{preprocessor}{#include <vector>}
+00008 \textcolor{preprocessor}{#include <cmath>}
+00009 \textcolor{preprocessor}{#include <unistd.h>}
+00010 \textcolor{preprocessor}{#include <mutex>}
+00011 \textcolor{preprocessor}{#include <thread>}
+00012 \textcolor{preprocessor}{#include <atomic>}
+00013 \textcolor{preprocessor}{#include <chrono>}
+00014 \textcolor{preprocessor}{#include <time.h>}
+00015 
+00016 \textcolor{preprocessor}{#include <boost/tuple/tuple.hpp>}
+00017 
+00018 \textcolor{preprocessor}{#include "../include/Voxel.cuh"}
+00019 \textcolor{preprocessor}{#include "../include/Logging.hpp"}
+00020 
+00021 
+00022 
+00023 
+\hypertarget{GPU__main_8cu_source.tex_l00024}{}\hyperlink{GPU__main_8cu_abf9e6b7e6f15df4b525a2e7705ba3089}{00024} \textcolor{keywordtype}{int} \hyperlink{GPU__main_8cu_abf9e6b7e6f15df4b525a2e7705ba3089}{main}(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} \textcolor{keyword}{const} *argv[])
+00025 \{
+00026     std::atomic\_bool alive \{\textcolor{keyword}{true}\};
+00027 
+00028     cudaDeviceReset();
+00029     cudaDeviceSetLimit(cudaLimitPrintfFifoSize, 10ull*1024ull*1024ull);
+00030     cudaThreadSetLimit (cudaLimitMallocHeapSize, 2048ull*1024ull*1024ull);
+00031 
+00032     \textcolor{comment}{/* Map Front End */}
+00033     \hyperlink{classMap__FE}{Map\_FE} * F = \textcolor{keyword}{new} \hyperlink{classGPU__FE}{GPU\_FE}();
+00034 
+00035     \textcolor{comment}{/* Camera Initialization */}
+00036     \hyperlink{classCamera}{Camera} C;
+00037     \hyperlink{structBool__Init}{Bool\_Init} bC = C.\hyperlink{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{Init}();
+00038     \textcolor{keywordflow}{if} (bC.\hyperlink{structBool__Init_a28c7d578113b5a52c1706c10be8fe6c6}{t265} && bC.\hyperlink{structBool__Init_a9b59846a335953ae88cad02cd9cf9b34}{d435})
+00039         std::cout << \textcolor{stringliteral}{"Cameras initialized\(\backslash\)n"};
+00040     \textcolor{keywordflow}{else} 
+00041         std::cout << \textcolor{stringliteral}{"Atleast one camera is not connected\(\backslash\)n"};
+00042 
+00043     \textcolor{comment}{/* Logger Initialization */}
+00044     \hyperlink{classLogger}{Logger} L;
+00045     L.\hyperlink{classLogger_a42c282f4c0e2c6557d16e2967c1ddf7e}{Init}();
+00046 
+00047     \textcolor{comment}{/* Thread for checking exit condition */}
+00048 
+00049     std::thread exit\_check([&]() \{
+00050         \textcolor{keywordflow}{while} (alive) \{
+00051             \textcolor{keywordflow}{if} (std::cin.\textcolor{keyword}{get}() == \textcolor{charliteral}{' '}) \{
+00052                 cv::destroyAllWindows();
+00053                 alive = \textcolor{keyword}{false};
+00054             \}
+00055         \}
+00056     \});
+00057 
+00058     \textcolor{comment}{/* Thread for receiving frames and storing them as video and csv files */} 
+00059 
+00060     std::thread rxFrame([&]() \{
+00061         \textcolor{keywordflow}{while} (alive) \{
+00062             \textcolor{keyword}{auto} sleep\_start = std::chrono::high\_resolution\_clock::now();
+00063 
+00064             \textcolor{keyword}{auto} tframe = C.\hyperlink{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}{pipelines}[0].wait\_for\_frames();
+00065             \textcolor{keyword}{auto} dframe = C.\hyperlink{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}{pipelines}[1].wait\_for\_frames();
+00066 
+00067             \textcolor{keyword}{auto} t = tframe.first\_or\_default(RS2\_STREAM\_POSE);
+00068             \textcolor{keyword}{auto} d = dframe.get\_depth\_frame();
+00069 
+00070             \textcolor{keywordflow}{if} (!t || !d)
+00071                 \textcolor{keywordflow}{continue};
+00072 
+00073             C.\hyperlink{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}{t\_queue}.enqueue(tframe);
+00074             C.\hyperlink{classCamera_a84a3a043e61b967fb1dc6fbe62bf33aa}{d\_queue}.enqueue(dframe);
+00075 
+00076             \textcolor{comment}{// sleep for remaining time}
+00077             \textcolor{keyword}{auto} time\_sleep = std::chrono::high\_resolution\_clock::now() - sleep\_start;
+00078             \textcolor{keywordtype}{double} time\_s = std::chrono::duration\_cast<std::chrono::milliseconds>(time\_sleep).count();
+00079             \textcolor{keywordflow}{if} ((1000.0/\hyperlink{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}{INPUT\_RATE})-time\_s > 0)\{
+00080                 usleep((1000.0/\hyperlink{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}{INPUT\_RATE}-time\_s) * 1000);
+00081             \}
+00082             \textcolor{comment}{// std::cout << time\_s << "\(\backslash\)n";}
+00083         \}
+00084     \});
+00085 
+00086 \textcolor{comment}{//bool en = false;}
+00087     rs2::frameset t\_frameset, d\_frameset;
+00088     \textcolor{keyword}{auto} start = std::chrono::high\_resolution\_clock::now();
+00089 
+00090     \textcolor{keywordflow}{while} (alive) \{
+00091         C.\hyperlink{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}{t\_queue}.poll\_for\_frame(&t\_frameset);
+00092         C.\hyperlink{classCamera_a84a3a043e61b967fb1dc6fbe62bf33aa}{d\_queue}.poll\_for\_frame(&d\_frameset);
+00093 
+00094         \textcolor{keywordflow}{if} (t\_frameset && d\_frameset) \{
+00095             \textcolor{keyword}{auto} depthFrame = d\_frameset.get\_depth\_frame();
+00096             \textcolor{keyword}{auto} poseFrame  = t\_frameset.first\_or\_default(RS2\_STREAM\_POSE);
+00097 
+00098             cv::Mat depth(cv::Size(\hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w}, \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}), CV\_16UC1, (\textcolor{keywordtype}{void} *)depthFrame.get\_data(), cv::Mat::AUTO\_STEP);
+00099             \textcolor{keyword}{auto} pose = poseFrame.as<rs2::pose\_frame>().get\_pose\_data();
+00100 
+00101             \textcolor{comment}{/* update global map */}
+00102             \textcolor{comment}{//if (!en) \{}
+00103             F->\hyperlink{classMap__FE_a901af5011ef87bfd1dac3e568ef29c47}{Update} (C, pose, depth);
+00104             \textcolor{comment}{//en = true;}
+00105             \textcolor{comment}{//\}}
+00106             \textcolor{comment}{/*                   */}
+00107 
+00108             \textcolor{keyword}{auto} elapsed = std::chrono::high\_resolution\_clock::now() - start;
+00109             \textcolor{keywordtype}{float} microseconds = std::chrono::duration\_cast<std::chrono::microseconds>(elapsed).count();
+00110             std::cout << microseconds << \textcolor{stringliteral}{"\(\backslash\)n"};
+00111 
+00112             L.\hyperlink{classLogger_adcc95257ff2edceded8e272dac3603ce}{Log}(&C, &pose, &depth);
+00113 
+00114         \}
+00115 
+00116         start = std::chrono::high\_resolution\_clock::now();
+00117 
+00118     \}
+00119 
+00120     rxFrame.join();
+00121 
+00122     L.\hyperlink{classLogger_a6b670ceb54a249eb83da08a1914d2be8}{Close}(&C, F);
+00123 
+00124     std::cout << \textcolor{stringliteral}{"Program terminated sucessfully\(\backslash\)n"};
+00125     \textcolor{keywordflow}{return} 0;
+00126     
+00127 \}
+\end{DoxyCode}

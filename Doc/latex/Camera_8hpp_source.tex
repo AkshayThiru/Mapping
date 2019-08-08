@@ -1,0 +1,147 @@
+\hypertarget{Camera_8hpp_source}{}\subsection{Camera.\+hpp}
+\label{Camera_8hpp_source}\index{include/\+Camera.\+hpp@{include/\+Camera.\+hpp}}
+
+\begin{DoxyCode}
+00001 \textcolor{preprocessor}{#ifndef CAMERA\_H}
+00002 \textcolor{preprocessor}{#define CAMERA\_H}
+00003 
+00004 
+00005 \textcolor{preprocessor}{#include <librealsense2/rs.hpp>}     \textcolor{comment}{// Include RealSense Cross Platform API}
+00006 
+00007 \textcolor{preprocessor}{#include <string>}
+00008 
+00009 
+00010 
+00013 \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} \hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w} = 640;
+\hypertarget{Camera_8hpp_source.tex_l00017}{}\hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{00017} \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h} = 480;
+00019 
+\hypertarget{Camera_8hpp_source.tex_l00020}{}\hyperlink{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}{00020} \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{int} \hyperlink{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}{d\_fps} = 90; 
+00021 
+00023 
+\hypertarget{Camera_8hpp_source.tex_l00026}{}\hyperlink{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}{00026} \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} \hyperlink{Camera_8hpp_a8c14b0a57a757fa1eca7b19c2d0bd110}{D435\_MIN} = 0.11; \textcolor{comment}{// | - min and max depths of D435 (m)}
+\hypertarget{Camera_8hpp_source.tex_l00027}{}\hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{00027} \textcolor{keyword}{static} \textcolor{keyword}{const} \textcolor{keywordtype}{double} \hyperlink{Camera_8hpp_a525f4d6ba7971b5fc8f0bc55ea826762}{D435\_MAX} = 2.00; \textcolor{comment}{// |}
+00029 \textcolor{comment}{}
+00032 \textcolor{keyword}{static} \textcolor{keyword}{const} std::string \hyperlink{Camera_8hpp_a08da237113fcf4a0fb79c89a2ba02bce}{DEPTH\_SNO} = \textcolor{stringliteral}{"819612073628"}; 
+\hypertarget{Camera_8hpp_source.tex_l00034}{}\hyperlink{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}{00034} \textcolor{keyword}{static} \textcolor{keyword}{const} std::string \hyperlink{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}{TRACK\_SNO} = \textcolor{stringliteral}{"905312110622"}; 
+00035 
+\hypertarget{Camera_8hpp_source.tex_l00038}{}\hyperlink{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}{00038} \textcolor{preprocessor}{#define BUFFER\_LENGTH 5 // length of buffer for cameras}
+00039 
+\hypertarget{Camera_8hpp_source.tex_l00042}{}\hyperlink{Camera_8hpp_a4a8be390afbe56038ccc6fe44e61aa00}{00042} \textcolor{preprocessor}{#define INPUT\_RATE 50 // Rate at which camera feed is taken (Hz)       | - Maximum rates}
+00043 
+\hypertarget{Camera_8hpp_source.tex_l00046}{}\hyperlink{Camera_8hpp_a9359f7c0a43a27865c6d2409e74645a6}{00046} \textcolor{preprocessor}{#define MAP\_UPDATE\_RATE 10 // Rate at which global map is updated (Hz) |}
+00047 
+00048 
+00049 
+00050 
+00052 
+\hypertarget{Camera_8hpp_source.tex_l00055}{}\hyperlink{structBool__Init}{00055} \textcolor{keyword}{struct }\hyperlink{structBool__Init}{Bool\_Init} \{
+\hypertarget{Camera_8hpp_source.tex_l00057}{}\hyperlink{structBool__Init_a28c7d578113b5a52c1706c10be8fe6c6}{00057}     \textcolor{keywordtype}{bool} \hyperlink{structBool__Init_a28c7d578113b5a52c1706c10be8fe6c6}{t265};
+\hypertarget{Camera_8hpp_source.tex_l00059}{}\hyperlink{structBool__Init_a9b59846a335953ae88cad02cd9cf9b34}{00059}     \textcolor{keywordtype}{bool} \hyperlink{structBool__Init_a9b59846a335953ae88cad02cd9cf9b34}{d435};
+00060 \};
+00061 
+00063 
+\hypertarget{Camera_8hpp_source.tex_l00069}{}\hyperlink{classCamera}{00069} \textcolor{keyword}{class }\hyperlink{classCamera}{Camera} \{
+00070 
+00071 \textcolor{keyword}{private}:
+00072 
+00074 
+\hypertarget{Camera_8hpp_source.tex_l00076}{}\hyperlink{classCamera_a4373bc8793e3bb1d6eb2cca3eb25a31e}{00076}     rs2::context \hyperlink{classCamera_a4373bc8793e3bb1d6eb2cca3eb25a31e}{ctx};
+00077 
+00078 \textcolor{keyword}{public}:
+00079 
+00081 
+\hypertarget{Camera_8hpp_source.tex_l00085}{}\hyperlink{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}{00085}     std::vector<rs2::pipeline> \hyperlink{classCamera_a689d4141375d8f7fbf1651338c1ea9c0}{pipelines}; \textcolor{comment}{// pipelines for depth and tracking cameras - 0:
+       tracking, 1: depth}
+00086 
+00090     \textcolor{keywordtype}{float} scale; 
+00092 
+00093     \textcolor{keywordtype}{float} fx;
+\hypertarget{Camera_8hpp_source.tex_l00096}{}\hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{00096}     \textcolor{keywordtype}{float} \hyperlink{classCamera_a1472650e23f3df5f23dda7f94537e889}{fy};
+00098 
+00099     \textcolor{keywordtype}{float} ppx;
+\hypertarget{Camera_8hpp_source.tex_l00102}{}\hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{00102}     \textcolor{keywordtype}{float} \hyperlink{classCamera_a0e51f157264b9c9e18feb584c5a6c606}{ppy};
+00104     \textcolor{keywordtype}{int} model;
+\hypertarget{Camera_8hpp_source.tex_l00107}{}\hyperlink{classCamera_af6b42da84223170eb6434a3df1d677af}{00107}     \textcolor{keywordtype}{float} coeffs[5];
+00109 
+00113     rs2::frame\_queue d\_queue;
+\hypertarget{Camera_8hpp_source.tex_l00117}{}\hyperlink{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}{00117}     rs2::frame\_queue \hyperlink{classCamera_ad8a4c52c0ae125ab8ca66902408f5e95}{t\_queue};
+00119 
+00121 
+\hypertarget{Camera_8hpp_source.tex_l00124}{}\hyperlink{classCamera_a01f94c3543f56ede7af49dc778f19331}{00124}     \hyperlink{classCamera_a01f94c3543f56ede7af49dc778f19331}{Camera}(): d\_queue(\hyperlink{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}{BUFFER\_LENGTH}), t\_queue(\hyperlink{Camera_8hpp_af7b7dc9a200cb1404c280bd500fd1551}{BUFFER\_LENGTH}) \{\}
+00125 
+00127 
+\hypertarget{Camera_8hpp_source.tex_l00135}{}\hyperlink{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{00135}     \hyperlink{structBool__Init}{Bool\_Init} \hyperlink{classCamera_a7f09b843d9b3a97e78eefcebbc53e054}{Init} () \textcolor{keyword}{try} \{
+00136         \textcolor{keywordtype}{int} num\_dev = 0;
+00137         std::vector<rs2::pipeline> temp;
+00138         \textcolor{keywordtype}{int} d\_idx, t\_idx;
+00139         \hyperlink{structBool__Init}{Bool\_Init} b \{\textcolor{keyword}{false}, \textcolor{keyword}{false}\};
+00140 
+00141         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}&& dev : ctx.query\_devices())
+00142         \{
+00143 
+00144             rs2::pipeline pipe(ctx);
+00145             rs2::config cfg;
+00146             cfg.enable\_device(dev.get\_info(RS2\_CAMERA\_INFO\_SERIAL\_NUMBER));
+00147             
+00148             \textcolor{keywordflow}{if} (strcmp(dev.get\_info(RS2\_CAMERA\_INFO\_SERIAL\_NUMBER), &\hyperlink{Camera_8hpp_a08da237113fcf4a0fb79c89a2ba02bce}{DEPTH\_SNO}[0]) == 0) \{
+00149                 cfg.enable\_stream(RS2\_STREAM\_DEPTH, \hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w}, \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h}, RS2\_FORMAT\_Z16, 
+      \hyperlink{Camera_8hpp_ad56e71b7cc91ce32f920769b6eb31e03}{d\_fps});
+00150                 std::cout << \textcolor{stringliteral}{"Depth Camera initialized: \{"} << \hyperlink{Camera_8hpp_a66326676d44c838441a4dc39c85f599b}{w} << \textcolor{stringliteral}{","} << \hyperlink{Camera_8hpp_a3f40fea9b1040e381f08ddd4b026765d}{h} << \textcolor{stringliteral}{"\}, 90 FPS\(\backslash\)n"};
+00151 
+00152                 rs2::pipeline\_profile profile = pipe.start(cfg);
+00153                 \textcolor{keyword}{auto} stream = profile.get\_stream(RS2\_STREAM\_DEPTH).as<rs2::video\_stream\_profile>();
+00154                 scale = profile.get\_device().first<rs2::depth\_sensor>().get\_depth\_scale();
+00155                 \textcolor{keyword}{auto} intrinsics = stream.get\_intrinsics();
+00156                 fx  = intrinsics.fx;
+00157                 fy  = intrinsics.fy;
+00158                 ppx = intrinsics.ppx;
+00159                 ppy = intrinsics.ppy;
+00160                 model = intrinsics.model;
+00161                 \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < 5; i++)
+00162                     coeffs[i] = intrinsics.coeffs[i];
+00163 
+00164                 d\_idx = num\_dev;
+00165                 b.d435 = \textcolor{keyword}{true};
+00166             \}
+00167             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (strcmp(dev.get\_info(RS2\_CAMERA\_INFO\_SERIAL\_NUMBER), &
+      \hyperlink{Camera_8hpp_a97168636c8d72f641dc410554a42b2ec}{TRACK\_SNO}[0]) == 0) \{
+00168                 cfg.enable\_stream(RS2\_STREAM\_POSE, RS2\_FORMAT\_6DOF);
+00169                 std::cout << \textcolor{stringliteral}{"Tracking Camera initialized: 6DoF\(\backslash\)n"};
+00170 
+00171                 pipe.start(cfg);
+00172                 t\_idx = num\_dev;
+00173                 b.t265 = \textcolor{keyword}{true};
+00174             \}
+00175             \textcolor{keywordflow}{else} \{
+00176                 std::cout << \textcolor{stringliteral}{"Device not recognized. Serial Number: "} << dev.get\_info(
+      RS2\_CAMERA\_INFO\_SERIAL\_NUMBER) << \textcolor{stringliteral}{"\(\backslash\)n"};
+00177                 \textcolor{keywordflow}{return} b;
+00178             \}
+00179 
+00180             temp.emplace\_back(pipe);
+00181             num\_dev++;
+00182         \}
+00183 
+00184         \textcolor{keywordflow}{if} (b.t265)
+00185             pipelines.emplace\_back(temp[t\_idx]);
+00186         \textcolor{keywordflow}{if} (b.d435)
+00187             pipelines.emplace\_back(temp[d\_idx]);
+00188 
+00189         \textcolor{keywordflow}{return} b;
+00190 
+00191     \}
+00192     \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} rs2::error & e) \{
+00193         std::cerr << \textcolor{stringliteral}{"RealSense error calling "} << e.get\_failed\_function() << \textcolor{stringliteral}{"("} << e.get\_failed\_args() <<
+       \textcolor{stringliteral}{"):\(\backslash\)n    "} << e.what() << std::endl;
+00194         \textcolor{keywordflow}{return} \hyperlink{structBool__Init}{Bool\_Init} \{\textcolor{keyword}{false}, \textcolor{keyword}{false}\};
+00195     \}
+00196     \textcolor{keywordflow}{catch} (\textcolor{keyword}{const} std::exception & e) \{
+00197         std::cerr << e.what() << std::endl;
+00198         \textcolor{keywordflow}{return} \hyperlink{structBool__Init}{Bool\_Init} \{\textcolor{keyword}{false}, \textcolor{keyword}{false}\};
+00199     \}
+00200 
+00201 \};
+00202 
+00203 
+00204 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}
