@@ -1,8 +1,9 @@
 # Mapping
+============
 
 This is a linux package to create a global map of an environment using the D435 - Depth camera, and T265 - Tracking camera.
 
-![Map Preview](./Doc/map1.png)
+![Map Preview](./Doc/map1.png=true "Map")
 
 ## Getting Started
 
